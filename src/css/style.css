@@ -23,7 +23,7 @@ audio:not([controls]) {display:none;}
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {margin:0; padding:0; border:0; outline:0; font-size:100%; background:transparent;}
 
 blockquote, q {quotes:none;}
-blockquote:before, blockquote:after, q:before, q:after,  {content:''; content:none;}
+blockquote:before, blockquote:after, q:before, q:after  {content:''; content:none;}
 :focus {outline:0;}
 ins {text-decoration:none;}
 del {text-decoration:line-through;}
@@ -206,7 +206,7 @@ border:none;}
 
 
 .contentsection-main-middle-box h3{ color:#2c2c2c; font-size:18px; line-height:normal; font-weight:600; margin-bottom:14px;}
-.contentsection-main-middle-box p{ color:#5a5858; font-size:15px; line-height:normal; font-weight:400; min-height:135px; width:96%; margin:0px auto 11px auto;}
+.contentsection-main-middle-box p{ color:#5a5858; font-size:15px; line-height:normal; font-weight:400; min-height:45px; width:96%; margin:0px auto 11px auto;}
 
 
 .contentsection-main-middle-box h6 a{ cursor: pointer; background:url(https://games.dtml.org/games/images/red-btn-bg.png) no-repeat; width:177px; height:50px; border:none; display:inline-block; text-align:left; color:#FFF; font-size:16px; line-height:50px; font-weight:400; text-transform:uppercase; padding-left:24px;}
@@ -217,6 +217,12 @@ border:none;}
 .contentsection-main-middle h5 a:hover{background:url(https://games.dtml.org/games/images/moregame-btn-hover.png) no-repeat;}
 
 /*===========contentsection end=================*/
+
+/*===========game-content start=================*/
+.game-content-top { min-height: 330px;}
+.game-content-middle { min-height: 60px;}
+.game-content-bottom { min-height: 60px; }
+/*===========game-content end=================*/
 
 /*============footertop-section start=================*/
 .footertop-section{ width:100%; height:auto; padding:0px; margin:0px auto;}

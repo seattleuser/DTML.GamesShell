@@ -1,4 +1,5 @@
 ﻿import React, { Component } from 'react'
+import Rater from 'react-rater'
 import arrayShuffle from 'array-shuffle'
 import { isEmpty } from 'lodash'
 import { Link } from 'react-router-dom';
@@ -60,12 +61,21 @@ class Gamelist extends Component {
 				if((counter<=that.state.listcounter)&&((listItem.title.indexOf(that.state.searchstring)!==-1) || (listItem.description.indexOf(that.state.searchstring)!==-1))) {
 					return(
 		        <div className="contentsection-main-middle-box" key={i}>
-		          <div className="imgsec">
-		          	<img src={imageurl + listItem.image} alt={this.state.config.playgame} />
-		          </div>
-		          <h3>{listItem.title}</h3>
-		          <p>{this.getFirstLine(listItem.description)}</p>
-		          <h6><Link onClick={that.gameSelected.bind(that, listItem)} to={`/${listItem.id}`} >{this.state.config.playgame}</Link></h6>
+							<div className="game-content-top">
+								<div className="imgsec">
+									<img src={imageurl + listItem.image} alt={this.state.config.playgame} />
+								</div>
+								<h3>{listItem.title}</h3>
+								<p>{this.getFirstLine(listItem.description)}</p>
+							</div>
+
+						<div className="game-content-middle">
+              <Rater total={5} rating={listItem.rating} interactive={false} />
+						</div>
+
+              <div className="game-content-bottom">
+								<h6><Link onClick={that.gameSelected.bind(that, listItem)} to={`/${listItem.id}`} >{this.state.config.playgame}</Link></h6>
+							</div>
 		        </div>
 					)
 				}
