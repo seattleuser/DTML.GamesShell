@@ -36,6 +36,7 @@ ReactPixel.init(`1648707511827840`);
 
 const imageurl = `https://games.dtml.org/games/`;
 const url = `https://dtml.org/api/ConfigurationService/GetGamesList?mkt=`;
+const errorurl = `https://dtml.org/Activity/JavaScriptLog?type=error&data=`;
 const queryString = require(`query-string`);
 
 const isNoSupported = (window.attachEvent && !window.addEventListener) || !window.atob;
@@ -66,7 +67,9 @@ startErrorLog()
             errorStack:stack,
         };
 
-	console.log(data);
+        const logURL = errorurl +JSON.stringify(data);
+        fetch(logURL);
+ 	console.log(data);
         return false;
     }
 }
