@@ -61,9 +61,11 @@ startErrorLog()
         var stack = errorObject ? errorObject.stack : null;
         var data = {
             message:message,
+	    userLang: navigator.language || navigator.userLanguage,
             file:file,
             line:line,
             column:column,
+	    userAgent: navigator.userAgent,
             errorStack:stack,
         };
 
