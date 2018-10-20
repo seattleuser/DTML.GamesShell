@@ -18,6 +18,7 @@ import { isEmpty } from "lodash";
 import { css } from 'glamor';
 import "../css/font-awesome.min.css";
 import "../css/responsive.css";
+import postal from 'postal';
 
 const imageurl = `https://games.dtml.org/games/`;
 
@@ -27,6 +28,12 @@ class Footer extends Component {
     this.state = {
       config: props.config
     };
+    this.makeBugReporterVisible = this.makeBugReporterVisible.bind(this);
+    this.channel = postal.channel('BugReporterVisibility');
+  }
+
+  makeBugReporterVisible(){
+    this.channel.publish("togglevisibility");
   }
 
   render() {
@@ -67,6 +74,11 @@ class Footer extends Component {
                 <li>
                   <a href="https://www.youtube.com/channel/UCwF13kloyxnifaNCHQUL2rQ/featured">
                     <i className="fa fa-youtube" />
+                  </a>
+                </li>                
+                <li>
+                  <a href="#" role="button" onClick={() => {this.makeBugReporterVisible()}}>
+                    <i className="fa fa-bug" />
                   </a>
                 </li>
               </ul>

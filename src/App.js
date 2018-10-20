@@ -27,6 +27,7 @@ import NotSupported from "./components/NotSupported";
 import Footer from "./components/Footer";
 import Gamelist from "./components/Gamelist";
 import Gamecontent from "./components/Gamecontent";
+import BugReporterContainer from "./components/BugReporter"
 import "./css/style.css";
 import "./css/font-awesome.min.css";
 import "./css/responsive.css";
@@ -152,6 +153,7 @@ startErrorLog()
                 />
               )}
             />
+            <BugReporterContainer config={this.state.config}/>
             <Footer config={this.state.config} />
           </div>
         </Router>
