@@ -181,7 +181,7 @@ padding-right:10%;
 
 .gameTitle
 {
-font-size:26px;
+font-size:x-large;
 }
 
 .welcome {
@@ -501,7 +501,7 @@ font-size:26px;
 }
 
 .contentsection-main {
-  max-width: 80%;
+  max-width: 93%;
   height: auto;
   padding: 45px 0 0 0;
   margin: 0 auto;
@@ -639,7 +639,7 @@ font-size:26px;
 
 .contentsection-main-middle-box h3 {
   color: #2c2c2c;
-  font-size: 18px;
+  font-size: large;
   line-height: normal;
   font-weight: 600;
   margin-bottom: 14px;
@@ -664,7 +664,7 @@ font-size:26px;
   display: inline-block;
   text-align: left;
   color: #FFF;
-  font-size: 16px;
+  font-size: large;
   line-height: 50px;
   font-weight: 400;
   text-transform: uppercase;
@@ -749,7 +749,7 @@ font-size:26px;
   padding: 20px 25px 20px;
   background: rgb(128, 96, 128);
   color: #fff;
-  font-size: 18px;
+  font-size: x-large;
   font-weight: 400;
 }
 
@@ -821,7 +821,7 @@ font-size:26px;
 }
 
 .leader-name {
-  font-size: 16px;
+  font-size: xxx-small;
   font-weight: bold;
   line-height: 1.3em;
   color: rgba(0,0,0,1);
@@ -829,7 +829,7 @@ font-size:26px;
 }
 
 .leader-points {
-  font-size: 11px;
+  font-size: xxx-small;
   color: rgba(0,0,0,0.6);
 }
 
@@ -1181,8 +1181,8 @@ font-size:26px;
 }
 
 .gameframe {
-  height: 600px;
-  width: 1px;
+  height: 35vw;
+  width: 55vw;
   min-width: 100%;
   /* stylelint-disable */
   *width: 100%;
