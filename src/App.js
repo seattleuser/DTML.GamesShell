@@ -20,7 +20,6 @@ import 'core-js/es6/set';
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import ReactGA from "react-ga";
-import ReactPixel from "react-facebook-pixel";
 
 import Header from "./components/Header";
 import NotSupported from "./components/NotSupported";
@@ -33,7 +32,6 @@ import "./css/font-awesome.min.css";
 import "./css/responsive.css";
 
 ReactGA.initialize(`UA-80531313-1`);
-ReactPixel.init(`1648707511827840`);
 
 const imageurl = `https://games.dtml.org/games/`;
 const url = `https://dtml.org/api/ConfigurationService/GetGamesList?mkt=`;
