@@ -75,11 +75,13 @@ class BugReporter extends React.Component {
         "EventData":JSON.stringify({"feedback":message})
       };
       url.search = new URLSearchParams(params);
-      await fetch(url);
+      await fetch(url,  { credentials: 'include' });
 
     } catch (err) {
       console.error(err);
     }
+
+    this.channel.publish("hidebar");
 
     this.setState({
       message: '',
