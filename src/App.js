@@ -35,6 +35,7 @@ ReactGA.initialize(`UA-80531313-1`);
 
 const imageurl = `https://games.dtml.org/games/`;
 const url = `https://dtml.org/api/ConfigurationService/GetGamesList?mkt=`;
+const localURL = '/offline/gamelist.json'
 const errorurl = `https://dtml.org/Activity/JavaScriptLog?type=error&data=`;
 const queryString = require(`query-string`);
 
@@ -86,10 +87,9 @@ startErrorLog()
 
     fetch(fullURL)
       .then(response => {
-        if (response.status >= 400) {
-          throw new Error(`Bad response from server`);
+       if (response.ok) {
+		 return response.json();	
         }
-        return response.json();
       })
       .then(data => {
 		if (data && data.customization && parsed.school)
@@ -103,8 +103,13 @@ startErrorLog()
 		}
 		
 		that.setState({ config: data });
-      });
-	  
+      }).catch(
+	  fetch(localURL)
+	      .then(local => { return local.json() })
+		  .then(data => {
+				that.setState({ config: data });
+			  })
+	  );  
   }
 
   onSelectedGame(newdone, newContent) {

@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 import "babel-polyfill";
 import * as utils from './utils.js'; 
 
-const imageurl = `https://games.dtml.org/games/`;
+const imageurl = `/`;
 let listcontent = [];
 
 const getFirstLine = str => {
@@ -133,10 +133,15 @@ class Gamelist extends Component {
             <div className="contentsection-main-middle-box" key={counter}>
               <div className="game-content-top">
                 <div className="imgsec">
-                  <img
-                    src={imageurl + listItem.image}
+				<Link
+                    onClick={that.gameSelected.bind(that, listItem)}
+                    to={`/${listItem.id}`}
+                  >
+				<img
+                    src={listItem.image.startsWith("/") ? listItem.image : imageurl + listItem.image}
                     alt={this.state.config.playgame}
                   />
+				     </Link>
                 </div>
                 <h3>{listItem.title}</h3>
                 <p>{getFirstLine(listItem.description)}</p>

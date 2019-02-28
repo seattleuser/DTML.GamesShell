@@ -20,7 +20,7 @@ import "../css/font-awesome.min.css";
 import "../css/responsive.css";
 import postal from 'postal';
 
-const imageurl = `https://games.dtml.org/games/`;
+const imageurl = `/`;
 
 class Footer extends Component {
   constructor(props) {
@@ -86,7 +86,7 @@ class Footer extends Component {
             </div>
             <div className="footersecion-main-right">
               <p>
-                dtml.org &copy; 2017 All Rights Reserved |{` `}
+                dtml.org &copy; 2017-2019 All Rights Reserved |{` `}
                 <a href="https://dtml.org/Home/TermsandConditions">
                   {this.props.config.terms}
                 </a>

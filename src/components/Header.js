@@ -19,7 +19,7 @@ import ReactGA from "react-ga";
 import "babel-polyfill";
 import "../css/style.css";
 
-const imageurl = `https://games.dtml.org/games/`;
+const imageurl = `/`;
 const loginURL = `https://dtml.org/Activity/GetUserName`;
 
 class Header extends Component {
