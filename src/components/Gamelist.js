@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 import "babel-polyfill";
 import * as utils from './utils.js'; 
 
-const imageurl = `/`;
+const imageurl = `https://games.dtml.org/games/`;
 let listcontent = [];
 
 const getFirstLine = str => {
@@ -138,7 +138,7 @@ class Gamelist extends Component {
                     to={`/${listItem.id}`}
                   >
 				<img
-                    src={listItem.image.startsWith("/") ? listItem.image : imageurl + listItem.image}
+                    src={imageurl + listItem.image}
                     alt={this.state.config.playgame}
                   />
 				     </Link>
