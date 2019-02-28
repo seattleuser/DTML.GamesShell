@@ -14,8 +14,8 @@ under the License.
 */
 
 import "babel-polyfill";
-import 'core-js/es6/map';
-import 'core-js/es6/set';
+import "core-js/es6/map";
+import "core-js/es6/set";
 
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -26,20 +26,20 @@ import NotSupported from "./components/NotSupported";
 import Footer from "./components/Footer";
 import Gamelist from "./components/Gamelist";
 import Gamecontent from "./components/Gamecontent";
-import BugReporterContainer from "./components/BugReporter"
+import BugReporterContainer from "./components/BugReporter";
 import "./css/style.css";
 import "./css/font-awesome.min.css";
 import "./css/responsive.css";
 
 ReactGA.initialize(`UA-80531313-1`);
 
-const imageurl = `https://games.dtml.org/games/`;
 const url = `https://dtml.org/api/ConfigurationService/GetGamesList?mkt=`;
-const localURL = '/offline/gamelist.json'
+const localURL = "/offline/gamelist.json";
 const errorurl = `https://dtml.org/Activity/JavaScriptLog?type=error&data=`;
 const queryString = require(`query-string`);
 
-const isNoSupported = (window.attachEvent && !window.addEventListener) || !window.atob;
+const isNoSupported =
+  (window.attachEvent && !window.addEventListener) || !window.atob;
 
 window.store = window.store || {};
 
@@ -53,29 +53,27 @@ class App extends Component {
     ReactGA.pageview(window.location.hash);
   }
 
-startErrorLog()
-{
-    window.onerror = (message,file,line,column,errorObject) =>
-    {
-        column = column || (window.event && window.event.errorCharacter);
-        var stack = errorObject ? errorObject.stack : null;
-        var data = {
-            message:message,
-	    userLang: navigator.language || navigator.userLanguage,
-            file:file,
-            line:line,
-            column:column,
-	    userAgent: navigator.userAgent,
-            errorStack:stack,
-        };
+  startErrorLog() {
+    window.onerror = (message, file, line, column, errorObject) => {
+      column = column || (window.event && window.event.errorCharacter);
+      var stack = errorObject ? errorObject.stack : null;
+      var data = {
+        message: message,
+        userLang: navigator.language || navigator.userLanguage,
+        file: file,
+        line: line,
+        column: column,
+        userAgent: navigator.userAgent,
+        errorStack: stack
+      };
 
-        const logURL = errorurl +JSON.stringify(data);
-        fetch(logURL);
- 	console.log(data);
-        return false;
-    }
-}
-  
+      const logURL = errorurl + JSON.stringify(data);
+      fetch(logURL);
+      console.log(data);
+      return false;
+    };
+  }
+
   componentWillMount() {
     this.startErrorLog();
     document.title = `Educational Games for Kids - DTML`;
@@ -87,29 +85,46 @@ startErrorLog()
 
     fetch(fullURL)
       .then(response => {
-       if (response.ok) {
-		 return response.json();	
+        if (response.ok) {
+          return response.json();
         }
       })
       .then(data => {
-		if (data && data.customization && parsed.school)
-		{
-		localStorage.setItem(`customization`,JSON.stringify(data.customization));
-		}
-		
-		if (!parsed.school && !data.customization)
-		{
-		data.customization = JSON.parse(localStorage.getItem(`customization`));
-		}
-		
-		that.setState({ config: data });
-      }).catch(
-	  fetch(localURL)
-	      .then(local => { return local.json() })
-		  .then(data => {
-				that.setState({ config: data });
-			  })
-	  );  
+        try {
+          if (
+            data &&
+            data.customization &&
+            parsed.school &&
+            typeof(localStorage) !== undefined
+          ) {
+            localStorage.setItem(
+              `customization`,
+              JSON.stringify(data.customization)
+            );
+          }
+
+          if (
+            !parsed.school &&
+            !data.customization &&
+            typeof(localStorage) != undefined
+          ) {
+            data.customization = JSON.parse(
+              localStorage.getItem(`customization`)
+            );
+          }
+        } catch (exception) {}
+
+        that.setState({ config: data });
+      })
+      .catch(
+        fetch(localURL)
+          .then(local => {
+            return local.json();
+          })
+          .then(data => {
+            that.setState({ config: data });
+          })
+      );
   }
 
   onSelectedGame(newdone, newContent) {
@@ -121,17 +136,11 @@ startErrorLog()
       action: `Game selected`
     });
   }
-  
-  
 
   render() {
-   	
-    if (isNoSupported)
-    { 
-	return(<NotSupported />)	
-    }
-    else
-    if (this.state.config != null) {
+    if (isNoSupported) {
+      return <NotSupported />;
+    } else if (this.state.config != null) {
       return (
         <Router basename="/games">
           <div>
@@ -156,7 +165,7 @@ startErrorLog()
                 />
               )}
             />
-            <BugReporterContainer config={this.state.config}/>
+            <BugReporterContainer config={this.state.config} />
             <Footer config={this.state.config} />
           </div>
         </Router>
@@ -165,6 +174,5 @@ startErrorLog()
     return null;
   }
 }
-
 
 export default App;
