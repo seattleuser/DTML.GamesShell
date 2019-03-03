@@ -85,12 +85,13 @@ class App extends Component {
 
     fetch(fullURL)
       .then(response => {
-        if (response.ok) {
+		 if (response.ok) {
           return response.json();
         }
       })
       .then(data => {
         try {
+			console.log("try");
           if (
             data &&
             data.customization &&

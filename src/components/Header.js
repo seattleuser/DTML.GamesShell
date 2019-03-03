@@ -62,7 +62,7 @@ class Header extends Component {
   render() {
     let custom = [];
     let Logo;
-    let logoImageUrl = `${imageurl}images/logo-main.jpg`;
+    let logoImageUrl = `${imageurl}images/logo-main.png`;
     let menuColor = ``;
     if (!isEmpty(this.props.config.customization)) {
       custom = this.props.config.customization;
@@ -152,16 +152,6 @@ class Header extends Component {
                       <li>
                         <a href="https://blog.dtml.org">
                           {this.props.config.blog}
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://dtml.org/Home/Donate/?source=games">
-                          {this.props.config.donate}
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://games.dtml.org/games">
-                          {this.props.config.game}
                         </a>
                       </li>
                     </ul>

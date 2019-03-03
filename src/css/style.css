@@ -551,6 +551,10 @@ font-size:x-large;
   border-radius: 46px;
 }
 
+.game-content-bottom h6 a{
+	font-size:16px
+}
+
 .contentsection-main-top01-main input[type="text"] {
   width: 70%;
   float: left;
@@ -1360,6 +1364,10 @@ font-size:x-large;
 a {
 	color: #216ba5;
 	text-decoration: none;
+}
+
+.game-content-bottom h6 a{
+	font-size:16px
 }
 
 
