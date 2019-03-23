@@ -55,7 +55,7 @@ class Header extends Component {
         console.log(`Request failed ${error}`);
       });
 
-	  that.setState({ showBanner: false });   
+	  that.setState({ showBanner: false});   
    
   }
 
@@ -89,7 +89,7 @@ class Header extends Component {
     }
 
     const closeSupport = () => {
-      this.setState({ showBanner: false });
+      this.setState({ showBanner: false});
       localStorage.setItem(`showBanner`, `false`);
 	  try
 	  {
@@ -125,9 +125,9 @@ class Header extends Component {
               {this.props.config.shareBody}
             </p>
 			
-			<div className="stripe-button-el">
-		    <div className="fb-share-button" data-href="https://games.dtml.org/games/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a target="_blank"  rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgames.dtml.org%2Fgames%2F&amp;src=sdkpreparse" className="fb-xfbml-parse-ignore">{this.props.config.shareButton}</a></div>
-			</div>
+	   <div className="stripe-button-el">
+	    <div className="fb-share-button" data-href="https://games.dtml.org/games/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a target="_blank"  rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgames.dtml.org%2Fgames%2F&amp;src=sdkpreparse" className="fb-xfbml-parse-ignore">{this.props.config.shareButton}</a></div>
+	    </div>
 			
             <button className="close-support" onClick={() => closeSupport()}>
               close X

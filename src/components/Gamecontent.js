@@ -20,6 +20,7 @@ import { isEmpty } from "lodash";
 import arrayShuffle from "array-shuffle";
 import "babel-polyfill";
 import * as utils from './utils.js'; 
+import Share from "./Share";
 
 const rankingURL = `https://dtml.org/api/RatingService/Rank`;
 
@@ -132,7 +133,6 @@ class Gamecontent extends Component {
                   />
                 </div>
               </div>
-
               <div className="ratesection">
                 <div className="ratesection-top">
                   <div className="ratesection-top-left">
@@ -175,6 +175,7 @@ class Gamecontent extends Component {
                   <div className="clr" />
                 </div>
               </div>
+			  					 <Share title={this.state.gameContent.title} />
             </div>
             <aside className="game-sidebar">
               {!window.store.loggedin &&
