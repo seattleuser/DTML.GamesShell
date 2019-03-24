@@ -34,12 +34,8 @@ import "./css/responsive.css";
 ReactGA.initialize(`UA-80531313-1`);
 
 const url = `https://dtml.org/api/ConfigurationService/GetGamesList?mkt=`;
-const localURL = "/offline/gamelist.json";
 const errorurl = `https://dtml.org/Activity/JavaScriptLog?type=error&data=`;
 const queryString = require(`query-string`);
-
-const isNoSupported =
-  (window.attachEvent && !window.addEventListener) || !window.atob;
 
 window.store = window.store || {};
 
@@ -76,22 +72,28 @@ class App extends Component {
 
   componentWillMount() {
     this.startErrorLog();
+    let isNoSupported = (window.attachEvent && !window.addEventListener) || !window.atob;
+
     document.title = `Educational Games for Kids - DTML`;
     const userLang = navigator.language || navigator.userLanguage;
     this.setState({ userLanguage: userLang });
+    this.setState({ isNoSupported : this.isNoSupported });
     const that = this;
     const parsed = queryString.parse(window.location.search);
     const fullURL = `${url + userLang}&orgid=${parsed.school}`;
 
     fetch(fullURL)
       .then(response => {
-		 if (response.ok) {
+	 if (response.ok) {
           return response.json();
         }
+	 else
+	{
+	 this.setState({ isNoSupported : true});
+	}
       })
       .then(data => {
         try {
-			console.log("try");
           if (
             data &&
             data.customization &&
@@ -113,19 +115,13 @@ class App extends Component {
               localStorage.getItem(`customization`)
             );
           }
-        } catch (exception) {}
+        } catch (exception) 
+	{
+		 this.setState({ isNoSupported : true});
+	}
 
         that.setState({ config: data });
-      })
-      .catch(
-        fetch(localURL)
-          .then(local => {
-            return local.json();
-          })
-          .then(data => {
-            that.setState({ config: data });
-          })
-      );
+      }).catch(err => {  this.setState({ isNoSupported : true}); });
   }
 
   onSelectedGame(newdone, newContent) {
@@ -139,7 +135,7 @@ class App extends Component {
   }
 
   render() {
-    if (isNoSupported) {
+    if (this.state.isNoSupported) {
       return <NotSupported />;
     } else if (this.state.config != null) {
       return (
