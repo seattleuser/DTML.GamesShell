@@ -182,8 +182,7 @@ class Gamecontent extends Component {
 			  					 <Share title={this.state.gameContent.title} />
             </div>
             <aside className="game-sidebar">
-              {!window.store.loggedin &&
-                !window.store.username && (
+              {!this.state.loggedin && (
                   <div className="game-login game-sidebar-box">
                     <p className="game-loginExplainer">
                       {this.props.config.siderailLoginText}
@@ -222,8 +221,7 @@ class Gamecontent extends Component {
                   </div>
                 )}
 
-  {!window.store.loggedin &&
-                !window.store.username && (            			  
+  {!this.state.loggedin && (            			  
          <div className="game-relatedGames game-sidebar-box">
                   <h3>GIFT SHOP</h3>
 				<p className="game-registerExplainer">
@@ -262,8 +260,7 @@ class Gamecontent extends Component {
                 </div>
               )}
 
-			     {!window.store.loggedin &&
-                !window.store.username && (
+			  {!this.state.loggedin && (
               <div className="game-register game-sidebar-box">
                 <p className="game-registerExplainer">
                   {this.props.config.registerSchoolText}
