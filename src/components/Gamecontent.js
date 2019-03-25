@@ -23,6 +23,7 @@ import * as utils from './utils.js';
 import Share from "./Share";
 
 const rankingURL = `https://dtml.org/api/RatingService/Rank`;
+const loginURL = `https://dtml.org/api/UserService/User/`;
 
 class Gamecontent extends Component {
   constructor(props) {
@@ -30,6 +31,8 @@ class Gamecontent extends Component {
     console.log(props);
     this.state = {
       rating: 0,
+	  loggedin: false,
+          username: ``,
 	  config: props.config,
       gameContent: props.gameContent,
       frameText: ``,
@@ -70,6 +73,26 @@ class Gamecontent extends Component {
       const userLang = navigator.language || navigator.userLanguage;
       this.setState({ userLanguage: userLang });
       this.setState({ customization: this.props.config.customization });
+	  
+	  const that = this;
+       fetch(loginURL, { credentials: `include` })
+      .then(response => {
+        if (response.status >= 400) {
+          console.log(`Bad response from server`);
+          that.setState({ loggedin: false });
+          window.store.loggedin = false;
+        }
+        return response.json();
+      })
+      .then(data => {
+        that.setState({ user: data });
+        if (data !== `` && data.userName) {
+          that.setState({ loggedin: true });
+        }
+      })
+      .catch(error => {
+        console.log(`Request failed ${error}`);
+      });
 
     }
     const that = this;
@@ -132,7 +155,7 @@ class Gamecontent extends Component {
                     allowtransparency="true"
                     title={this.state.gameContent.title}
                     scrolling="no"
-                    src={`${this.state.gameContent.url}?tic=${date}&mkt=${this.state.userLanguage}`}
+					src = {(this.state.gameContent.url.indexOf('?')>0) ? `${this.state.gameContent.url}&tic=${date}&mkt=${this.state.userLanguage}`:`${this.state.gameContent.url}?tic=${date}&mkt=${this.state.userLanguage}`}
                     frameBorder="0"
                   />
                 </div>
@@ -155,7 +178,7 @@ class Gamecontent extends Component {
                     <h6>
                       <a
                         target="blank"
-                        href={`${this.state.gameContent.url}?tic=${date}&mkt=${navigator.language || navigator.userLanguage}`}
+                        href={this.state.gameContent.url.indexOf('?')>0 ? `${this.state.gameContent.url}&tic=${date}&mkt=${this.state.userLanguage}`:`${this.state.gameContent.url}?tic=${date}&mkt=${this.state.userLanguage}`}
                       >
                         {` `}
                         <i className="fa fa-arrows-alt" aria-hidden="true" />
@@ -179,7 +202,7 @@ class Gamecontent extends Component {
                   <div className="clr" />
                 </div>
               </div>
-			  					 <Share title={this.state.gameContent.title} />
+	 <Share title={this.state.gameContent.title} />
             </div>
             <aside className="game-sidebar">
               {!this.state.loggedin && (
