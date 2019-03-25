@@ -222,7 +222,28 @@ class Gamecontent extends Component {
                   </div>
                 )}
 
-              {this.props.config.games && (
+  {!window.store.loggedin &&
+                !window.store.username && (            			  
+         <div className="game-relatedGames game-sidebar-box">
+                  <h3>GIFT SHOP</h3>
+				<p className="game-registerExplainer">
+                 Your purchase in our on-line store helps to maintain out plaform and deliver education to kids in developing countries.  
+				 
+				 <img src={'/images/sample'+rand+'.jpg'} alt="DTML Gift shop sample" />
+                </p>
+<p className="coupon">Coupon Code: 25FOR3</p>
+                   <p>
+                  <a
+                    className="game-registerButton"
+                    href="https://dtml.org/Home/ShopForGood"
+                  >
+                    SHOP NOW
+                  </a>
+                </p>
+                </div>
+ )}
+
+{this.props.config.games && (
                 <div className="game-relatedGames game-sidebar-box">
                   <h3>{this.props.config.more}</h3>
 
@@ -257,23 +278,7 @@ class Gamecontent extends Component {
                 </p>
               </div>
 			   )}
-			  
-         <div className="game-relatedGames game-sidebar-box">
-                  <h3>GIFT SHOP</h3>
-				<p className="game-registerExplainer">
-                 Your purchase in our on-line store helps to maintain out plaform and deliver education to kids in development countries.  
-				 
-				 <img src={'/images/sample'+rand+'.jpg'} alt="DTML Gift shop sample" />
-                </p>
-                   <p>
-                  <a
-                    className="game-registerButton"
-                    href="https://dtml.org/Home/ShopForGood"
-                  >
-                    SHOP NOW
-                  </a>
-                </p>
-                </div>
+
             </aside>
           </div>
         </div>

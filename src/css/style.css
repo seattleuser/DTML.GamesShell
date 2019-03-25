@@ -1395,6 +1395,12 @@ a {
   height:32px;
 }
 
+.coupon{
+text-align:center;
+width:100%;
+font-size:20px;
+color:#00B2A5;
+}
 
 
 @media screen and (max-width: 900px) and (min-width: 420px) {
