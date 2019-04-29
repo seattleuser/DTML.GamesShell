@@ -244,7 +244,7 @@ class Gamecontent extends Component {
                   </div>
                 )}
 
-  {!this.state.loggedin && (            			  
+  {false && !this.state.loggedin && (            			  
          <div className="game-relatedGames game-sidebar-box">
                   <h3>GIFT SHOP</h3>
 				<p className="game-registerExplainer">
@@ -283,7 +283,7 @@ class Gamecontent extends Component {
                 </div>
               )}
 
-			  {!this.state.loggedin && (
+{!this.state.loggedin && (
               <div className="game-register game-sidebar-box">
                 <p className="game-registerExplainer">
                   {this.props.config.registerSchoolText}
@@ -297,7 +297,7 @@ class Gamecontent extends Component {
                   </a>
                 </p>
               </div>
-			   )}
+)}
 
             </aside>
           </div>
