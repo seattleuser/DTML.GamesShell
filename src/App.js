@@ -80,7 +80,8 @@ class App extends Component {
     this.setState({ isNoSupported : this.isNoSupported });
     const that = this;
     const parsed = queryString.parse(window.location.search);
-    const fullURL = `${url + userLang}&orgid=${parsed.school}`;
+    let orgParams =  parsed.school?`&orgid=${parsed.school}`:``;
+    const fullURL = `${url + userLang + orgParams}`;
 
     fetch(fullURL)
       .then(response => {
