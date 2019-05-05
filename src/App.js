@@ -96,36 +96,8 @@ class App extends Component {
 	 this.setState({ isNoSupported : true});
 	}
       })
-      .then(data => {
-        try {
-          if (
-            data &&
-            data.customization &&
-            parsed.school &&
-            typeof(localStorage) !== undefined
-          ) {
-            localStorage.setItem(
-              `customization`,
-              JSON.stringify(data.customization)
-            );
-          }
-
-          if (
-            !parsed.school &&
-            !data.customization &&
-            typeof(localStorage) != undefined
-          ) {
-            data.customization = JSON.parse(
-              localStorage.getItem(`customization`)
-            );
-          }
-        } catch (exception) 
-	{
-		 this.setState({ isNoSupported : true});
-	}
-
-        that.setState({ config: data });
-      }).catch(err => {  this.setState({ isNoSupported : true}); });
+      .then(data => {   that.setState({ config: data })})
+      .catch(err => {  this.setState({ isNoSupported : true}); });
   }
 
   onSelectedGame(newdone, newContent) {
