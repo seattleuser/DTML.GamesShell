@@ -72,7 +72,8 @@ class App extends Component {
 
   componentWillMount() {
     this.startErrorLog();
-    let isNoSupported = (window.attachEvent && !window.addEventListener) || !window.atob;
+    this.isNoSupported = (window.attachEvent && !window.addEventListener) || !window.atob;
+    console.log("Supported browser: "+!this.isNoSupported);
 
     document.title = `Educational Games for Kids - DTML`;
     const userLang = navigator.language || navigator.userLanguage;
@@ -81,9 +82,11 @@ class App extends Component {
     const that = this;
     const parsed = queryString.parse(window.location.search);
     let orgParams =  parsed.school?`&orgid=${parsed.school}`:``;
+    let cacheOption =  parsed.school? `no-cache` : `force-cache`;
     const fullURL = `${url + userLang + orgParams}`;
+    console.log(`Cache option: ${cacheOption}`);
 
-    fetch(fullURL)
+    fetch(fullURL, {cache: `${cacheOption}`})
       .then(response => {
 	 if (response.ok) {
           return response.json();
