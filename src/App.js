@@ -81,15 +81,11 @@ class App extends Component {
     this.setState({ isNoSupported : this.isNoSupported });
     const that = this;
     const parsed = queryString.parse(window.location.search);
-    let cacheOption =  parsed.school? `no-cache` : `force-cache`;
-    var cacheHeaders= new Headers();
-    cacheHeaders.append('Pragma', cacheOption);
-    cacheHeaders.append('Cache-Control', cacheOption);
-    let orgParams =  parsed.school?`&orgid=${parsed.school}`:``;
+    var date = new Date();
+    var ticks = ((date.getTime() * 10000) + 621355968000000000);
+    let orgParams =  parsed.school?`&orgid=${parsed.school}&tic=${ticks}`:``;
     const fullURL = `${url + userLang + orgParams}`;
-    console.log(cacheHeaders);
-
-    fetch(fullURL,  {headers:cacheHeaders})
+    fetch(fullURL)
       .then(response => {
 	 if (response.ok) {
           return response.json();
