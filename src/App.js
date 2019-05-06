@@ -83,8 +83,8 @@ class App extends Component {
     const parsed = queryString.parse(window.location.search);
     let cacheOption =  parsed.school? `no-cache` : `force-cache`;
     var cacheHeaders= new Headers();
-    cacheHeaders.append('pragma', cacheOption);
-    cacheHeaders.append('cache-control', cacheOption);
+    cacheHeaders.append('Pragma', cacheOption);
+    cacheHeaders.append('Cache-Control', cacheOption);
     let orgParams =  parsed.school?`&orgid=${parsed.school}`:``;
     const fullURL = `${url + userLang + orgParams}`;
     console.log(cacheHeaders);
