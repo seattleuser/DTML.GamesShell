@@ -46,7 +46,6 @@ class App extends Component {
       done: true,
       gameContent: []
     };
-    ReactGA.pageview(window.location.hash);
   }
 
   startErrorLog() {
@@ -72,9 +71,9 @@ class App extends Component {
 
   componentWillMount() {
     this.startErrorLog();
+    ReactGA.pageview(window.location.pathname + window.location.hash);
     this.isNoSupported = (window.attachEvent && !window.addEventListener) || !window.atob;
     console.log("Supported browser: "+!this.isNoSupported);
-
     document.title = `Educational Games for Kids - DTML`;
     const userLang = navigator.language || navigator.userLanguage;
     this.setState({ userLanguage: userLang });
