@@ -74,7 +74,7 @@ class App extends Component {
     ReactGA.pageview(window.location.pathname + window.location.hash);
     
     //Redirect from blog
-    if (window.location.includes && window.location.includes("blog"))
+    if (window.location.href.indexOf("blog") > -1)
     {
      window.location.href='https://games.dtml.org/games';
     }	
