@@ -72,6 +72,13 @@ class App extends Component {
   componentWillMount() {
     this.startErrorLog();
     ReactGA.pageview(window.location.pathname + window.location.hash);
+    
+    //Redirect from blog
+    if (window.location.includes && window.location.includes("blog"))
+    {
+     window.location.href='https://games.dtml.org/games';
+    }	
+
     this.isNoSupported = (window.attachEvent && !window.addEventListener) || !window.atob;
     console.log("Supported browser: "+!this.isNoSupported);
     document.title = `Educational Games for Kids - DTML`;
