@@ -3,8 +3,6 @@
 import React, { Component } from 'react';
 import {
   FacebookShareCount,
-  GooglePlusShareCount,
-  LinkedinShareCount,
   PinterestShareCount,
   VKShareCount,
   OKShareCount,
@@ -12,10 +10,10 @@ import {
   TumblrShareCount,
 
   FacebookShareButton,
-  GooglePlusShareButton,
   LinkedinShareButton,
   TwitterShareButton,
   PinterestShareButton,
+  VKShareButton,
   OKShareButton,
   TelegramShareButton,
   WhatsappShareButton,
@@ -27,13 +25,14 @@ import {
   ViberShareButton,
   WorkplaceShareButton,
   LineShareButton,
-  WeiboShareButton,
+  PocketShareButton,
+  InstapaperShareButton,
 
   FacebookIcon,
   TwitterIcon,
-  GooglePlusIcon,
   LinkedinIcon,
   PinterestIcon,
+  VKIcon,
   OKIcon,
   TelegramIcon,
   WhatsappIcon,
@@ -45,235 +44,233 @@ import {
   ViberIcon,
   WorkplaceIcon,
   LineIcon,
+  PocketIcon,
+  InstapaperIcon,
 } from 'react-share';
 
 
-
 class Share extends Component {
-	
-constructor(props) {
-    super(props);
-	this.state = {
-         shareUrl: window.location.href,
-         title: props.title,
-    };
-  }
-  
   render() {
-      console.log(this.state.shareUrl)
+    const shareUrl = 'http://github.com';
+    const title = 'GitHub';
+
     return (
-      <div className="Share__container">
-        <div className="Share__some-network">
+      <div className="Demo__container">
+        <div className="Demo__some-network">
           <FacebookShareButton
-            url={this.state.shareUrl}
-            quote={this.state.title}
-            className="Share__some-network__share-button">
+            url={shareUrl}
+            quote={title}
+            className="Demo__some-network__share-button">
             <FacebookIcon
               size={32}
               round />
           </FacebookShareButton>
 
           <FacebookShareCount
-            url={this.state.shareUrl}
-            className="Share__some-network__share-count">
+            url={shareUrl}
+            className="Demo__some-network__share-count">
             {count => count}
           </FacebookShareCount>
         </div>
-  <div className="Share__some-network">
+
+        <div className="Demo__some-network">
           <TwitterShareButton
-            url={this.state.shareUrl}
-            title={this.state.title}
-            className="Share__some-network__share-button">
+            url={shareUrl}
+            title={title}
+            className="Demo__some-network__share-button">
             <TwitterIcon
               size={32}
               round />
           </TwitterShareButton>
 
-          <div className="Share__some-network__share-count">
+          <div className="Demo__some-network__share-count">
             &nbsp;
           </div>
         </div>
 
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <TelegramShareButton
-            url={this.state.shareUrl}
-            title={this.state.title}
-            className="Share__some-network__share-button">
+            url={shareUrl}
+            title={title}
+            className="Demo__some-network__share-button">
             <TelegramIcon size={32} round />
           </TelegramShareButton>
 
-          <div className="Share__some-network__share-count">
+          <div className="Demo__some-network__share-count">
             &nbsp;
           </div>
         </div>
 
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <WhatsappShareButton
-            url={this.state.shareUrl}
-            title={this.state.title}
+            url={shareUrl}
+            title={title}
             separator=":: "
-            className="Share__some-network__share-button">
+            className="Demo__some-network__share-button">
             <WhatsappIcon size={32} round />
           </WhatsappShareButton>
 
-          <div className="Share__some-network__share-count">
+          <div className="Demo__some-network__share-count">
             &nbsp;
           </div>
         </div>
 
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <LinkedinShareButton
-            url={this.state.shareUrl}
-            title={this.state.title}
+            url={shareUrl}
             windowWidth={750}
             windowHeight={600}
-            className="Share__some-network__share-button">
+            className="Demo__some-network__share-button">
             <LinkedinIcon
               size={32}
               round />
           </LinkedinShareButton>
-
-          <LinkedinShareCount
-            url={this.state.shareUrl}
-            className="Share__some-network__share-count">
-            {count => count}
-          </LinkedinShareCount>
         </div>
 
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <PinterestShareButton
             url={String(window.location)}
             windowWidth={1000}
             windowHeight={730}
-            className="Share__some-network__share-button">
+            className="Demo__some-network__share-button">
             <PinterestIcon size={32} round />
           </PinterestShareButton>
 
-          <PinterestShareCount url={this.state.shareUrl}
-            className="Share__some-network__share-count" />
+          <PinterestShareCount url={shareUrl}
+            className="Demo__some-network__share-count" />
         </div>
 
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <OKShareButton
-            url={this.state.shareUrl}
-            windowWidth={660}
-            windowHeight={460}
-            className="Share__some-network__share-button">
+            url={shareUrl}
+            className="Demo__some-network__share-button">
             <OKIcon
               size={32}
               round />
           </OKShareButton>
 
-          <OKShareCount url={this.state.shareUrl}
-            className="Share__some-network__share-count" />
+          <OKShareCount url={shareUrl}
+            className="Demo__some-network__share-count" />
         </div>
 
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <RedditShareButton
-            url={this.state.shareUrl}
-            title={this.state.title}
+            url={shareUrl}
+            title={title}
             windowWidth={660}
             windowHeight={460}
-            className="Share__some-network__share-button">
+            className="Demo__some-network__share-button">
             <RedditIcon
               size={32}
               round />
           </RedditShareButton>
 
-          <RedditShareCount url={this.state.shareUrl}
-            className="Share__some-network__share-count" />
+          <RedditShareCount url={shareUrl}
+            className="Demo__some-network__share-count" />
         </div>
 
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <TumblrShareButton
-            url={this.state.shareUrl}
-            title={this.state.title}
+            url={shareUrl}
+            title={title}
             windowWidth={660}
             windowHeight={460}
-            className="Share__some-network__share-button">
+            className="Demo__some-network__share-button">
             <TumblrIcon
               size={32}
               round />
           </TumblrShareButton>
 
-          <TumblrShareCount url={this.state.shareUrl}
-            className="Share__some-network__share-count" />
+          <TumblrShareCount url={shareUrl}
+            className="Demo__some-network__share-count" />
         </div>
 
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <LivejournalShareButton
-            url={this.state.shareUrl}
-            title={this.state.title}
-            description={this.state.shareUrl}
-            className="Share__some-network__share-button"
+            url={shareUrl}
+            title={title}
+            description={shareUrl}
+            className="Demo__some-network__share-button"
           >
             <LivejournalIcon size={32} round />
           </LivejournalShareButton>
         </div>
 
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <MailruShareButton
-            url={this.state.shareUrl}
-            title={this.state.title}
-            className="Share__some-network__share-button">
+            url={shareUrl}
+            title={title}
+            className="Demo__some-network__share-button">
             <MailruIcon
               size={32}
               round />
           </MailruShareButton>
         </div>
 
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <EmailShareButton
-            url={this.state.shareUrl}
-            subject={this.state.title}
-            body={"Checkout this cool game: "+this.state.shareUrl}
-            className="Share__some-network__share-button">
+            url={shareUrl}
+            subject={title}
+            body="body"
+            className="Demo__some-network__share-button">
             <EmailIcon
               size={32}
               round />
           </EmailShareButton>
         </div>
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <ViberShareButton
-            url={this.state.shareUrl}
-            title={this.state.title}
-            body="body"
-            className="Share__some-network__share-button">
+            url={shareUrl}
+            title={title}
+            className="Demo__some-network__share-button">
             <ViberIcon
               size={32}
               round />
           </ViberShareButton>
         </div>
 
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <WorkplaceShareButton
-            url={this.state.shareUrl}
-            quote={this.state.title}
-            className="Share__some-network__share-button">
+            url={shareUrl}
+            quote={title}
+            className="Demo__some-network__share-button">
             <WorkplaceIcon
               size={32}
               round />
           </WorkplaceShareButton>
         </div>
 
-        <div className="Share__some-network">
+        <div className="Demo__some-network">
           <LineShareButton
-            url={this.state.shareUrl}
-            title={this.state.title}
-            className="Share__some-network__share-button">
+            url={shareUrl}
+            title={title}
+            className="Demo__some-network__share-button">
             <LineIcon
               size={32}
               round />
           </LineShareButton>
         </div>
 
-        <div className="Share__some-network">
-          <WeiboShareButton
-            url={this.state.shareUrl}
-            title={this.state.title}
-            className="Share__some-network__share-button">
-            <img className="Share__some-network__custom-icon" src="http://icons.iconarchive.com/icons/martz90/circle-addon2/512/weibo-icon.png" alt="Weibo share button" />
-          </WeiboShareButton>
+        <div className="Demo__some-network">
+          <PocketShareButton
+            url={shareUrl}
+            title={title}
+            className="Demo__some-network__share-button">
+            <PocketIcon
+              size={32}
+              round />
+          </PocketShareButton>
+        </div>
+
+        <div className="Demo__some-network">
+          <InstapaperShareButton
+            url={shareUrl}
+            title={title}
+            className="Demo__some-network__share-button">
+            <InstapaperIcon
+              size={32}
+              round />
+          </InstapaperShareButton>
         </div>
       </div>
     );
