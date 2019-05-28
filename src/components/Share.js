@@ -50,9 +50,20 @@ import {
 
 
 class Share extends Component {
+
+constructor(props) {
+    super(props);
+	this.state = {
+        shareUrl: window.location.href,
+        title: props.title,
+    };
+  }
+
   render() {
-    const shareUrl = 'http://github.com';
-    const title = 'GitHub';
+    const shareUrl = this.state.shareUrl;
+    const title = this.state.title;
+
+   console.log("Title:"+title +", "+this.state.shareUrl);
 
     return (
       <div className="Demo__container">
