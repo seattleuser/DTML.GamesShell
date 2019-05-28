@@ -16,7 +16,6 @@ import {
   LinkedinShareButton,
   TwitterShareButton,
   PinterestShareButton,
-  VKShareButton,
   OKShareButton,
   TelegramShareButton,
   WhatsappShareButton,
@@ -35,7 +34,6 @@ import {
   GooglePlusIcon,
   LinkedinIcon,
   PinterestIcon,
-  VKIcon,
   OKIcon,
   TelegramIcon,
   WhatsappIcon,
@@ -56,12 +54,13 @@ class Share extends Component {
 constructor(props) {
     super(props);
 	this.state = {
-      shareUrl: window.location.href,
-      title: props.title,
+         shareUrl: window.location.href,
+         title: props.title,
     };
   }
   
   render() {
+      console.log(this.state.shareUrl)
     return (
       <div className="Share__container">
         <div className="Share__some-network">
@@ -151,21 +150,6 @@ constructor(props) {
           </PinterestShareButton>
 
           <PinterestShareCount url={this.state.shareUrl}
-            className="Share__some-network__share-count" />
-        </div>
-
-        <div className="Share__some-network">
-          <VKShareButton
-            url={this.state.shareUrl}
-            windowWidth={660}
-            windowHeight={460}
-            className="Share__some-network__share-button">
-            <VKIcon
-              size={32}
-              round />
-          </VKShareButton>
-
-          <VKShareCount url={this.state.shareUrl}
             className="Share__some-network__share-count" />
         </div>
 
