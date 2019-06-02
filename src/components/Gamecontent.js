@@ -70,13 +70,10 @@ class Gamecontent extends Component {
       }
 
       this.setState({ gameContent });
-      const userLang = navigator.language || navigator.userLanguage;
-      this.setState({ userLanguage: userLang });
-      this.setState({ customization: this.props.config.customization });
 	  
-	  const that = this;
-       fetch(loginURL, { credentials: `include` })
-      .then(response => {
+       const that = this;
+       fetch(loginURL, { credentials: `include`, cache: "no-store" })
+       .then(response => {
         if (response.status >= 400) {
           console.log(`Bad response from server`);
           that.setState({ loggedin: false });
@@ -95,8 +92,13 @@ class Gamecontent extends Component {
       });
 
     }
-    const that = this;
-    that.setState({ rating: this.state.gameContent.rating });
+
+
+      const userLang = navigator.language || navigator.userLanguage;
+      this.setState({ userLanguage: userLang });
+      this.setState({ customization: this.props.config.customization });
+
+      that.setState({ rating: this.state.gameContent.rating });
    }
 
   handleRate({ rating, type }) {
