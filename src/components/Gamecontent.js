@@ -51,7 +51,8 @@ class Gamecontent extends Component {
    }
 
   componentWillMount() {
-	if (isEmpty(this.state.gameContent)) {
+      const that = this;
+     if (isEmpty(this.state.gameContent)) {
       const urlpath = window.location.pathname;
       const baseurl = urlpath.split(`?`)[0].split(`#`)[0];
       const gameID = baseurl.substr(baseurl.lastIndexOf(`/`) + 1);
@@ -71,8 +72,7 @@ class Gamecontent extends Component {
 
       this.setState({ gameContent });
 	  
-       const that = this;
-       fetch(loginURL, { credentials: `include`, cache: "no-store" })
+        fetch(loginURL, { credentials: `include`, cache: "no-store" })
        .then(response => {
         if (response.status >= 400) {
           console.log(`Bad response from server`);
