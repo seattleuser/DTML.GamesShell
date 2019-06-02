@@ -71,12 +71,14 @@ class Gamecontent extends Component {
       }
 
       this.setState({ gameContent });
-	  
-        fetch(loginURL, { credentials: `include`, cache: "no-store" })
+      that.setState({ loadfinished: false});
+
+       fetch(loginURL, { credentials: `include`, cache: "no-store" })
        .then(response => {
-        if (response.status >= 400) {
+        if (response.status >= 300) {
           console.log(`Bad response from server`);
           that.setState({ loggedin: false });
+          that.setState({ loadfinished: true});
           window.store.loggedin = false;
         }
         return response.json();
@@ -85,10 +87,13 @@ class Gamecontent extends Component {
         that.setState({ user: data });
         if (data !== `` && data.userName) {
           that.setState({ loggedin: true });
+          that.setState({ loadfinished: true});
         }
       })
       .catch(error => {
         console.log(`Request failed ${error}`);
+        that.setState({ loggedin: false });
+        that.setState({ loadfinished: true});
       });
 
     }
@@ -206,8 +211,9 @@ class Gamecontent extends Component {
               </div>
 	 <Share title={this.state.gameContent.title} />
             </div>
+
             <aside className="game-sidebar">
-              {!this.state.loggedin && (
+              {!this.state.loggedin && this.state.loadfinished && (
                   <div className="game-login game-sidebar-box">
                     <p className="game-loginExplainer">
                       {this.props.config.siderailLoginText}
@@ -246,25 +252,6 @@ class Gamecontent extends Component {
                   </div>
                 )}
 
-  {false && !this.state.loggedin && (            			  
-         <div className="game-relatedGames game-sidebar-box">
-                  <h3>GIFT SHOP</h3>
-				<p className="game-registerExplainer">
-                 Your purchase in our on-line store helps to maintain out plaform and deliver education to kids in developing countries.  
-				 
-				 <img src={'/images/sample'+rand+'.jpg'} alt="DTML Gift shop sample" />
-                </p>
-<p className="coupon">Coupon Code: 25FOR3</p>
-                   <p>
-                  <a
-                    className="game-registerButton"
-                    href="https://dtml.org/Home/ShopForGood"
-                  >
-                    SHOP NOW
-                  </a>
-                </p>
-                </div>
- )}
 
 {this.props.config.games && (
                 <div className="game-relatedGames game-sidebar-box">
@@ -285,7 +272,7 @@ class Gamecontent extends Component {
                 </div>
               )}
 
-{!this.state.loggedin && (
+{!this.state.loggedin && this.state.loadfinished && (
               <div className="game-register game-sidebar-box">
                 <p className="game-registerExplainer">
                   {this.props.config.registerSchoolText}
