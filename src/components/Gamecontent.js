@@ -71,14 +71,13 @@ class Gamecontent extends Component {
       }
 
       this.setState({ gameContent });
-      that.setState({ loadfinished: false});
+      that.setState({ loggedin: true});
 
        fetch(loginURL, { credentials: `include`, cache: "no-store" })
        .then(response => {
         if (response.status >= 300) {
           console.log(`Bad response from server`);
           that.setState({ loggedin: false });
-          that.setState({ loadfinished: true});
           window.store.loggedin = false;
         }
         return response.json();
@@ -87,14 +86,12 @@ class Gamecontent extends Component {
         that.setState({ user: data });
         if (data !== `` && data.userName) {
           that.setState({ loggedin: true });
-          that.setState({ loadfinished: true});
         }
       })
       .catch(error => {
         console.log(`Request failed ${error}`);
         that.setState({ loggedin: false });
-        that.setState({ loadfinished: true});
-      });
+        });
 
     }
 
@@ -213,7 +210,7 @@ class Gamecontent extends Component {
             </div>
 
             <aside className="game-sidebar">
-              {!this.state.loggedin && this.state.loadfinished && (
+              {!this.state.loggedin && (
                   <div className="game-login game-sidebar-box">
                     <p className="game-loginExplainer">
                       {this.props.config.siderailLoginText}
@@ -272,7 +269,7 @@ class Gamecontent extends Component {
                 </div>
               )}
 
-{!this.state.loggedin && this.state.loadfinished && (
+{!this.state.loggedin && (
               <div className="game-register game-sidebar-box">
                 <p className="game-registerExplainer">
                   {this.props.config.registerSchoolText}
