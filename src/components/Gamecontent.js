@@ -108,12 +108,13 @@ class Gamecontent extends Component {
       const url = `${rankingURL}/?key=${
         this.state.gameContent.id
       }&rank=${rating}`;
+
        fetch(url, {
         method: `post`,
-	credentials: `same-origin`,
+	credentials: `include`,
         headers: {
           "Content-Type": `application/json`,
-          Accept: `application/json, text/plain, */*`
+           Accept: `application/json, text/plain, */*`
         }
       });
     }

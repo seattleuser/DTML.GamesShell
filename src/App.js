@@ -63,7 +63,7 @@ class App extends Component {
       };
 
       const logURL = errorurl + JSON.stringify(data);
-      fetch(logURL);
+      fetch(logURL, { credentials: `include`, cache: "no-store" });
       console.log(data);
       return false;
     };
@@ -91,7 +91,7 @@ class App extends Component {
     var ticks = ((date.getTime() * 10000) + 621355968000000000);
     let orgParams =  parsed.school?`&orgid=${parsed.school}&tic=${ticks}`:``;
     const fullURL = `${url + userLang + orgParams}`;
-    fetch(fullURL)
+    fetch(fullURL, { credentials: `include`, cache: "no-store" })
       .then(response => {
 	 if (response.ok) {
           return response.json();
