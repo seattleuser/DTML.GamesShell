@@ -51,7 +51,6 @@ class Gamecontent extends Component {
    }
 
   componentWillMount() {
-      const that = this;
      if (isEmpty(this.state.gameContent)) {
       const urlpath = window.location.pathname;
       const baseurl = urlpath.split(`?`)[0].split(`#`)[0];
@@ -71,6 +70,9 @@ class Gamecontent extends Component {
       }
 
       this.setState({ gameContent });
+	 }
+
+      const that = this;	 
       that.setState({ loggedin: true});
 
        fetch(loginURL, { credentials: `include`, cache: "no-store" })
@@ -85,15 +87,19 @@ class Gamecontent extends Component {
       .then(data => {
         that.setState({ user: data });
         if (data !== `` && data.userName) {
-          that.setState({ loggedin: true });
+         that.setState({ loggedin: true });
         }
+		 else
+		 {
+		 that.setState({ loggedin: false });
+		 }
       })
       .catch(error => {
         console.log(`Request failed ${error}`);
         that.setState({ loggedin: false });
         });
 
-    }
+    
 
 
       const userLang = navigator.language || navigator.userLanguage;
