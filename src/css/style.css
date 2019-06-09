@@ -663,7 +663,7 @@ font-size:x-large;
   border: none;
   display: inline-block;
   text-align: left;
-  color: #FFF;
+  color: #000;
   font-size: large;
   line-height: 50px;
   font-weight: 400;
@@ -673,7 +673,7 @@ font-size:x-large;
 
 .contentsection-main-middle-box h6 a:hover {
   background:  url(https://games.dtml.org/games/images/red-btn-bg-hover.png) no-repeat;
-  color: #fef187;
+  color: #000;
 }
 
 .contentsection-main-middle h5 button {
