@@ -126,7 +126,7 @@ class Header extends Component {
             </p>
 			
 	   <div className="stripe-button-el">
-	    <div className="fb-share-button" data-href="https://games.dtml.org/games/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a target="_blank"  rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgames.dtml.org%2Fgames%2F&amp;src=sdkpreparse" className="fb-xfbml-parse-ignore">{this.props.config.shareButton}</a></div>
+	    <div className="fb-share-button" data-href="https://dtml.org/esl/games/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a target="_blank"  rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgames.dtml.org%2Fgames%2F&amp;src=sdkpreparse" className="fb-xfbml-parse-ignore">{this.props.config.shareButton}</a></div>
 	    </div>
 			
             <button className="close-support" onClick={() => closeSupport()}>
@@ -200,7 +200,7 @@ class Header extends Component {
                       </a>
                     </li>
                     <li>
-                      <a href="https://games.dtml.org/games">
+                      <a href="https://dtml.org/esl/games">
                         {this.props.config.game}
                       </a>
                     </li>

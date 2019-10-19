@@ -41,9 +41,7 @@ class Footer extends Component {
 	let customizedRules = css({});
     if (!isEmpty(this.props.config.customization)) {
       footerImageUrl = this.props.config.customization.FooterURL;
-	  customizedRules = css({
-						  background: this.props.config.customization.MenueColor,
-						});
+	  customizedRules = css({ background: this.props.config.customization.MenueColor,});
     }
 	
 	return (

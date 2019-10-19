@@ -48,6 +48,12 @@ class Gamecontent extends Component {
       action: `Game__${this.state.gameContent.id}`
     });
     ReactGA.pageview(window.location.hash);
+
+const script = document.createElement('script');
+    script.setAttribute(
+      'src', 
+      '//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=a13d96fc-d7d1-40d2-a1c8-0b8945bd5b3c');
+    document.body.appendChild(script);
    }
 
   componentWillMount() {
@@ -56,7 +62,7 @@ class Gamecontent extends Component {
       const baseurl = urlpath.split(`?`)[0].split(`#`)[0];
       const gameID = baseurl.substr(baseurl.lastIndexOf(`/`) + 1);
       if (isEmpty(this.props.config) || isEmpty(this.props.config.games)) {
-        window.location.href = `https://games.dtml.org/games`;
+        window.location.href = `https://dtml.org/esl/games`;
         return;
       }
  
@@ -65,7 +71,7 @@ class Gamecontent extends Component {
       );
 
       if (typeof gameContent === `undefined` || isEmpty(gameContent)) {
-        window.location.href = `https://games.dtml.org/games`;
+        window.location.href = `https://dtml.org/esl/games`;
         return;
       }
 
@@ -166,7 +172,7 @@ class Gamecontent extends Component {
                     allowtransparency="true"
                     title={this.state.gameContent.title}
                     scrolling="no"
-					src = {(this.state.gameContent.url.indexOf('?')>0) ? `${this.state.gameContent.url}&tic=${date}&mkt=${this.state.userLanguage}`:`${this.state.gameContent.url}?tic=${date}&mkt=${this.state.userLanguage}`}
+	             src = {(this.state.gameContent.url.indexOf('?')>0) ? `${this.state.gameContent.url}&tic=${date}&mkt=${this.state.userLanguage}`:`${this.state.gameContent.url}?tic=${date}&mkt=${this.state.userLanguage}`}
                     frameBorder="0"
                   />
                 </div>
@@ -213,27 +219,14 @@ class Gamecontent extends Component {
                   <div className="clr" />
                 </div>
               </div>
-	 <Share title={this.state.gameContent.title} />
-            </div>
+	     </div>
 
             <aside className="game-sidebar">
-              {!this.state.loggedin && (
                   <div className="game-login game-sidebar-box">
-                    <p className="game-loginExplainer">
-                      {this.props.config.siderailLoginText}
-                    </p>
-                    <p>
-                      <a
-                        className="game-loginButton"
-                        href={`https://dtml.org/Account/Login?ReturnUrl=${
-                          window.location.href
-                        }`}
-                      >
-                        {this.props.config.login}
-                      </a>
-                    </p>
-                  </div>
-                )}
+<h3>SPONSORED LINKS</h3>
+
+<div id="amzn-assoc-ad-a13d96fc-d7d1-40d2-a1c8-0b8945bd5b3c"></div>
+  </div>
 
               {this.state.gameContent.leaderboard &&
                 this.state.gameContent.leaderboard.length > 0 && (
