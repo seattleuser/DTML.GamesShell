@@ -1,6 +1,6 @@
 {
   "name": "dtml-games",
-  "homepage": "http://blog.dtml.org/games/",
+  "homepage": "http://dtml.org/esl",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -31,6 +31,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "deploy": "react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "snap": "react-scripts build && react-snapshot",
     "eject": "react-scripts eject"

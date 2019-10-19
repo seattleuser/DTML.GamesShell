@@ -62,7 +62,7 @@ const script = document.createElement('script');
       const baseurl = urlpath.split(`?`)[0].split(`#`)[0];
       const gameID = baseurl.substr(baseurl.lastIndexOf(`/`) + 1);
       if (isEmpty(this.props.config) || isEmpty(this.props.config.games)) {
-        window.location.href = `https://dtml.org/esl/games`;
+        window.location.href = `https://dtml.org/esl`;
         return;
       }
  
@@ -71,7 +71,7 @@ const script = document.createElement('script');
       );
 
       if (typeof gameContent === `undefined` || isEmpty(gameContent)) {
-        window.location.href = `https://dtml.org/esl/games`;
+        window.location.href = `https://dtml.org/esl`;
         return;
       }
 
@@ -205,7 +205,7 @@ const script = document.createElement('script');
                       </a>
                     </h6>
                     <h6>
-                      <a target="blank" href="/games/">
+                      <a target="blank" href="/esl/">
                         {this.props.config.back}
                       </a>
                     </h6>
@@ -262,7 +262,7 @@ const script = document.createElement('script');
                       const j = i + 1;
                       return (
                         <div key={`game-${j}`} className="related-game">
-                          <a href={`/games/${game.id}`}>{game.title}</a>
+                          <a href={`/esl/${game.id}`}>{game.title}</a>
                         </div>
                       );
                     })}

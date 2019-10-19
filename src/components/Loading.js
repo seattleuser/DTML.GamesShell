@@ -18,7 +18,7 @@ import React, { Component } from "react";
 import "../css/font-awesome.min.css";
 import "../css/responsive.css";
 
-const imageurl = `https://games.dtml.org/games/`;
+const imageurl = `https://dtml.org/esl;
 
 class Loading extends Component {
   constructor(props) {

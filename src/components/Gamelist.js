@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 import "babel-polyfill";
 import * as utils from './utils.js'; 
 
-const imageurl = `https://dtml.org/esl/games/`;
+const imageurl = `https://dtml.org/esl/`;
 let listcontent = [];
 
 const getFirstLine = str => {

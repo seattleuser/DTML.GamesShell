@@ -657,7 +657,7 @@ font-size:x-large;
 
 .contentsection-main-middle-box h6 a {
   cursor: pointer;
-  background: url(https://games.dtml.org/games/images/red-btn-bg.png) no-repeat;
+  background: url(https://dtml.org/esl/images/red-btn-bg.png) no-repeat;
   width: 177px;
   height: 50px;
   border: none;
@@ -672,12 +672,12 @@ font-size:x-large;
 }
 
 .contentsection-main-middle-box h6 a:hover {
-  background:  url(https://games.dtml.org/games/images/red-btn-bg-hover.png) no-repeat;
+  background:  url(https:/dtml.org/esl/images/red-btn-bg-hover.png) no-repeat;
   color: #000;
 }
 
 .contentsection-main-middle h5 button {
-  background:  url(https://games.dtml.org/games/images/moregame-btn.png) no-repeat;
+  background:  url(https://dtml.org/esl/images/moregame-btn.png) no-repeat;
   width: 199px;
   height: 56px;
   margin: 0 auto;
@@ -699,7 +699,7 @@ font-size:x-large;
 }
 
 .contentsection-main-middle h5 button:hover {
-  background:  url(https://games.dtml.org/games/images/moregame-btn-hover.png) no-repeat;
+  background:  url(https://dtml.org/esl/images/moregame-btn-hover.png) no-repeat;
 }
 
 /*===========contentsection end=================*/
@@ -878,7 +878,7 @@ font-size:x-large;
 /*===========footersecion start===================*/
 .footersecion {
   width: 100%;
-  background:  url(https://games.dtml.org/games/images/footer-bg.jpg) repeat-x left top #381b0b;
+  background:  url(https://dtml.org/esl/images/footer-bg.jpg) repeat-x left top #381b0b;
   min-height: 111px;
   padding: 0;
   margin: 0 auto;
@@ -1046,7 +1046,7 @@ font-size:x-large;
 }
 
 .ratesection-top-right h6 a {
-  background:  url(https://games.dtml.org/games/images/embated-btn.png) no-repeat 0 0;
+  background:  url(https://dtml.org/esl/images/embated-btn.png) no-repeat 0 0;
   color: #FFF;
   font-size: 17px;
   line-height: 50px;
@@ -1060,7 +1060,7 @@ font-size:x-large;
 }
 
 .ratesection-top-right h6 a:hover {
-  background:  url(https://games.dtml.org/games/images/embated-btn-hover.png) no-repeat 0 0;
+  background:  url(https://dtml.org/esl/images/embated-btn-hover.png) no-repeat 0 0;
 }
 
 .ratesection-top textarea {
@@ -1125,7 +1125,7 @@ font-size:x-large;
 }
 
 .ratesection-bottom01 h5 a {
-  background:  url(https://games.dtml.org/games/images/backlist-btn.png) no-repeat;
+  background:  url(https://dtml.org/esl/images/backlist-btn.png) no-repeat;
   width: 248px;
   height: 56px;
   display: inline-block;
@@ -1139,7 +1139,7 @@ font-size:x-large;
 }
 
 .ratesection-bottom01 h5 a:hover {
-  background:  url(https://games.dtml.org/games/images/backlist-btn-hover.png) no-repeat;
+  background:  url(https://dtml.org/esl/images/backlist-btn-hover.png) no-repeat;
   cursor: pointer;
 }
 
@@ -1154,7 +1154,7 @@ font-size:x-large;
 }
 
 .ratesection-bottom01 h6 a {
-  background:  url(https://games.dtml.org/games/images/embated-btn.png) no-repeat 0 0;
+  background:  url(https://dtml.org/esl/images/embated-btn.png) no-repeat 0 0;
   color: #FFF;
   font-size: 17px;
   line-height: 50px;
@@ -1168,7 +1168,7 @@ font-size:x-large;
 }
 
 .ratesection-bottom01 h6 a:hover {
-  background:  url(https://games.dtml.org/games/images/embated-btn-hover.png) no-repeat 0 0;
+  background:  url(https://dtml.org/esl/images/embated-btn-hover.png) no-repeat 0 0;
 }
 
 .ratesection-bottom02 {
@@ -1204,7 +1204,7 @@ font-size:x-large;
 }
 
 .sponsors-setion h6 a {
-  background:  url(https://games.dtml.org/games/images/sponsors-btn.png) no-repeat;
+  background:  url(https://dtml.org/esl/images/sponsors-btn.png) no-repeat;
   width: 282px;
   height: 68px;
   margin: 0 auto;
@@ -1223,7 +1223,7 @@ font-size:x-large;
 }
 
 .sponsors-setion h6 a:hover {
-  background:  url(https://games.dtml.org/games/images/sponsors-btn-hover.png) no-repeat;
+  background:  url(https://dtml.org/games/esl/sponsors-btn-hover.png) no-repeat;
 }
 
 /*========sponsors-setion end==============*/
@@ -1333,16 +1333,16 @@ font-size:x-large;
 	border-bottom: 1px solid #dcdcdc;
 }
 .browser-chrome {
-	background:  url(https://games.dtml.org/games/images/chrome-logo.png) no-repeat 30px 50%;
+	background:  url(https://dtml.org/esl/images/chrome-logo.png) no-repeat 30px 50%;
 }
 .browser-firefox {
-	background:  url(https://games.dtml.org/games/images/firefox-logo.png) no-repeat 30px 50%;
+	background:  url(https://dtml.org/esl/images/firefox-logo.png) no-repeat 30px 50%;
 }
 .browser-opera {
-	background:  url(https://games.dtml.org/games/images/opera-logo.png) no-repeat 30px 50%;
+	background:  url(https://dtml.org/esl/images/opera-logo.png) no-repeat 30px 50%;
 }
 .browser-safari {
-	background:  url(https://games.dtml.org/games/images/safari-logo.png) no-repeat 30px 50%;
+	background:  url(https://dtml.org/esl/images/safari-logo.png) no-repeat 30px 50%;
 }
 
 /* @media all and (min-width:500px) */
