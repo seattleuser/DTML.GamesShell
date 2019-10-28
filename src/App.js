@@ -75,14 +75,19 @@ class App extends Component {
     this.isNoSupported = (window.attachEvent && !window.addEventListener) || !window.atob;
     console.log("Supported browser: "+!this.isNoSupported);
     document.title = `Educational Games for Kids - DTML`;
-    const userLang = navigator.language || navigator.userLanguage;
-    this.setState({ userLanguage: userLang });
+    let userLang = navigator.language || navigator.userLanguage;
     this.setState({ isNoSupported : this.isNoSupported });
     const that = this;
     const parsed = queryString.parse(window.location.search);
     var date = new Date();
     var ticks = ((date.getTime() * 10000) + 621355968000000000);
     let orgParams =  parsed.school?`&orgid=${parsed.school}&tic=${ticks}`:``;
+    if (parsed.mkt)
+    {
+      userLang = parsed.mkt; 
+    }
+
+    this.setState({ userLanguage: userLang });    
     const fullURL = `${url + userLang + orgParams}`;
     fetch(fullURL, { credentials: `include`, cache: "no-store" })
       .then(response => {
