@@ -679,13 +679,8 @@ font-size:x-large;
   text-align:center;
 }
 
-.contentsection-main-middle-box h6 a:hover {
-  background:  url(/esl/images/red-btn-bg-hover.png) no-repeat;
-  color: #000;
-}
-
 .contentsection-main-middle h5 button {
-  background:  url(/images/moregame-btn.png) no-repeat;
+  background:  url(/esl/images/moregame-btn.png) no-repeat;
   width: 199px;
   height: 56px;
   margin: 0 auto;
@@ -707,7 +702,7 @@ font-size:x-large;
 }
 
  .contentsection-main-middle h5 button:hover {
-  background:  url(/images/moregame-btn-hover.png) no-repeat;
+  background:  url(/esl/images/moregame-btn-hover.png) no-repeat;
  }
 
 .contentsection-main-middle-box h6 a {
