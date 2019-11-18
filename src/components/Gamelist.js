@@ -74,7 +74,7 @@ class Gamelist extends Component {
   }
 
   showMore() {
-    this.setState({ listcounter: this.state.listcounter + 10 });
+    this.setState({ listcounter: this.state.listcounter + 100 });
 	this.setState({ hideMore: true });
   }
 
