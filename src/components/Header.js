@@ -150,7 +150,7 @@ class Header extends Component {
                         <a href="https://dtml.org">{this.props.config.home}</a>
                       </li>
                       <li>
-                        <a href="/leaderboard/scores">LEADERBOARD</a>
+                        <a href="/leaderboard/scores">{this.props.config.leaderboard}</a>
                       </li>
                       <li>
                         <a href="https://jaasfoundation.org/about-us/">
