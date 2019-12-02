@@ -24,6 +24,7 @@ import ReactGA from "react-ga";
 import Header from "./components/Header";
 import NotSupported from "./components/NotSupported";
 import Footer from "./components/Footer";
+import LeaderBoard from "./components/LeaderBoard";
 import Gamelist from "./components/Gamelist";
 import Gamecontent from "./components/Gamecontent";
 import BugReporterContainer from "./components/BugReporter";
@@ -128,6 +129,15 @@ class App extends Component {
                 <Gamelist
                   config={this.state.config}
                   Selected={this.onSelectedGame.bind(this)}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/leaderboard/scores"
+              component={() => (
+                <LeaderBoard
+                  config={this.state.config}
                 />
               )}
             />
