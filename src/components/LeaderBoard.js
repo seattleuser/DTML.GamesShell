@@ -38,11 +38,10 @@ class LeaderBoard extends Component {
     };
     }
 	
-	  recordLeaderBoardRegister(e) {
+recordLeaderBoardRegister(e) {
     ReactGA.event({
       		  category: `LeaderBoardRegister`,
        		  action: `click`,
-	     	  label: e.target.value
      		 });
   }
 	
@@ -138,7 +137,7 @@ class LeaderBoard extends Component {
 														  
                                                 </table>
 												<p className="card-text">The games only records activities of registered users. Register to participate.</p>
-												<a className="btn btn-primary" onClick={() => recordLeaderBoardRegister()} href="https://dtml.org/Registration/Student">Register</a>
+												<a className="btn btn-primary" onClick={() => this.recordLeaderBoardRegister()} href="https://dtml.org/Registration/Student">Register</a>
 												</div>
 								)} 
 								 {(!this.state.countries || this.state.countries_error) && (
@@ -180,7 +179,7 @@ class LeaderBoard extends Component {
                                                 </table>
 												
 												<p className="card-text">The games only records activities of registered users. Register to participate.</p>
-												<a className="btn btn-primary" onClick={() => recordLeaderBoardRegister()}  href="https://dtml.org/Registration/Student">Register</a>
+												<a className="btn btn-primary" onClick={() => this.recordLeaderBoardRegister()}  href="https://dtml.org/Registration/Student">Register</a>
 												</div>
 								)} 
 								 {(!this.state.best|| this.state.best_error) && (
