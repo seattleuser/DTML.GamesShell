@@ -48,12 +48,6 @@ class Gamecontent extends Component {
       action: `Game__${this.state.gameContent.id}`
     });
     ReactGA.pageview(window.location.hash);
-
-const script = document.createElement('script');
-    script.setAttribute(
-      'src', 
-      '//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=a13d96fc-d7d1-40d2-a1c8-0b8945bd5b3c');
-    document.body.appendChild(script);
    }
 
   componentWillMount() {
@@ -151,8 +145,7 @@ const script = document.createElement('script');
 	
     const min = 1;
     const max = 7;
-    const rand = Math.round(min + Math.random() * (max - min));
-   
+  
    return (
       <div>
         <div className="contentsection gamecontent">
@@ -221,12 +214,14 @@ const script = document.createElement('script');
               </div>
 	     </div>
 
-            <aside className="game-sidebar">
-                  <div className="game-login game-sidebar-box">
-<h3>SPONSORED LINKS</h3>
+                   <aside className="game-sidebar">
+                       {false && (
+                           <div className="game-login game-sidebar-box">
+                               <h3>SPONSORED LINKS</h3>
 
-<div id="amzn-assoc-ad-a13d96fc-d7d1-40d2-a1c8-0b8945bd5b3c"></div>
-  </div>
+                               <div id="amzn-assoc-ad-a13d96fc-d7d1-40d2-a1c8-0b8945bd5b3c"></div>
+                           </div>
+                       )}
 
               {this.state.gameContent.leaderboard &&
                 this.state.gameContent.leaderboard.length > 0 && (
