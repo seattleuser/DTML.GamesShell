@@ -91,7 +91,7 @@ class LeaderBoard extends Component {
                         <div className="contentsection-main-top">
                             <h6><b>Leaderboard</b></h6>
                             <div className="">
-                                <div className="row justify-content-around mt-md-3 ">The games only records activities of a site's registered users.</div>
+                                <div className="row justify-content-around mt-md-3 ">The games only records activities of registered users. Register your student account to participate.</div>
                                 <div className="row justify-content-around w-100">
 
                                     <div className="col-xs-8 mt-md-3 ">
@@ -103,6 +103,7 @@ class LeaderBoard extends Component {
   
                                             <div className="card-body">
                                 {this.state.countries && !this.state.countries_error && (
+																				<div>
                                                 <table className="table">
                                                     <thead className="thead-dark">
                                                     <tr>
@@ -125,8 +126,12 @@ class LeaderBoard extends Component {
                                                             <td scope="col">{item[1].medals}</td>
 															</tr>
 														  ))}
-
+														  
+														  
                                                 </table>
+												<p className="card-text">The games only records activities of registered users. Register to participate.</p>
+												<a className="btn btn-primary" href="https://dtml.org/Registration/Student">Register</a>
+												</div>
 								)} 
 								 {(!this.state.countries || this.state.countries_error) && (
 								
@@ -144,6 +149,7 @@ class LeaderBoard extends Component {
   </div>
                                             <div className="card-body">
                                                      {this.state.best && !this.state.best_error && (
+													 <div>
                                                 <table className="table">
                                                     <thead className="thead-dark">
                                                     <tr>
@@ -164,6 +170,10 @@ class LeaderBoard extends Component {
 														  ))}
 
                                                 </table>
+												
+												<p className="card-text">The games only records activities of registered users. Register to participate.</p>
+												<a className="btn btn-primary" href="https://dtml.org/Registration/Student">Register</a>
+												</div>
 								)} 
 								 {(!this.state.best|| this.state.best_error) && (
 								
