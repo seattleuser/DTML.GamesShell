@@ -67,7 +67,7 @@ class Footer extends Component {
                 <li>
                   <a href="https://www.linkedin.com/company/distant-teaching-and-mobile-learning">
                     <i className="fa fa-linkedin" />
-                  </a>
+                  </a>	
                 </li>
                 <li>
                   <a href="https://www.youtube.com/channel/UCwF13kloyxnifaNCHQUL2rQ/featured">
@@ -84,7 +84,7 @@ class Footer extends Component {
             </div>
             <div className="footersecion-main-right">
               <p>
-                dtml.org &copy; 2017-2019 All Rights Reserved |{` `}
+                <a href='https://jaasfoundation.org'>jaasfoundation.org</a> &copy; 2017-2020 All Rights Reserved |{` `}
                 <a href="https://dtml.org/Home/TermsandConditions">
                   {this.props.config.terms}
                 </a>

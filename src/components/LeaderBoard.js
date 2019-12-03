@@ -97,20 +97,18 @@ recordLeaderBoardRegister(e) {
                     <div className="contentsection-main">
                         <div className="contentsection-main-top">
                             <h6><b>Leaderboard</b></h6>
-                            <div className="">
-                                <div className="row justify-content-around mt-md-3 ">The games only records activities of registered users. Register your student account to participate.</div>
-                                <div className="row justify-content-around w-100">
-
-                                    <div className="col-xs-8 mt-md-3 ">
+                                <div className="row justify-content-around justify-content-around p-3">The games only records activities of registered users. Register your student account to participate.</div>
+                                <div className="row justify-content-around">
+                                    <div className="col-xs-6 mt-md-3">
                                         <div className="card">
                                             <div className="card-header">
                                                 <i className="fa fa-globe" aria-hidden="true"></i> 
-                                                <span className="pl-md-3">World wide ranking</span>
+                                                <span className="pl-3">World wide ranking</span>
 			</div>
   
                                             <div className="card-body">
-                                {this.state.countries && !this.state.countries_error && (
-																				<div>
+                                            {this.state.countries && !this.state.countries_error && (
+											<div>
                                                 <table className="table">
                                                     <thead className="thead-dark">
                                                     <tr>
@@ -121,20 +119,20 @@ recordLeaderBoardRegister(e) {
                                                             <th scope="col">Medals</th>
                                                         </tr>
                                                         </thead>
-														
+														<tbody>
 														  {Object.entries(this.state.countries).map((item, index) => (
 															<tr>
-														  <td scope="col">{index + 1}</td>
-														  <td scope="col"> 
-														  <img width="50px" className='border' src={`https://dtml.org/images/flags/${item[1].flag}`}></img>
+														  <td>{index + 1}</td>
+														  <td className="flag"> 
+														  <img className='border' src={`https://dtml.org/images/flags/${item[1].flag}`}></img>
 														  </td>
-														  <td scope="col">{item[0]}</td>
-                                                            <td scope="col">{item[1].score}</td>
-                                                            <td scope="col">{item[1].medals}</td>
+														  <td>{item[0]}</td>
+                                                            <td>{item[1].score}</td>
+                                                            <td>{item[1].medals}</td>
 															</tr>
 														  ))}
 														  
-														  
+												</tbody>		  
                                                 </table>
 												<p className="card-text">The games only records activities of registered users. Register to participate.</p>
 												<a className="btn btn-primary" onClick={() => this.recordLeaderBoardRegister()} href="https://dtml.org/Registration/Student">Register</a>
@@ -145,14 +143,13 @@ recordLeaderBoardRegister(e) {
 									<div> Loading ... </div>
 								 )}
 								</div>
+								 </div>
                                 </div>
-                            </div>
-
-                                    <div className="col-xs-6 mt-md-3">
+                                 <div className="col-xs-6 mt-md-3">
                                         <div className="card">
                                             <div className="card-header">
                                                 <i className="fa fa-trophy" aria-hidden="true"></i>
-                                                <span className="pl-md-3">Best of the best</span>
+                                                <span className="pl-3">Best of the best</span>
   </div>
                                             <div className="card-body">
                                                      {this.state.best && !this.state.best_error && (
@@ -166,7 +163,7 @@ recordLeaderBoardRegister(e) {
                                                             <th scope="col">Medals</th>
                                                         </tr>
                                                         </thead>
-														
+															<tbody>
 														  {Object.entries(this.state.best).map((item, index) => (
 															<tr>
 														  <td scope="col">{index + 1}</td>
@@ -175,7 +172,7 @@ recordLeaderBoardRegister(e) {
                                                             <td scope="col">{item[1].medals}</td>
 															</tr>
 														  ))}
-
+															</tbody>
                                                 </table>
 												
 												<p className="card-text">The games only records activities of registered users. Register to participate.</p>
@@ -187,7 +184,7 @@ recordLeaderBoardRegister(e) {
 									<div> Loading ... </div>
 								 )}
                                             </div>
-                                        </div>
+                                       
                                     </div>
                                 </div>
                             </div>

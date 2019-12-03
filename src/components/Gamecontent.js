@@ -214,14 +214,7 @@ class Gamecontent extends Component {
               </div>
 	     </div>
 
-                   <aside className="game-sidebar">
-                       {false && (
-                           <div className="game-login game-sidebar-box">
-                               <h3>SPONSORED LINKS</h3>
-
-                               <div id="amzn-assoc-ad-a13d96fc-d7d1-40d2-a1c8-0b8945bd5b3c"></div>
-                           </div>
-                       )}
+            <aside className="game-sidebar">
 
               {this.state.gameContent.leaderboard &&
                 this.state.gameContent.leaderboard.length > 0 && (
@@ -241,6 +234,8 @@ class Gamecontent extends Component {
                         </div>
                       );
                     })}
+					
+			      <p><a href='/esl/leaderboard/scores'>View full table</a></p>
                   </div>
                 )}
 
