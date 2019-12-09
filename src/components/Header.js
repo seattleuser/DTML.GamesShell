@@ -56,7 +56,6 @@ class Header extends Component {
       });
 
 	  that.setState({ showBanner: false});   
-   
   }
 
   render() {
@@ -197,11 +196,9 @@ class Header extends Component {
                         {this.props.config.hello}, {this.state.username}
                       </a>
                     </li>
-                    <li>
-                      <a href="https://dtml.org/Student/PersonalProfile">
-                        {this.props.config.profile}
-                      </a>
-                    </li>
+                      <li>
+                        <a href="/esl/leaderboard/scores">{this.props.config.Leaderboard}</a>
+                      </li>
                     <li>
                       <a href="https://dtml.org/esl/">
                         {this.props.config.game}

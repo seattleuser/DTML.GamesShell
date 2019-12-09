@@ -33,7 +33,8 @@ class LeaderBoard extends Component {
 		this.state = {
       countries: null,
       countries_error: null,
-	  best: null,
+      best: null,
+      config: props.config,
       best_error: null,
     };
     }
@@ -86,8 +87,15 @@ recordLeaderBoardRegister(e) {
   }
 
     render() {
-        let bannerImageUrl = `/images/banner_new.jpg`;
-				  console.log(this.state.countries);
+    let bannerImageUrl = `/images/banner_new.jpg`;
+	let searchStyle = {display: 'none'};
+	let titleStyle ={};
+	let hideMoreStyle = this.state.hideMore ? {display:'none'}: {};
+	
+    if (!isEmpty(this.state.config.customization)) {
+      const custom = this.state.config.customization;
+      bannerImageUrl = custom.BannerURL;
+     }
         return (
             <div>
                 <div className="bannersection_list">
@@ -96,7 +104,7 @@ recordLeaderBoardRegister(e) {
                 <div className="contentsection">
                     <div className="contentsection-main">
                         <div className="contentsection-main-top">
-                            <h6><b>Leaderboard</b></h6>
+                            <h6><b>{this.props.config.Leaderboard}</b></h6>
                                 <div className="row justify-content-around justify-content-around p-3">The games only records activities of registered users. Register your student account to participate.</div>
                                 <div className="row justify-content-around">
                                     <div className="col-xs-6 mt-md-3">
