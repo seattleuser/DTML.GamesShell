@@ -105,7 +105,7 @@ recordLeaderBoardRegister(e) {
                     <div className="contentsection-main">
                         <div className="contentsection-main-top">
                             <h6><b>{this.props.config.Leaderboard}</b></h6>
-                                <div className="row justify-content-around justify-content-around p-3">The games only records activities of registered users. Register your student account to participate.</div>
+                                <div className="row justify-content-around justify-content-around p-3">{this.props.config.registerMessage}</div>
                                 <div className="row justify-content-around">
                                     <div className="col-xs-6 mt-md-3">
                                         <div className="card">
@@ -120,11 +120,11 @@ recordLeaderBoardRegister(e) {
                                                 <table className="table">
                                                     <thead className="thead-dark">
                                                     <tr>
-                                                            <th scope="col">#Rank</th>
+                                                            <th scope="col">#</th>
                                                             <th scope="col"></th>
-                                                            <th scope="col">Coutry</th>
-                                                            <th scope="col">Index</th>
-                                                            <th scope="col">Medals</th>
+                                                            <th scope="col">{this.props.config.country}</th>
+                                                            <th scope="col">{this.props.config.index}</th>
+                                                            <th scope="col">{this.props.config.medals}</th>
                                                         </tr>
                                                         </thead>
 														<tbody>
@@ -142,8 +142,8 @@ recordLeaderBoardRegister(e) {
 														  
 												</tbody>		  
                                                 </table>
-												<p className="card-text">The games only records activities of registered users. Register to participate.</p>
-												<a className="btn btn-primary" onClick={() => this.recordLeaderBoardRegister()} href="https://dtml.org/Registration/Student">Register</a>
+												<p className="card-text">{this.props.config.registerMessage}</p>
+												<a className="btn btn-primary" onClick={() => this.recordLeaderBoardRegister()} href="https://dtml.org/Registration/Student">{this.props.config.register}</a>
 												</div>
 								)} 
 								 {(!this.state.countries || this.state.countries_error) && (
@@ -157,7 +157,7 @@ recordLeaderBoardRegister(e) {
                                         <div className="card">
                                             <div className="card-header">
                                                 <i className="fa fa-trophy" aria-hidden="true"></i>
-                                                <span className="pl-3">Best of the best</span>
+                                                <span className="pl-3">{this.props.config.bestofbest}</span>
   </div>
                                             <div className="card-body">
                                                      {this.state.best && !this.state.best_error && (
@@ -165,10 +165,10 @@ recordLeaderBoardRegister(e) {
                                                 <table className="table">
                                                     <thead className="thead-dark">
                                                     <tr>
-                                                            <th scope="col">#Rank</th>
-                                                            <th scope="col">Name</th>
-                                                            <th scope="col">Index</th>
-                                                            <th scope="col">Medals</th>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">{this.props.config.name}</th>
+                                                            <th scope="col">{this.props.config.index}</th>
+                                                            <th scope="col">{this.props.config.medals}</th>
                                                         </tr>
                                                         </thead>
 															<tbody>
@@ -183,8 +183,8 @@ recordLeaderBoardRegister(e) {
 															</tbody>
                                                 </table>
 												
-												<p className="card-text">The games only records activities of registered users. Register to participate.</p>
-												<a className="btn btn-primary" onClick={() => this.recordLeaderBoardRegister()}  href="https://dtml.org/Registration/Student">Register</a>
+												<p className="card-text">{this.props.config.registerMessage}</p>
+												<a className="btn btn-primary" onClick={() => this.recordLeaderBoardRegister()}  href="https://dtml.org/Registration/Student">{this.props.config.register}</a>
 												</div>
 								)} 
 								 {(!this.state.best|| this.state.best_error) && (

@@ -21,7 +21,8 @@ import { isEmpty } from "lodash";
 import { Link } from "react-router-dom";
 import "babel-polyfill";
 import * as utils from './utils.js'; 
-
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+var Carousel = require('react-responsive-carousel').Carousel;
 const imageurl = `https://dtml.org/esl/`;
 let listcontent = [];
 
@@ -40,21 +41,31 @@ const getFirstLine = str => {
   return str.substr(0, breakIndex + 1);
 };
 
+let themes = ["brown", "brown", "blue", "grey"];
+
 let gamesList = [];
 
 class Gamelist extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchstring: ``,
-      listcounter: 12,
-      config: props.config,
-      sortProperty: `initial`,
-      sortAsc: true
-    };
-    gamesList = props.config.games;
-    this.sortGamesArray(`random`);
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchstring: ``,
+            listcounter: 12,
+            config: props.config,
+            sortProperty: `initial`,
+            sortAsc: true
+        };
+        gamesList = props.config.games;
+        this.sortGamesArray(`random`);
+    }
+
+    componentDidMount()
+    {
+        if (localStorage) {
+            let index = localStorage.getItem('data-theme-index');
+            document.documentElement.setAttribute("data-theme", themes[index]);
+        }
+    }
 
   gameSelected(listItem) {
     this.props.Selected(false, listItem);
@@ -71,7 +82,19 @@ class Gamelist extends Component {
   searchChange(e) {
     this.setState({ searchstring: e.target.value });
 	
-  }
+    }
+
+    bannerChange(index) {
+         ReactGA.event({
+            category: `BannerChange`,
+            action: `click`,
+        });
+
+        if (localStorage) {
+            localStorage.setItem('data-theme-index', index);
+        }
+        document.documentElement.setAttribute("data-theme", themes[index]);
+    }
 
   showMore() {
     this.setState({ listcounter: this.state.listcounter + 100 });
@@ -104,13 +127,17 @@ class Gamelist extends Component {
     }
   }
 
-  render() {
+    render() {
+
+    let index = 0;
+    if (localStorage) index = localStorage.getItem('data-theme-index');
     let bannerImageUrl = `/images/banner_new.jpg`;
 	let searchStyle = {display: 'none'};
 	let titleStyle ={};
 	let hideMoreStyle = this.state.hideMore ? {display:'none'}: {};
-	
-    if (!isEmpty(this.state.config.customization)) {
+    const customization = !isEmpty(this.state.config.customization);
+
+    if (customization) {
       const custom = this.state.config.customization;
       bannerImageUrl = custom.BannerURL;
 	  searchStyle = custom.HideSearch ? {display: 'none'} : {};
@@ -170,10 +197,22 @@ class Gamelist extends Component {
     }
 
     return (
-      <div>
-        <div className="bannersection_list">
+        <div>
+            <Carousel showArrows={true} selectedItem={index} showThumbs={false} showStatus={false} onChange={this.bannerChange}>
+        <div>
 		{bannerImageUrl && bannerImageUrl !=='' && (<img src={bannerImageUrl} alt="Banner" />)}
         </div>
+                <div>
+                    {bannerImageUrl && bannerImageUrl !== '' && (<img src="/images/banner4.png" alt="Banner" />)}
+                </div>
+                <div>
+                    {bannerImageUrl && bannerImageUrl !== '' && (<img src="/images/banner3.png" alt="Banner" />)}
+                </div>
+                <div>
+                    {bannerImageUrl && bannerImageUrl !== '' && (<img src="/images/banner2.png" alt="Banner" />)}
+                </div>
+
+        </Carousel>
         <div className="contentsection">
           <div className="contentsection-main">
             <div className="contentsection-main-top">
@@ -184,8 +223,7 @@ class Gamelist extends Component {
                     <input
                       name=""
                       type="text"
-                      onKeyUp={this.searchChange.bind(this)}
-		      onBlur={this.recordSearch.bind(this)}
+                      onKeyUp={this.searchChange.bind(this)}  onBlur={this.recordSearch.bind(this)}
                       placeholder={this.state.config.findlesson}
                     />
                     <input
