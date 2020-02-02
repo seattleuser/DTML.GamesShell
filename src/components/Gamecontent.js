@@ -20,7 +20,6 @@ import { isEmpty } from "lodash";
 import arrayShuffle from "array-shuffle";
 import "babel-polyfill";
 import * as utils from './utils.js'; 
-import Share from "./Share";
 
 const rankingURL = `https://dtml.org/api/RatingService/Rank`;
 const loginURL = `https://dtml.org/api/UserService/User/`;
@@ -33,6 +32,7 @@ class Gamecontent extends Component {
       rating: 0,
 	  loggedin: false,
           username: ``,
+	   loading:true,
 	  config: props.config,
       gameContent: props.gameContent,
       frameText: ``,
@@ -49,6 +49,12 @@ class Gamecontent extends Component {
     });
     ReactGA.pageview(window.location.hash);
    }
+
+  hideSpinner = () => {
+    this.setState({
+      loading: false
+    });
+  };
 
   componentWillMount() {
      if (isEmpty(this.state.gameContent)) {
@@ -97,11 +103,7 @@ class Gamecontent extends Component {
       .catch(error => {
         console.log(`Request failed ${error}`);
         that.setState({ loggedin: false });
-        });
-
-    
-
-
+        })
       const userLang = navigator.language || navigator.userLanguage;
       this.setState({ userLanguage: userLang });
       this.setState({ customization: this.props.config.customization });
@@ -117,7 +119,7 @@ class Gamecontent extends Component {
 
        fetch(url, {
         method: `post`,
-	credentials: `include`,
+	    credentials: `include`,
         headers: {
           "Content-Type": `application/json`,
            Accept: `application/json, text/plain, */*`
@@ -152,7 +154,7 @@ class Gamecontent extends Component {
           <div className="contentsection-main">
             <div className="gamesection">
               <div className="gamesection01">
-		<h1 style={titleStyle} className="gameTitle">{this.state.gameContent.title}</h1>
+		        <h1 style={titleStyle} className="gameTitle">{this.state.gameContent.title}</h1>
                 <p style={titleStyle}>{this.state.gameContent.description}</p>
                 {instruction}
                 <div className="clr" />
@@ -162,10 +164,11 @@ class Gamecontent extends Component {
                 <div id="framecontainer">
                   <iframe
                     className="gameframe"
-                    allowtransparency="true"
+                    allowtransparency="false"
                     title={this.state.gameContent.title}
+                    onLoad={this.hideSpinner}
                     scrolling="no"
-	             src = {(this.state.gameContent.url.indexOf('?')>0) ? `${this.state.gameContent.url}&tic=${date}&mkt=${this.state.userLanguage}`:`${this.state.gameContent.url}?tic=${date}&mkt=${this.state.userLanguage}`}
+	                src = {(this.state.gameContent.url.indexOf('?')>0) ? `${this.state.gameContent.url}&tic=${date}&mkt=${this.state.userLanguage}`:`${this.state.gameContent.url}?tic=${date}&mkt=${this.state.userLanguage}`}
                     frameBorder="0"
                   />
                 </div>

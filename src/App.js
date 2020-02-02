@@ -26,6 +26,7 @@ import NotSupported from "./components/NotSupported";
 import Footer from "./components/Footer";
 import LeaderBoard from "./components/LeaderBoard";
 import Gamelist from "./components/Gamelist";
+import CacheFill from "./components/CacheFill";
 import Gamecontent from "./components/Gamecontent";
 import BugReporterContainer from "./components/BugReporter";
 import "./css/style.css";
@@ -137,6 +138,15 @@ class App extends Component {
               path="/leaderboard/scores"
               component={() => (
                 <LeaderBoard
+                  config={this.state.config}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/cache/fill"
+              component={() => (
+                <CacheFill
                   config={this.state.config}
                 />
               )}
