@@ -193,7 +193,7 @@ class Gamecontent extends Component {
             <aside className="game-sidebar">
 			
 			
-			{this.state.loggedin && (
+			{(this.state.loggedin && (this.props.config.userData.isStudent == true)) && (
               <div className="game-relatedGames game-sidebar-box">
                 <h3>
                   {this.props.config.profile}
