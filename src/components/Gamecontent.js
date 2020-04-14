@@ -100,8 +100,20 @@ class Gamecontent extends Component {
       });
     }
   }
-
+  
   render() {
+
+   const recordclick = (value) => {
+ 	  try
+	  {
+      ReactGA.event({
+        category: `click`,
+        action: value, 
+	    label:window.store.countryName
+      });
+	  }
+	  catch(e) {}
+    };
 	
 	let titleStyle = {};
 	if (this.state.customization) {	  	
@@ -207,6 +219,7 @@ class Gamecontent extends Component {
 				   <a
                     className="game-registerButton"
                     href="https://dtml.org/Student/PersonalProfile"
+					onClick={() => recordclick('studentProfile')}
                   >
                     {this.props.config.yourProfile}
                   </a>
@@ -267,6 +280,7 @@ class Gamecontent extends Component {
                   <a
                     className="game-registerButton"
                     href="https://dtml.org/Registration/Organization"
+					onClick={() => recordclick('registerSchoolButton')}
                   >
                     {this.props.config.registerSchoolButton}
                   </a>
