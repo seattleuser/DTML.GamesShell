@@ -13,7 +13,7 @@
     "glamor": "^2.20.40",
     "lodash": "^4.17.11",
     "node-fetch": "^1.7.3",
-    "npm": "^6.9.0",
+    "npm": "^6.14.4",
     "postal": "^2.0.5",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
@@ -30,7 +30,7 @@
     "save": "^2.4.0"
   },
   "scripts": {
-    "dev": "react-scripts start",
+    "dev": "set PORT=3000 && react-scripts start",
     "deploy": "react-scripts build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

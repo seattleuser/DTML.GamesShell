@@ -22,7 +22,7 @@ import "babel-polyfill";
 import * as utils from './utils.js'; 
 
 const rankingURL = `https://dtml.org/api/RatingService/Rank`;
-const loginURL = `https://dtml.org/api/UserService/User/`;
+
 
 class Gamecontent extends Component {
   constructor(props) {
@@ -31,8 +31,7 @@ class Gamecontent extends Component {
     this.state = {
       rating: 0,
 	  loggedin: false,
-          username: ``,
-	   loading:true,
+	  loading:true,
 	  config: props.config,
       gameContent: props.gameContent,
       frameText: ``,
@@ -77,38 +76,12 @@ class Gamecontent extends Component {
 
       this.setState({ gameContent });
 	 }
-
-      const that = this;	 
-      that.setState({ loggedin: true});
-
-       fetch(loginURL, { credentials: `include`, cache: "no-store" })
-       .then(response => {
-        if (response.status >= 300) {
-          console.log(`Bad response from server`);
-          that.setState({ loggedin: false });
-          window.store.loggedin = false;
-        }
-        return response.json();
-      })
-      .then(data => {
-        that.setState({ user: data });
-        if (data !== `` && data.userName) {
-         that.setState({ loggedin: true });
-        }
-		 else
-		 {
-		 that.setState({ loggedin: false });
-		 }
-      })
-      .catch(error => {
-        console.log(`Request failed ${error}`);
-        that.setState({ loggedin: false });
-        })
+  
       const userLang = navigator.language || navigator.userLanguage;
       this.setState({ userLanguage: userLang });
       this.setState({ customization: this.props.config.customization });
-
-      that.setState({ rating: this.state.gameContent.rating });
+	  this.setState({ loggedin: this.props.config.userData !== null });
+      this.setState({ rating: this.state.gameContent.rating });
    }
 
   handleRate({ rating, type }) {
@@ -218,6 +191,28 @@ class Gamecontent extends Component {
 	     </div>
 
             <aside className="game-sidebar">
+			
+			
+			{this.state.loggedin && (
+              <div className="game-relatedGames game-sidebar-box">
+                <h3>
+                  {this.props.config.profile}
+                </h3>
+				<div>
+				   <img  className="game-profile-image" src="/images/trophy.png" alt={this.props.config.profile} />
+			    </div>
+				<p className="game-profile">
+                  {this.props.config.trophies} 
+				  {this.props.config.playmore}
+				   <a
+                    className="game-registerButton"
+                    href="https://dtml.org/Student/PersonalProfile"
+                  >
+                    {this.props.config.yourProfile}
+                  </a>
+				</p>
+              </div>
+)}
 
               {this.state.gameContent.leaderboard &&
                 this.state.gameContent.leaderboard.length > 0 && (
@@ -241,6 +236,7 @@ class Gamecontent extends Component {
 			      <p><a href='/esl/leaderboard/scores'>View full table</a></p>
                   </div>
                 )}
+
 
 
 {this.props.config.games && (

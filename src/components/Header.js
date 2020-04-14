@@ -20,42 +20,17 @@ import "babel-polyfill";
 import "../css/style.css";
 
 const imageurl = `/`;
-const loginURL = `https://dtml.org/Activity/GetUserName`;
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedin: false,
-      username: ``,
       showBanner: false
     };
   }
   
   componentWillMount() {
-    const that = this;
-    fetch(loginURL, { credentials: `include` })
-      .then(response => {
-        if (response.status >= 400) {
-          console.log(`Bad response from server`);
-          that.setState({ loggedin: false });
-          window.store.loggedin = false;
-        }
-        return response.json();
-      })
-      .then(data => {
-        that.setState({ username: data });
-        window.store.username = data;
-        if (data !== ``) {
-          that.setState({ loggedin: true });
-          window.store.loggedin = true;
-        }
-      })
-      .catch(error => {
-        console.log(`Request failed ${error}`);
-      });
-
-	  that.setState({ showBanner: false});   
+    this.setState({ showBanner: false});   
   }
 
   render() {
@@ -140,10 +115,10 @@ class Header extends Component {
           <div className="logosection-main">
             <div className="logosection-main-left">{Logo}</div>
 
-            {!this.state.loggedin ? (
+            {this.props.config.userData === null ? (
               <div className="logosection-main-right">
                 <div className="logosection-main-right01">
-                  {!this.props.config.customization ? (
+                  {!this.props.userData ? (
                     <ul>
                       <li>
                         <a href="https://dtml.org">{this.props.config.home}</a>
@@ -190,10 +165,10 @@ class Header extends Component {
                       <a
                         href="https://dtml.org/Student/PersonalProfile"
                         title={`${this.props.config.hello}, ${
-                          this.state.username
+                          this.props.config.userData.UserName
                         }`}
                       >
-                        {this.props.config.hello}, {this.state.username}
+                        {this.props.config.hello}, {this.props.config.userData.UserName}
                       </a>
                     </li>
                       <li>

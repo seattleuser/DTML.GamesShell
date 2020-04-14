@@ -810,6 +810,41 @@ html {
     .game-sidebar-box p {
         line-height: 1.4em;
     }
+	
+	.game-trophy-image
+	{
+		padding: 5px;
+	}
+	
+	.game-profile
+	{
+			display:block;
+			clear:both;
+			width:100%;
+	}
+	
+	.game-trophy-text
+	{
+		text-align: center;
+		display:inline-block;;
+		float:right;
+		clear:right;
+	}
+	
+	.game-profile
+	{
+	  padding:10px;
+      text-align:center;	  
+	}
+	
+		.game-profile-image
+	{
+		text-align: center;
+		display: block;
+		justify-content: center;
+		align-items: center;
+		margin: auto;
+	}
 
     .game-sidebar .game-loginButton,
     .game-sidebar .game-registerButton {
