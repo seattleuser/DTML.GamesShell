@@ -211,7 +211,7 @@ class Gamecontent extends Component {
                   {this.props.config.profile}
                 </h3>
 				<div>
-				   <img  className="game-profile-image" src="/images/trophy.png" alt={this.props.config.profile} />
+				   <img  className="game-profile-image" src="https://dtml.org/images/trophy.png" alt={this.props.config.profile} />
 			    </div>
 				<p className="game-profile">
                   {this.props.config.trophies} 
