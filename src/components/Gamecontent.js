@@ -20,6 +20,7 @@ import { isEmpty } from "lodash";
 import arrayShuffle from "array-shuffle";
 import "babel-polyfill";
 import * as utils from './utils.js'; 
+import Confetti from 'react-dom-confetti';
 
 const rankingURL = `https://dtml.org/api/RatingService/Rank`;
 
@@ -27,11 +28,17 @@ const rankingURL = `https://dtml.org/api/RatingService/Rank`;
 class Gamecontent extends Component {
   constructor(props) {
     super(props);
+	 var min = 0;
+     var max = 11;
+     var rand =  Number(min + (Math.random() * (max-min))).toFixed(0);
+   
     console.log(props);
     this.state = {
       rating: 0,
 	  loggedin: false,
+	  completed : false,
 	  loading:true,
+	  image: 'https://dtml.org/images/avatars/a'+rand+".png",
 	  config: props.config,
       gameContent: props.gameContent,
       frameText: ``,
@@ -86,6 +93,8 @@ class Gamecontent extends Component {
 
   handleRate({ rating, type }) {
     if (type === `click`) {
+	  this.setState({ rating: rating });
+	  this.setState({ completed: true });
       const url = `${rankingURL}/?key=${
         this.state.gameContent.id
       }&rank=${rating}`;
@@ -102,14 +111,15 @@ class Gamecontent extends Component {
   }
   
   render() {
-
+	  
    const recordclick = (value) => {
+	   
  	  try
 	  {
       ReactGA.event({
         category: `click`,
         action: value, 
-	    label:window.store.countryName
+	    label:this.state.image
       });
 	  }
 	  catch(e) {}
@@ -164,9 +174,10 @@ class Gamecontent extends Component {
                     <div>
                       <Rater
                         total={5}
-                        rating={this.state.rating}
+                        rating={this.state.rating && this.state.rating > 0 ? this.state.rating : 3}
                         onRate={this.handleRate.bind(this)}
-                      />
+                      />					   
+					  <Confetti active={ this.state.completed } />
                     </div>
 
                     <div className="clr" />
@@ -227,6 +238,26 @@ class Gamecontent extends Component {
               </div>
 )}
 
+	{(!this.state.loggedin) && (
+              <div className="game-relatedGames game-sidebar-box">
+			  <h3>{this.props.config.register}</h3>	
+                <p className="game-registerExplainer">
+				    <img  className="game-profile-image" src={this.state.image} alt={this.props.config.register} />
+                  <p className='TextCenter'>{this.props.config.registerMessage} </p>
+                </p>
+                <p className='TextCenter'>
+                  <a
+                    className="game-registerButton"
+                    href="https://dtml.org/Registration/Organization"
+					onClick={() => recordclick('registerStudent')}
+                  >
+                    {this.props.config.register}
+                  </a>
+                </p>
+              </div>
+)}
+
+
               {this.state.gameContent.leaderboard &&
                 this.state.gameContent.leaderboard.length > 0 && (
                   <div className="game-leaderboard game-sidebar-box">
@@ -246,7 +277,7 @@ class Gamecontent extends Component {
                       );
                     })}
 					
-			      <p><a href='/esl/leaderboard/scores'>View full table</a></p>
+			      <p className='TextCenter'><a href='/esl/leaderboard/scores'>{this.props.config.viewall ? this.props.config.viewall : "View All"}</a></p>
                   </div>
                 )}
 

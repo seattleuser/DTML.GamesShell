@@ -806,10 +806,15 @@ html {
     .game-relatedGames.game-sidebar-box h3 {
         background: rgb(96, 128, 96);
     }
-
+	
     .game-sidebar-box p {
         line-height: 1.4em;
     }
+	
+	.TextCenter
+	{
+		text-align:center;
+	}
 	
 	.game-trophy-image
 	{
