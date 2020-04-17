@@ -248,7 +248,7 @@ class Gamecontent extends Component {
                 <p className='TextCenter'>
                   <a
                     className="game-registerButton"
-                    href="https://dtml.org/Registration/Organization"
+                    href="https://dtml.org/Registration/Student"
 					onClick={() => recordclick('registerStudent')}
                   >
                     {this.props.config.register}
