@@ -153,14 +153,12 @@ class Gamecontent extends Component {
 
     let instruction = null;
     const today = new Date();
-	this.props.config.gameVideoID = 'asdsadsadsadsa';
-	
     const date = `${today.getFullYear()}${today.getMonth()}${today.getDate()}`;
 
    let video= this.props.gameContent.gameVideoID && this.props.gameContent.gameVideoID !='' && this.props.config.howtoplayvideo && (
       <div>
-        <ModalVideo channel='youtube' isOpen={this.state.isOpen} videoId={this.props.config.gameVideoID} onClose={() => this.setState({isOpen: false})} />
-        <button className='playVideoButton' onClick={this.openModal} > <FontAwesomeIcon icon={faVideo} />{this.props.config.howtoplayvideo}</button>
+        <ModalVideo channel='youtube' isOpen={this.state.isOpen} videoId={this.props.gameContent.gameVideoID} onClose={() => this.setState({isOpen: false})} />
+        <button className='playVideoButton' onClick={this.openModal} > <FontAwesomeIcon icon={faVideo} />{' '}{this.props.config.howtoplayvideo}{' '}</button>
       </div>
     );
 
