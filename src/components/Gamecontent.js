@@ -14,13 +14,16 @@ under the License.
 */
 
 import React, { Component } from "react";
-import Rater from "react-rater";
 import ReactGA from "react-ga";
+import Rater from "react-rater";
 import { isEmpty } from "lodash";
 import arrayShuffle from "array-shuffle";
 import "babel-polyfill";
 import * as utils from './utils.js'; 
 import Confetti from 'react-dom-confetti';
+import ModalVideo from 'react-modal-video';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faVideo } from '@fortawesome/free-solid-svg-icons';
 
 const rankingURL = `https://dtml.org/api/RatingService/Rank`;
 
@@ -31,6 +34,11 @@ class Gamecontent extends Component {
 	 var min = 0;
      var max = 11;
      var rand =  Number(min + (Math.random() * (max-min))).toFixed(0);
+
+    this.state = {
+      isOpen: false
+    }
+    this.openModal = this.openModal.bind(this)
    
     console.log(props);
     this.state = {
@@ -91,6 +99,19 @@ class Gamecontent extends Component {
       this.setState({ rating: this.state.gameContent.rating });
    }
 
+  openModal () {
+    this.setState({isOpen: true});
+	try
+	  {
+      ReactGA.event({
+        category: `click`,
+        action: "PlayGameVideo", 
+	    label:this.state.gameContent.title
+      });
+	  }
+	  catch(e) {}
+  }
+
   handleRate({ rating, type }) {
     if (type === `click`) {
 	  this.setState({ rating: rating });
@@ -132,11 +153,22 @@ class Gamecontent extends Component {
 
     let instruction = null;
     const today = new Date();
+	this.props.config.gameVideoID = 'asdsadsadsadsa';
+	
     const date = `${today.getFullYear()}${today.getMonth()}${today.getDate()}`;
-    instruction = (
+
+   let video= this.props.gameContent.gameVideoID && this.props.gameContent.gameVideoID !='' && this.props.config.howtoplayvideo && (
       <div>
-        <div className="howtoplay"><p  style={titleStyle}>{this.props.config.howtoplay}</p></div>
+        <ModalVideo channel='youtube' isOpen={this.state.isOpen} videoId={this.props.config.gameVideoID} onClose={() => this.setState({isOpen: false})} />
+        <button className='playVideoButton' onClick={this.openModal} > <FontAwesomeIcon icon={faVideo} />{this.props.config.howtoplayvideo}</button>
+      </div>
+    );
+
+    instruction = this.props.config.howtoplay && (
+      <div>
+        <div className="howtoplay">{this.props.config.howtoplay}</div>
         <p  style={titleStyle}>{this.state.gameContent.instruction}</p>
+	{video}
       </div>
     );
 	

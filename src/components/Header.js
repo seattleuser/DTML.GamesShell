@@ -18,6 +18,7 @@ import { isEmpty, keys } from "lodash";
 import ReactGA from "react-ga";
 import "babel-polyfill";
 import "../css/style.css";
+import ModalVideo from 'react-modal-video'
 
 const imageurl = `/`;
 
@@ -121,7 +122,7 @@ class Header extends Component {
                   {!this.props.userData ? (
                     <ul>
                       <li>
-                        <a href="https://dtml.org">{this.props.config.home}</a>
+                        <a href="https://dtml.org/esl/">{this.props.config.home}</a>
                       </li>
                       <li>
                         <a href="/esl/leaderboard/scores">{this.props.config.Leaderboard}</a>

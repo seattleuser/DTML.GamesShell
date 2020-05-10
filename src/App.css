@@ -1,5 +1,4 @@
-@import "http://blog.dtml.org/Custom/Themes/Clean/src/css/bootstrap.min.css";
-@import "http://blog.dtml.org/Custom/Themes/Clean/src/css/styles.min.css";
+@import 'node_modules/react-modal-video/scss/modal-video.scss';
 
 .App {
   text-align: center;
