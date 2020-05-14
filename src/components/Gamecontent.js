@@ -157,7 +157,7 @@ class Gamecontent extends Component {
 
    let video= this.props.gameContent.gameVideoID && this.props.gameContent.gameVideoID !='' && this.props.config.howtoplayvideo && (
       <div>
-        <ModalVideo channel='youtube' isOpen={this.state.isOpen} videoId={this.props.gameContent.gameVideoID} onClose={() => this.setState({isOpen: false})} />
+        <ModalVideo channel='youtube' youtube = {{ autoplay : 0, origin:'dtml.org'}} isOpen={this.state.isOpen} videoId={this.props.gameContent.gameVideoID} onClose={() => this.setState({isOpen: false})} />
         <button className='playVideoButton' onClick={this.openModal} > <FontAwesomeIcon icon={faVideo} />{' '}{this.props.config.howtoplayvideo}{' '}</button>
       </div>
     );
