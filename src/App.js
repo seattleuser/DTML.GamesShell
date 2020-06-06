@@ -26,8 +26,10 @@ import NotSupported from "./components/NotSupported";
 import Footer from "./components/Footer";
 import LeaderBoard from "./components/LeaderBoard";
 import Gamelist from "./components/Gamelist";
+import VideoList from "./components/Videolist";
 import CacheFill from "./components/CacheFill";
 import Gamecontent from "./components/Gamecontent";
+import VideoContent from "./components/VideoContent";
 import BugReporterContainer from "./components/BugReporter";
 import "./css/style.css";
 import "./css/font-awesome.min.css";
@@ -45,8 +47,10 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      done: true,
-      gameContent: []
+        done: true,
+        gameContent: [],
+        videoContent: [],
+        videos: null
     };
   }
 
@@ -66,7 +70,6 @@ class App extends Component {
 
       const logURL = errorurl + JSON.stringify(data);
       fetch(logURL, { credentials: `include`, cache: "no-store" });
-      console.log(data);
       return false;
     };
   }
@@ -102,7 +105,7 @@ class App extends Component {
 	}
       })
       .then(data => {   that.setState({ config: data })})
-      .catch(err => {  this.setState({ isNoSupported : true}); });
+       .catch(err => { this.setState({ isNoSupported: true }); });
   }
 
   onSelectedGame(newdone, newContent) {
@@ -111,9 +114,19 @@ class App extends Component {
     window.scrollTo(0, 0);
     ReactGA.event({
       category: `Navigation`,
-      action: `Game selected`
+      action: `GameSelected`
     });
-  }
+    }
+
+    onSelectedVideo(newdone, newContent) {
+        this.setState({ done: newdone });
+        this.setState({ videoContent: newContent });
+        window.scrollTo(0, 0);
+        ReactGA.event({
+            category: `Navigation`,
+            action: `VideoSelected`
+        });
+    }
 
   render() {
     if (this.state.isNoSupported) {
@@ -141,7 +154,17 @@ class App extends Component {
                   config={this.state.config}
                 />
               )}
-            />
+                  />
+                  <Route
+                      exact
+                      path="/videos/view"
+                      component={() => (
+                          <VideoList
+                              config={this.state.config}       
+                              Selected={this.onSelectedVideo.bind(this)}
+                          />
+                      )}
+                  />
             <Route
               exact
               path="/cache/fill"
@@ -160,7 +183,17 @@ class App extends Component {
                   config={this.state.config}
                 />
               )}
-            />
+                  />
+                  <Route
+                      exact
+                      path="/videos/details/:videoId"
+                      component={() => (
+                          <VideoContent
+                              videoContent={this.state.videoContent}
+                              config={this.state.config}
+                          />
+                      )}
+                  />
             <BugReporterContainer config={this.state.config} />
             <Footer config={this.state.config} />
           </div>

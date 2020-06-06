@@ -45,7 +45,9 @@ class NotSupported extends Component {
     <div className='notsupported-wrapper'>
     <h2>We do not support the browser version you are using</h2>
     <span>You are seeing this page because we detected an unsupported browser. Your browser does not support security features that we require. We highly recommend that you update your browser. If you believe you have arrived here in error, please contact us. Be sure to include your browser version.</span>
-    <div className="browsers-container">
+            <div className="browsers-container">
+                <br/>
+                <a href='https://dtml.org'> Go to DTML home page </a>
 
         <h2 className="supported-intro">Browsers we recommend:</h2>
 

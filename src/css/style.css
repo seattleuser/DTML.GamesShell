@@ -11,24 +11,42 @@ html {
     html[data-theme="brown"] {
         --menuColor: #ae9167;
         --cardImage: url("/images/card_bk.png");
+        --cardFooter: #ddc5a1;
     }
 
     html[data-theme="grey"] {
         --menuColor: #6c6d70;
         --cardImage: url("/images/card_grey.png");
+        --cardFooter: #fff;
     }
 
     html[data-theme="blue"] {
         --menuColor: #368ab6;
         --cardImage: url("/images/card_blue.png");
+        --cardFooter: #8ecffa;
+        --cardBody: #8babdc;
     }
 
-    /* 	-----------------------------------------------------
+.videoCardStyle {
+    width: 16rem;
+    height: 500px;
+    display: inline-block !important;
+    margin: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: 1px solid #000;
+    background-color: var(--cardFooter) !important;
+    }
+
+.videoCardBody {
+    background-color: var(--cardBody) !important;
+}
+
+/* 	-----------------------------------------------------
 	------------------- General Styles ------------------
 	----------------------------------------------------- */
-    article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, main {
-        display: block;
-    }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, main {
+    display: block;
+}
 
     audio, canvas, video {
         display: inline-block;

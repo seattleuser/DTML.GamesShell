@@ -122,15 +122,15 @@ class Header extends Component {
                   {!this.props.userData ? (
                     <ul>
                       <li>
-                        <a href="https://dtml.org/esl/">{this.props.config.home}</a>
+                                            <a href="https://dtml.org/esl/">{this.props.config.game}</a>
                       </li>
-                      <li>
+                                        <li>
+                                            <a href="/esl/videos/view">
+                                                {this.props.config.videos || 'Videos'}
+                                            </a>
+                                        </li>
+                                        <li>
                         <a href="/esl/leaderboard/scores">{this.props.config.Leaderboard}</a>
-                      </li>
-                      <li>
-                        <a href="https://jaasfoundation.org/about-us/">
-                          {this.props.config.blog}
-                        </a>
                       </li>
                     </ul>
                   ) : (
