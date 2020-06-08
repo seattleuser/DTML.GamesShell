@@ -207,9 +207,7 @@ class Gamecontent extends Component {
                         rating={this.state.rating && this.state.rating > 0 ? this.state.rating : 3}
                         onRate={this.handleRate.bind(this)}
                       />					   
-					  <Confetti active={ this.state.completed } />
                     </div>
-
                     <div className="clr" />
                   </div>
 

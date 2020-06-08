@@ -41,6 +41,12 @@ html {
     background-color: var(--cardBody) !important;
 }
 
+.answersLabel{
+
+    color:red;
+    padding-left: 10px;
+}
+
 /* 	-----------------------------------------------------
 	------------------- General Styles ------------------
 	----------------------------------------------------- */

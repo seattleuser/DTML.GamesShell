@@ -18,8 +18,6 @@ import { isEmpty, keys } from "lodash";
 import ReactGA from "react-ga";
 import "babel-polyfill";
 import "../css/style.css";
-import ModalVideo from 'react-modal-video'
-
 const imageurl = `/`;
 
 class Header extends Component {
@@ -125,8 +123,8 @@ class Header extends Component {
                                             <a href="https://dtml.org/esl/">{this.props.config.game}</a>
                       </li>
                                         <li>
-                                            <a href="/esl/videos/view">
-                                                {this.props.config.videos || 'Videos'}
+                                            <a href="/videos/view">
+                                                {'Videos'}
                                             </a>
                                         </li>
                                         <li>
@@ -172,15 +170,18 @@ class Header extends Component {
                         {this.props.config.hello}, {this.props.config.userData.UserName}
                       </a>
                     </li>
-                      <li>
-                        <a href="/esl/leaderboard/scores">{this.props.config.Leaderboard}</a>
-                      </li>
+                     
                     <li>
                       <a href="https://dtml.org/esl/">
                         {this.props.config.game}
                       </a>
                     </li>
                     <li>
+                    <a href="/videos/view">
+                         {'Videos'}
+                    </a>
+                    </li>
+                          <li>
                       <a href="https://dtml.org/Account/LogOffExternal">
                         {this.props.config.logoff}
                       </a>
@@ -195,7 +196,6 @@ class Header extends Component {
     );
   
 	}
-
 }
 
 export default Header;

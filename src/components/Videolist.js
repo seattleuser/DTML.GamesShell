@@ -22,9 +22,7 @@ import { isEmpty } from "lodash";
 import { Link } from "react-router-dom";
 import "babel-polyfill";
 import * as utils from './utils.js';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-
-var Carousel = require('react-responsive-carousel').Carousel;
+import Banner from "./Banner";
 
 let listcontent = [];
 let videosList = [];
@@ -44,8 +42,6 @@ const getFirstLine = str => {
     return str.substr(0, breakIndex + 1);
 };
 
-let themes = ["brown", "brown", "blue", "grey"];
-
 class VideoList extends Component {
     constructor(props) {
         super(props);
@@ -60,28 +56,11 @@ class VideoList extends Component {
     }
 
     componentDidMount() {
-        if (localStorage) {
-            let index = localStorage.getItem('data-theme-index');
-            document.documentElement.setAttribute("data-theme", themes[index]);
-        }
     }
 
     videoSelected(listItem) {
         this.props.Selected(false, listItem);
     }
-
-    bannerChange(index) {
-        ReactGA.event({
-            category: `BannerChange`,
-            action: `click`,
-        });
-
-        if (localStorage) {
-            localStorage.setItem('data-theme-index', index);
-        }
-        document.documentElement.setAttribute("data-theme", themes[index]);
-    }
-
 
     sortGamesArray(sortParameter = `random`) {
         if (sortParameter !== `initial`) {
@@ -107,16 +86,11 @@ class VideoList extends Component {
 
     render() {
 
-        let index = 0;
-        if (localStorage) index = localStorage.getItem('data-theme-index');
-        let bannerImageUrl = `/images/banner_new.jpg`;
         let titleStyle = {};
         const customization = !isEmpty(this.state.config.customization);
-        console.log(this.props);
-
+ 
         if (customization) {
             const custom = this.state.config.customization;
-            bannerImageUrl = custom.BannerURL;
             titleStyle = { color: utils.invertColor(custom.BackgroundColor) };
         }
 
@@ -156,21 +130,7 @@ class VideoList extends Component {
 
         return (
             <div>
-                <Carousel showArrows={true} selectedItem={index} showThumbs={false} showStatus={false} onChange={this.bannerChange}>
-                    <div>
-                        {bannerImageUrl && bannerImageUrl !== '' && (<img src={bannerImageUrl} alt="Banner" />)}
-                    </div>
-                    <div>
-                        {bannerImageUrl && bannerImageUrl !== '' && (<img src="/images/banner4.png" alt="Banner" />)}
-                    </div>
-                    <div>
-                        {bannerImageUrl && bannerImageUrl !== '' && (<img src="/images/banner3.png" alt="Banner" />)}
-                    </div>
-                    <div>
-                        {bannerImageUrl && bannerImageUrl !== '' && (<img src="/images/banner2.png" alt="Banner" />)}
-                    </div>
-
-                </Carousel>
+                <Banner config={this.state.config} />
                 <div className="contentsection">
                     <div className="contentsection-main">
                         <div className="contentsection-main-top">

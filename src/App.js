@@ -48,9 +48,7 @@ class App extends Component {
     super();
     this.state = {
         done: true,
-        gameContent: [],
-        videoContent: [],
-        videos: null
+        gameContent: []
     };
   }
 
@@ -104,8 +102,8 @@ class App extends Component {
 	 this.setState({ isNoSupported : true});
 	}
       })
-      .then(data => {   that.setState({ config: data })})
-       .catch(err => { this.setState({ isNoSupported: true }); });
+      .then(data => { this.setState({ config: data })})
+      .catch(err => { this.setState({ isNoSupported: true }); });
   }
 
   onSelectedGame(newdone, newContent) {

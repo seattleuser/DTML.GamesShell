@@ -19,10 +19,9 @@ import ReactGA from "react-ga";
 import arrayShuffle from "array-shuffle";
 import { isEmpty } from "lodash";
 import { Link } from "react-router-dom";
+import Banner from "./Banner";
 import "babel-polyfill";
-import * as utils from './utils.js'; 
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-var Carousel = require('react-responsive-carousel').Carousel;
+import * as utils from './utils.js';
 const imageurl = `https://dtml.org/esl/`;
 let listcontent = [];
 
@@ -41,31 +40,25 @@ const getFirstLine = str => {
   return str.substr(0, breakIndex + 1);
 };
 
-let themes = ["brown", "brown", "blue", "grey"];
-
 let gamesList = [];
 
 class Gamelist extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            searchstring: ``,
-            listcounter: 12,
-            config: props.config,
-            sortProperty: `initial`,
-            sortAsc: true
-        };
-        gamesList = props.config.games;
-        this.sortGamesArray(`random`);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchstring: ``,
+      listcounter: 12,
+      config: props.config,
+      sortProperty: `initial`,
+      sortAsc: true
+    };
 
-    componentDidMount()
-    {
-        if (localStorage) {
-            let index = localStorage.getItem('data-theme-index');
-            document.documentElement.setAttribute("data-theme", themes[index]);
-        }
-    }
+    gamesList = props.config.games;
+    this.sortGamesArray(`random`);
+  }
+
+  componentDidMount() {
+  }
 
   gameSelected(listItem) {
     this.props.Selected(false, listItem);
@@ -73,38 +66,26 @@ class Gamelist extends Component {
 
   recordSearch(e) {
     ReactGA.event({
-      		  category: `WebAction`,
-       		  action: `Search`,
-	     	  label: e.target.value
-     		 });
+      category: `WebAction`,
+      action: `Search`,
+      label: e.target.value
+    });
   }
 
   searchChange(e) {
     this.setState({ searchstring: e.target.value });
-	
-    }
 
-    bannerChange(index) {
-         ReactGA.event({
-            category: `BannerChange`,
-            action: `click`,
-        });
-
-        if (localStorage) {
-            localStorage.setItem('data-theme-index', index);
-        }
-        document.documentElement.setAttribute("data-theme", themes[index]);
-    }
+  }
 
   showMore() {
     this.setState({ listcounter: this.state.listcounter + 100 });
-	this.setState({ hideMore: true });
+    this.setState({ hideMore: true });
   }
 
   sortChange(sortParameter) {
     this.sortGamesArray(sortParameter);
   }
-  
+
   sortGamesArray(sortParameter = `random`) {
     if (sortParameter !== `initial`) {
       if (sortParameter === this.state.sortProperty) {
@@ -127,23 +108,19 @@ class Gamelist extends Component {
     }
   }
 
-    render() {
+  render() {
 
     let index = 0;
-    if (localStorage) index = localStorage.getItem('data-theme-index');
-    let bannerImageUrl = `/images/banner_new.jpg`;
-	let searchStyle = {display: 'none'};
-	let titleStyle ={};
-	let hideMoreStyle = this.state.hideMore ? {display:'none'}: {};
+    let searchStyle = { display: 'none' };
+    let titleStyle = {};
+    let hideMoreStyle = this.state.hideMore ? { display: 'none' } : {};
     const customization = !isEmpty(this.state.config.customization);
 
     if (customization) {
       const custom = this.state.config.customization;
-      bannerImageUrl = custom.BannerURL;
-	  searchStyle = custom.HideSearch ? {display: 'none'} : {};
-
-	  titleStyle = {color: utils.invertColor(custom.BackgroundColor)};
-     }
+      searchStyle = custom.HideSearch ? { display: 'none' } : {};
+      titleStyle = { color: utils.invertColor(custom.BackgroundColor) };
+    }
 
     if (!isEmpty(this.state.config)) {
       let counter = 0;
@@ -160,15 +137,15 @@ class Gamelist extends Component {
             <div className="contentsection-main-middle-box" key={counter}>
               <div className="game-content-top">
                 <div className="imgsec">
-				<Link
+                  <Link
                     onClick={that.gameSelected.bind(that, listItem)}
                     to={`/${listItem.id}`}
                   >
-				<img
-                    src={imageurl + listItem.image}
-                    alt={this.state.config.playgame}
-                  />
-				     </Link>
+                    <img
+                      src={imageurl + listItem.image}
+                      alt={this.state.config.playgame}
+                    />
+                  </Link>
                 </div>
                 <h3>{listItem.title}</h3>
                 <p>{getFirstLine(listItem.description)}</p>
@@ -197,33 +174,19 @@ class Gamelist extends Component {
     }
 
     return (
-        <div>
-            <Carousel showArrows={true} selectedItem={index} showThumbs={false} showStatus={false} onChange={this.bannerChange}>
-        <div>
-		{bannerImageUrl && bannerImageUrl !=='' && (<img src={bannerImageUrl} alt="Banner" />)}
-        </div>
-                <div>
-                    {bannerImageUrl && bannerImageUrl !== '' && (<img src="/images/banner4.png" alt="Banner" />)}
-                </div>
-                <div>
-                    {bannerImageUrl && bannerImageUrl !== '' && (<img src="/images/banner3.png" alt="Banner" />)}
-                </div>
-                <div>
-                    {bannerImageUrl && bannerImageUrl !== '' && (<img src="/images/banner2.png" alt="Banner" />)}
-                </div>
-
-        </Carousel>
+      <div>
+        <Banner config={this.state.config} />
         <div className="contentsection">
           <div className="contentsection-main">
             <div className="contentsection-main-top">
               <h6 style={titleStyle}>{this.state.config.title}</h6>
               <div className="contentsection-main-top01" style={searchStyle}>
-					<div className="contentsection-main-top01-main" >
+                <div className="contentsection-main-top01-main" >
                   <div className="contentsection-main-top01-mainin">
                     <input
                       name=""
                       type="text"
-                      onKeyUp={this.searchChange.bind(this)}  onBlur={this.recordSearch.bind(this)}
+                      onKeyUp={this.searchChange.bind(this)} onBlur={this.recordSearch.bind(this)}
                       placeholder={this.state.config.findlesson}
                     />
                     <input

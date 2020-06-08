@@ -17,52 +17,59 @@ import React, { Component } from "react";
 import ReactGA from "react-ga";
 import Rater from "react-rater";
 import { isEmpty } from "lodash";
+import Button from 'react-bootstrap/Button';
 import arrayShuffle from "array-shuffle";
 import "babel-polyfill";
-import * as utils from './utils.js'; 
+import * as utils from './utils.js';
 import Confetti from 'react-dom-confetti';
+import ReactPlayer from "react-player"
+import Countdown from "react-countdown";
 
 const rankingURL = `https://dtml.org/api/RatingService/Rank`;
+const loadVideoActivityURL = `https://dtml.org/api/UserService/LoadVideoActivty`;
+const recordVideoActivityURL = `https://dtml.org/api/UserService/VideoActivty`;
+let usrAnswers = [];
 
 
 class VideoContent extends Component {
-    constructor(props) {
-        super(props);
-        var min = 0;
-        var max = 11;
-        var rand = Number(min + (Math.random() * (max - min))).toFixed(0);
-        this.state = {
-            isOpen: false
-        }
-    
+  constructor(props) {
+    super(props);
+    var min = 0;
+    var max = 11;
+    var rand = Number(min + (Math.random() * (max - min))).toFixed(0);
+    this.state = {
+      isOpen: false
+    }
+
 
     console.log(props);
     this.state = {
       rating: 0,
-	  loggedin: false,
-	  completed : false,
-	  loading:true,
-	  image: 'https://dtml.org/images/avatars/a'+rand+".png",
-	  config: props.config,
+      loggedin: false,
+      completed: false,
+      loading: true,
+      image: 'https://dtml.org/images/avatars/a' + rand + ".png",
+      config: props.config,
       videoContent: props.videoContent,
       frameText: ``,
       startTime: new Date().getTime()
     };
   }
 
+
   componentDidMount() {
-      document.title = `${this.state.videoContent.Title} | DTML.org Educational Games and Videos`;
-      document.getElementsByTagName('meta')["description"].content = `${this.state.videoContent.Description}`;
+    document.title = `${this.state.videoContent.Title} | DTML.org Educational Games and Videos`;
+    document.getElementsByTagName('meta')["description"].content = `${this.state.videoContent.Description}`;
     ReactGA.event({
       category: `Videos`,
-        action: `Video__${this.state.videoContent.VideoID}`
+      action: `Video__${this.state.videoContent.VideoID}`
     });
     ReactGA.pageview(window.location.hash);
-    }
+  }
 
 
   componentWillMount() {
-     if (isEmpty(this.state.videoContent)) {
+    if (isEmpty(this.state.videoContent)) {
       const urlpath = window.location.pathname;
       const baseurl = urlpath.split(`?`)[0].split(`#`)[0];
       const videoID = baseurl.substr(baseurl.lastIndexOf(`/`) + 1);
@@ -70,189 +77,332 @@ class VideoContent extends Component {
         window.location.href = `https://dtml.org/esl`;
         return;
       }
- 
-         const videoContent = this.props.config.videos.find(
-             video => video.VideoID === videoID
+
+      const videoContent = this.props.config.videos.find(
+        video => video.VideoID === videoID
       );
 
-         if (typeof videoContent === `undefined` || isEmpty(videoContent)) {
+      if (typeof videoContent === `undefined` || isEmpty(videoContent)) {
         window.location.href = `https://dtml.org/esl`;
         return;
       }
 
-         this.setState({ videoContent });
-	 }
-  
-      const userLang = navigator.language || navigator.userLanguage;
-      this.setState({ userLanguage: userLang });
-      this.setState({ customization: this.props.config.customization });
-	  this.setState({ loggedin: this.props.config.userData !== null });
-   }
+      this.setState({ videoContent });
+
+    }
+
+    fetch(loadVideoActivityURL, { credentials: `include`, cache: "no-store" })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      else {
+        this.setState({ userVideoStats: null });
+      }
+    })
+    .then(data => {  console.log(data); this.setState({ userVideoStats: data }); })
+    .catch(err => {  this.setState({ userVideoStats: null }); });
+
+    const userLang = navigator.language || navigator.userLanguage;
+    this.setState({ userLanguage: userLang });
+    this.setState({ customization: this.props.config.customization });
+    this.setState({ loggedin: this.props.config.userData !== null });
+    this.setState({ answered:false});
+  }
+
+  recordVideoAnswers(videoID, points, correct, total){
+    let url  = recordVideoActivityURL+"/?videoID="+videoID+"&points="+points+"&correct="+correct+"&total="+total;
+    fetch(url, {
+      method: `post`,
+      credentials: `include`
+    });
+  }
+
+  checkAnswers(sender) {
+       let allAnswers = true;
+       let correct = 0;
+       let points = 0;
+       console.log(usrAnswers);
+       for(let i=0;i<usrAnswers.length;i++)
+       {
+         console.log(usrAnswers[i]);
+         if (usrAnswers[i] == -1) allAnswers=false;
+         if (usrAnswers[i] > 0) { correct++; points+=parseInt(usrAnswers[i],10);}
+       }
+
+      if (!allAnswers)
+      {
+        let el = document.getElementById("answerLabel");
+        el.innerText = 'You must answer all questions';        
+      }
+      else
+      {
+        this.setState({ answered:true});
+        let el = document.getElementById("answerLabel");
+        el.innerText = correct +' out of '+ usrAnswers.length+' answers are correct. Total points earned: '+points+".  You can try again in 10 hours";  
+        this.recordVideoAnswers(this.state.videoContent.VideoID, points,correct,usrAnswers.length); 
+      
+      }
+  }
+
+  setAnswer(event)
+  {
+    let score = 0;
+    let correct = JSON.parse(event.target.dataset.value.toLowerCase());
+    if (correct) score=event.target.dataset.points;
+    usrAnswers[event.target.dataset.index] =score; 
+  }
 
   handleRate({ rating, type }) {
     if (type === `click`) {
-	  this.setState({ rating: rating });
-	  this.setState({ completed: true });
+      this.setState({ rating: rating });
+      this.setState({ completed: true });
       const url = `${rankingURL}/?key=${
-        this.state.gameContent.VideoID
-      }&rank=${rating}`;
+        this.state.videoContent.VideoID
+        }&rank=${rating}`;
 
-       fetch(url, {
+      fetch(url, {
         method: `post`,
-	    credentials: `include`,
+        credentials: `include`,
         headers: {
           "Content-Type": `application/json`,
-           Accept: `application/json, text/plain, */*`
+          Accept: `application/json, text/plain, */*`
         }
       });
     }
   }
-  
+
   render() {
-	  
-   const recordclick = (value) => {
-	   
- 	  try
-	  {
-      ReactGA.event({
-        category: `click`,
-        action: value, 
-	    label:this.state.image
-      });
-	  }
-	  catch(e) {}
+
+    const Completionist = () => <span>You are good to go!</span>;
+
+    const renderer = ({ hours, minutes, seconds, completed }) => {
+      if (completed) {
+        // Render a complete state
+        return <Completionist />;
+      } else {
+        // Render a countdown
+        return (
+          <span>
+            {hours}:{minutes}:{seconds}
+          </span>
+        );
+      }
     };
-	
-	let titleStyle = {};
-	if (this.state.customization) {	  	
-	titleStyle = {color: utils.invertColor(this.state.customization.BackgroundColor)};
-    }	  
+
+    const recordclick = (value) => {
+
+      try {
+        ReactGA.event({
+          category: `click`,
+          action: value,
+          label: this.state.image
+        });
+      }
+      catch (e) { }
+    };
+
+    let titleStyle = {};
+    if (this.state.customization) {
+      titleStyle = { color: utils.invertColor(this.state.customization.BackgroundColor) };
+    }  
+
+    let buttonStyle = {};
+    let linkStyle = {};
+
+    if (this.state.answered == true) {
+      buttonStyle = { display: 'none' };
+      linkStyle = { color: 'green' };
+    } 
+
+     let videoStats = this.state.userVideoStats;
+     let now = Date.now();
+     console.log('videoStats:'+videoStats)
+     
+     let needToWait = null;
+     let lastAttempt  = Date.now();
+
+     if (videoStats !=undefined)
+     {
+      needToWait = false;
+      videoStats.map(record =>{
+       if (record.Key.toUpperCase() == this.state.videoContent.VideoID.toUpperCase())
+       {
+         let value = record.Value;
+         let stringDate = value.LastAttempt.replace(/[^0-9 +]/g, ''); 
+         lastAttempt = new Date(parseInt(stringDate));
+         lastAttempt.setHours(lastAttempt.getHours() + 10); 
+         console.log(lastAttempt);
+         if (lastAttempt > now)
+        {
+          needToWait  = true;
+        }
+       }
+      })     
+     }
 
     let instruction = null;
     const today = new Date();
     const date = `${today.getFullYear()}${today.getMonth()}${today.getDate()}`;
-	
-    const min = 1;
-    const max = 7;
-  
-   return (
+    const url = "https://www.youtube.com/watch?v=" + this.state.videoContent.VideoID + "&modestbranding=1&loop=1&playlist=" + this.state.videoContent.VideoID;
+    let counter = 0;
+    usrAnswers = [];
+
+    let questions = this.state.videoContent.Questions.map(question => {
+      counter += 1;
+      let answerCounter = 0;
+      usrAnswers.push(-1);
+      let qArr = arrayShuffle(question.Answers);
+      let answers = qArr.map(answer => {     
+      let groupName = 'answerGroup_' + counter;
+        let id = groupName + "_" + answerCounter;
+        if (answer.Answer != '') {
+          answerCounter++;
+          return (
+            <div className="custom-control custom-radio" > 
+                <div className="input-group-radio" onChange={this.setAnswer.bind(this)}>
+                      <input id={id} type="radio" className="custom-control-input"  data-index={counter-1} data-value={answer.isCorrect} data-points={question.Points} aria-label="Radio button for anwsers" value={answerCounter} name={groupName} />
+                      <label className="custom-control-label" htmlFor={id}>{answer.Answer}</label>
+            </div>
+            </div>
+          )
+        }
+      });
+
+      return (
+        <div>
+          <b style={{ padding: "10px" }}> Question {counter}. {question.Question}  ({question.Points} points)</b>
+          <div style={{ padding: '30px', paddingTop: '10px' }}>{answers}</div>
+        </div>
+      )
+    });
+
+    return (
       <div>
         <div className="contentsection gamecontent">
           <div className="contentsection-main">
             <div className="gamesection">
               <div className="gamesection01">
-		        <h1 style={titleStyle} className="gameTitle">{this.state.videoContent.Title}</h1>
-                           <p style={titleStyle}>{this.state.videoContent.Description}</p>
+                <h1 style={titleStyle} className="gameTitle">{this.state.videoContent.Title}</h1>
+                <p style={titleStyle}>{this.state.videoContent.Description}</p>
                 <div className="clr" />
               </div>
 
               <div className="gamesection01-top">
-                <div id="framecontainer">
-                </div>
-              </div>
-              <div className="ratesection">
-                <div className="ratesection-top">
-                  <div className="ratesection-top-left">
-                    <div>
-                      <Rater
-                        total={5}
-                        rating={this.state.rating && this.state.rating > 0 ? this.state.rating : 3}
-                        onRate={this.handleRate.bind(this)}
-                      />					   
-					  <Confetti active={ this.state.completed } />
-                    </div>
-
-                    <div className="clr" />
+                <div id="" style={{ textAlign: 'center' }}>
+                  <ReactPlayer url={url} style={{ display: 'inline-block' }} />
+                  <div>
+                    <Rater
+                      total={5}
+                      rating={this.state.rating && this.state.rating > 0 ? this.state.rating : 3}
+                      onRate={this.handleRate.bind(this)}
+                    />
                   </div>
-
-                 <div className="clr" />
-                </div>
-
-                <div className="ratesection-bottom">
-                  <div className="ratesection-bottom01" />
-                  <div className="clr" />
                 </div>
               </div>
-	     </div>
+
+              <h3>Watch the video and answer questions</h3>
+              <div style={{ paddingTop: "40px" }}>    {questions}</div>
+              <div style={{ padding: '10px' }}></div>
+
+              {((needToWait == false) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && (
+                <Button style={buttonStyle} onClick={() => this.checkAnswers(this.state)} variant="primary"> Check Answers</Button>)}
+
+              {((needToWait != false) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && (
+                <div style={{color:'green', padding:'10px'}}><span>Your need to wait until trying again. Time until next attempt:</span> <Countdown date={lastAttempt} renderer={renderer} />. <br></br>You can try other videos now.</div>)}
+
+              {(this.state.loggedin && (this.props.config.userData.isStudent != true)) && (
+                <label className='answersLabel'>You are currently signed in with school account. You must be logged-in with student account to check answers.</label>
+              )}
+
+              {(!this.state.loggedin) && (
+                <label className='answersLabel'>You must be logged-in to check answers. <a href='/Account/Login'>Login</a> or register to create <a href='/Account/Login'>FREE account</a> now.</label>
+              )}
+
+              <label id='answerLabel' style={linkStyle} className='answersLabel'></label>
+              <Confetti active={ this.state.answered } />
+              <div style={{ padding: '20px' }}></div>
+
+            </div>
 
             <aside className="game-sidebar">
-			
-			
-			{(this.state.loggedin && (this.props.config.userData.isStudent == true)) && (
-              <div className="game-relatedGames game-sidebar-box">
-                <h3>
-                  {this.props.config.profile}
-                </h3>
-				<div>
-				   <img  className="game-profile-image" src="https://dtml.org/images/trophy.png" alt={this.props.config.profile} />
-			    </div>
-				<p className="game-profile">
-                  {this.props.config.trophies} 
-				  {this.props.config.playmore}
-				   <a
-                    className="game-registerButton"
-                    href="https://dtml.org/Student/PersonalProfile"
-					onClick={() => recordclick('studentProfile')}
-                  >
-                    {this.props.config.yourProfile}
-                  </a>
-				</p>
-              </div>
-)}
 
-	{(!this.state.loggedin) && (
-              <div className="game-relatedGames game-sidebar-box">
-			  <h3>{this.props.config.register}</h3>	
-                <p className="game-registerExplainer">
-				    <img  className="game-profile-image" src={this.state.image} alt={this.props.config.register} />
-                  <p className='TextCenter'>{this.props.config.registerMessage} </p>
-                </p>
-                <p className='TextCenter'>
-                  <a
-                    className="game-registerButton"
-                    href="https://dtml.org/Registration/Student"
-					onClick={() => recordclick('registerStudent')}
-                  >
-                    {this.props.config.register}
-                  </a>
-                </p>
-              </div>
-)}
-                                                                                                       
-{this.props.config.games && (
+
+              {(this.state.loggedin && (this.props.config.userData.isStudent == true)) && (
+                <div className="game-relatedGames game-sidebar-box">
+                  <h3>
+                    {this.props.config.profile}
+                  </h3>
+                  <div>
+                    <img className="game-profile-image" src="https://dtml.org/images/trophy.png" alt={this.props.config.profile} />
+                  </div>
+                  <p className="game-profile">
+                    {this.props.config.trophies}
+                    {this.props.config.playmore}
+                    <a
+                      className="game-registerButton"
+                      href="https://dtml.org/Student/PersonalProfile"
+                      onClick={() => recordclick('studentProfile')}
+                    >
+                      {this.props.config.yourProfile}
+                    </a>
+                  </p>
+                </div>
+              )}
+
+              {(!this.state.loggedin) && (
+                <div className="game-relatedGames game-sidebar-box">
+                  <h3>{this.props.config.register}</h3>
+                  <p className="game-registerExplainer">
+                    <img className="game-profile-image" src={this.state.image} alt={this.props.config.register} />
+                    <p className='TextCenter'>{this.props.config.registerMessage} </p>
+                  </p>
+                  <p className='TextCenter'>
+                    <a
+                      className="game-registerButton"
+                      href="https://dtml.org/Registration/Student"
+                      onClick={() => recordclick('registerStudent')}
+                    >
+                      {this.props.config.register}
+                    </a>
+                  </p>
+                </div>
+              )}
+
+              {this.props.config.games && (
                 <div className="game-relatedGames game-sidebar-box">
                   <h3>{this.props.config.morevideos || 'More videos'}</h3>
 
                   {// shuffle all games, remove our current game, trim to 3 games, then display them
-                                   arrayShuffle(this.props.config.videos || [])
-                                       .filter(video => video.VideoID !== this.state.videoContent.VideoID)
-                    .slice(0, 3)
-                    .map((video, i) => {
-                      const j = i + 1;
-                      return (
-                        <div key={`game-${j}`} className="related-game">
-                              <a href={`/video/details/${video.VideoID}`}>{video.Title}</a>
-                        </div>
-                      );
-                    })}
+                    arrayShuffle(this.props.config.videos || [])
+                      .filter(video => video.VideoID !== this.state.videoContent.VideoID)
+                      .slice(0, 3)
+                      .map((video, i) => {
+                        const j = i + 1;
+                        return (
+                          <div key={`game-${j}`} className="related-game">
+                            <a href={`/videos/details/${video.VideoID}`}>{video.Title}</a>
+                          </div>
+                        );
+                      })}
                 </div>
               )}
 
-{!this.state.loggedin && (
-              <div className="game-register game-sidebar-box">
-                <p className="game-registerExplainer">
-                  {this.props.config.registerSchoolText}
-                </p>
-                <p>
-                  <a
-                    className="game-registerButton"
-                    href="https://dtml.org/Registration/Organization"
-					onClick={() => recordclick('registerSchoolButton')}
-                  >
-                    {this.props.config.registerSchoolButton}
-                  </a>
-                </p>
-              </div>)}
+              {!this.state.loggedin && (
+                <div className="game-register game-sidebar-box">
+                  <p className="game-registerExplainer">
+                    {this.props.config.registerSchoolText}
+                  </p>
+                  <p>
+                    <a
+                      className="game-registerButton"
+                      href="https://dtml.org/Registration/Organization"
+                      onClick={() => recordclick('registerSchoolButton')}
+                    >
+                      {this.props.config.registerSchoolButton}
+                    </a>
+                  </p>
+                </div>)}
             </aside>
           </div>
         </div>
