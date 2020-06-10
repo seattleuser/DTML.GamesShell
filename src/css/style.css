@@ -592,6 +592,58 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
         border-radius: 46px;
     }
 
+    .contentsection-main-top02 {
+        width: 100%;
+        background:var(--menuColor);
+        border: 1px solid #000;
+        box-shadow: 5px 10px 18px #888888;
+        min-height: 158px;
+        padding: 12px;
+        margin: 0 auto 0 auto;
+    }
+
+    .contentsection-main-top02-main {
+        max-width: 776px;
+        background: var(--menuColor);
+        padding: 5px;        
+        margin: 0 auto;
+        min-height: 64px;
+    }
+
+    .contentsection-main-top02-main input[type="text"] {
+        width: 65%;
+        float: left;
+        margin: 0 0 0 10%;
+        min-height: 54px;
+        padding: 0 2%;
+        color: #000;
+        font-size: 19px;
+        line-height: normal;
+        font-weight: 400;
+        font-family: 'Open Sans', sans-serif;
+        border: none;
+    }
+
+    .contentsection-main-top02-main input[type="submit"] {
+        background: #c03a2b;
+        color: #fff;
+        font-size: 19px;
+        line-height: 54px;
+        font-weight: 600;
+        padding: 0 37px;
+        border: none;
+        float: left;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .contentsection-main-top02-mainin {
+        background:var(--menuColor);
+    }
+
+    .contentsection-main-top02-main input[type="submit"]:hover {
+        background: #000;
+    }
+
     .contentsection-main-top01-mainin {
         background: #fff;
         -webkit-border-radius: 46px;
@@ -624,7 +676,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
         line-height: 54px;
         font-weight: 600;
         padding: 0 37px;
-        display: inline-block;
         border: none;
         float: right;
         -webkit-border-radius: 25px;
@@ -1192,6 +1243,49 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
         font-family: 'Open Sans', sans-serif;
     }
 
+    #videoPlayer > div:first-of-type > div
+{
+    border:10px solid black;
+}
+
+.tooltipcheck {
+    border-bottom: 1px dotted black;
+    cursor: pointer;
+  }
+
+  .tooltiptext hr {
+    border-top: 1px solid white;
+    padding-left: 10px;
+    padding-right: 10px;    
+  }
+  
+  .tooltiptext div
+{
+    padding:5px;
+    padding-top: 5px;
+}
+.tooltiptext {
+    visibility: hidden;
+    width: 220px;
+     font-family: Arial;
+    font-size: 14px;
+    background-color: rgb(96, 128, 96);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    margin-left: 10px;
+    position: absolute;
+    z-index: 1;
+    -webkit-box-shadow: 4px 6px 39px 0px rgba(0,0,0,0.48);
+    -moz-box-shadow: 4px 6px 39px 0px rgba(0,0,0,0.48);
+    box-shadow: 4px 6px 39px 0px rgba(0,0,0,0.48);
+  }
+  
+  .tooltipcheck:hover .tooltiptext {
+    visibility: visible;
+  }
+
     .ratesection-top ul {
         list-style: none;
         padding: 0;
@@ -1531,10 +1625,15 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
         .logosection-main-left {
             display: none;
         }
+
     }
 
     @media screen and (max-width: 310px) {
 
+        .contentsection-main-top02
+    {
+        display: none;
+    }
         .logosection {
             display: none;
         }
@@ -1542,6 +1641,15 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
         .hideable {
             display: none;
         }
+    }
+
+    @media screen and (max-width: 610px) {
+
+        .contentsection-main-top02
+    {
+        display: none;
+    }
+
     }
 
 

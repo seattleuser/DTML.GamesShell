@@ -42,14 +42,17 @@ const getFirstLine = str => {
     return str.substr(0, breakIndex + 1);
 };
 
+
 class VideoList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             config: props.config,
             sortProperty: `initial`,
-            sortAsc: true
+            sortAsc: true,
+            searchstring: ``
         };
+
         this.sortGamesArray(`random`);
         videosList = props.config.videos;
         console.log(props);
@@ -60,6 +63,24 @@ class VideoList extends Component {
 
     videoSelected(listItem) {
         this.props.Selected(false, listItem);
+    }
+
+    sortChange(sortParameter) {
+        this.sortGamesArray(sortParameter);
+      }
+    
+
+    
+    recordSearch(e) {
+        ReactGA.event({
+        category: `WebAction`,
+        action: `Search`,
+        label: e.target.value
+        });
+    }
+
+    searchChange(e) {
+        this.setState({ searchstring: e.target.value });
     }
 
     sortGamesArray(sortParameter = `random`) {
@@ -75,7 +96,7 @@ class VideoList extends Component {
                     const multiplier = this.state.sortAsc ? 1 : -1;
                     return (
                         (a[sortParameter] - b[sortParameter]) * multiplier ||
-                        a.id.localeCompare(b.id)
+                        a.Title.localeCompare(b.Title)* multiplier
                     );
                 });
             } else {
@@ -87,6 +108,7 @@ class VideoList extends Component {
     render() {
 
         let titleStyle = {};
+        
         const customization = !isEmpty(this.state.config.customization);
  
         if (customization) {
@@ -100,8 +122,10 @@ class VideoList extends Component {
 
             listcontent = videosList.map(listItem => {
                 counter += 1;
+                let maxpointslabel  = this.state.config.earnpoints.replace("{0}",listItem.MaxPoints);
                 return (
-
+                    ( listItem.Title.indexOf(that.state.searchstring) !== -1 ||  (listItem.Keywords != null && listItem.Keywords.indexOf(that.state.searchstring) !== -1) ||
+                              listItem.Description.indexOf(that.state.searchstring) !== -1) &&(
                     <Card className="videoCardStyle">
                         <Link style={{ color: '#fff' }}
                             onClick={that.videoSelected.bind(that, listItem)}
@@ -110,8 +134,8 @@ class VideoList extends Component {
                             <Card.Img variant="top" src={listItem.Image} />
                         </Link>
                         <Card.Body className='videoCardBody'>
-                            <Card.Title style={{ height: '50px', overflow: 'hidden' }}>{getFirstLine(listItem.Title)}</Card.Title>
-                            <Card.Text style={{ height: '150px', overflow: 'hidden' }}>
+                            <Card.Title style={{ height: '52px', overflow: 'hidden' }}>{getFirstLine(listItem.Title)}</Card.Title>
+                            <Card.Text style={{ height: '100px', overflow: 'hidden' }}>
                                 {getFirstLine(listItem.Description)}
                         </Card.Text>
                             <Button variant="primary">
@@ -121,9 +145,9 @@ class VideoList extends Component {
                                 >{this.state.config.watchVideo || 'Watch Video'}</Link></Button>
                             </Card.Body>
                             <Card.Footer>
-                            <b>Earn up to {listItem.MaxPoints} points</b>
+                            <b>{maxpointslabel}</b>
                             </Card.Footer>
-                        </Card>
+                        </Card>)
                     );
             });
         }
@@ -135,7 +159,46 @@ class VideoList extends Component {
                     <div className="contentsection-main">
                         <div className="contentsection-main-top">
                             <h6 style={titleStyle}>{this.state.config.title}</h6>                           
+              <div className="contentsection-main-top02">
+                <div className="contentsection-main-top02-main">
+                  <div className="contentsection-main-top02-mainin">
+                    <input
+                      name=""
+                      type="text"
+                      onKeyUp={this.searchChange.bind(this)} onBlur={this.recordSearch.bind(this)}
+                      placeholder=""
+                    />
+                    <input
+                      name=""
+                      className="btn"
+                      type="submit"
+                      value={this.state.config.search}
+                    />
+                    <div className="clr" />
+                  </div>
+                </div>
+                <div className="sort-buttons">
+                  <button
+                    className="sort-button"
+                    onClick={() => this.sortChange(`Title`)}
+                  >
+                    <i className="fa fa-star" />
+                    {` `}
+                    {this.state.config.sortByRating}
+                  </button>
+                  <button
+                    className="sort-button"
+                    onClick={() => this.sortChange(`MaxPoints`)}
+                  >
+                    <i className="fa fa-cogs" />
+                    {` `}
+                    {this.state.config.sortByComplexity}
+                  </button>
+                </div>
+              </div>
+        
                         </div>
+
                         <div className="contentsection-main-middle">
                             {listcontent}
                             <div className="clr" />

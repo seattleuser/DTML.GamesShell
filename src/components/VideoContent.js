@@ -30,6 +30,8 @@ const loadVideoActivityURL = `https://dtml.org/api/UserService/LoadVideoActivty`
 const recordVideoActivityURL = `https://dtml.org/api/UserService/VideoActivty`;
 let usrAnswers = [];
 
+let AllPoints = 0;
+let VideosWatched = 0;
 
 class VideoContent extends Component {
   constructor(props) {
@@ -91,6 +93,8 @@ class VideoContent extends Component {
 
     }
 
+    AllPoints = 0;
+    VideosWatched = 0;
     fetch(loadVideoActivityURL, { credentials: `include`, cache: "no-store" })
     .then(response => {
       if (response.ok) {
@@ -122,7 +126,6 @@ class VideoContent extends Component {
        let allAnswers = true;
        let correct = 0;
        let points = 0;
-       console.log(usrAnswers);
        for(let i=0;i<usrAnswers.length;i++)
        {
          console.log(usrAnswers[i]);
@@ -133,16 +136,19 @@ class VideoContent extends Component {
       if (!allAnswers)
       {
         let el = document.getElementById("answerLabel");
-        el.innerText = 'You must answer all questions';        
+        el.innerText = this.state.config.answerall;        
       }
       else
       {
         this.setState({ answered:true});
         let el = document.getElementById("answerLabel");
-        el.innerText = correct +' out of '+ usrAnswers.length+' answers are correct. Total points earned: '+points+".  You can try again in 10 hours";  
+        el.innerText = correct +' out of '+ usrAnswers.length+' answers are correct. Total points earned: '+points+".  You can try again in 1 hour";  
         this.recordVideoAnswers(this.state.videoContent.VideoID, points,correct,usrAnswers.length); 
       
       }
+
+      VideosWatched=VideosWatched+1;
+      AllPoints+=points;
   }
 
   setAnswer(event)
@@ -159,7 +165,7 @@ class VideoContent extends Component {
       this.setState({ completed: true });
       const url = `${rankingURL}/?key=${
         this.state.videoContent.VideoID
-        }&rank=${rating}`;
+        }&rank=${rating}&isVideo=true`;
 
       fetch(url, {
         method: `post`,
@@ -174,7 +180,7 @@ class VideoContent extends Component {
 
   render() {
 
-    const Completionist = () => <span>You are good to go!</span>;
+    const Completionist = () => <span></span>;
 
     const renderer = ({ hours, minutes, seconds, completed }) => {
       if (completed) {
@@ -216,22 +222,31 @@ class VideoContent extends Component {
     } 
 
      let videoStats = this.state.userVideoStats;
-     let now = Date.now();
-     console.log('videoStats:'+videoStats)
-     
+     let now = Date.now();   
      let needToWait = null;
      let lastAttempt  = Date.now();
+     let thisVideoRecord = null;
 
      if (videoStats !=undefined)
      {
       needToWait = false;
+      console.log('--');
+      console.log(AllPoints);
+      console.log(VideosWatched);
+      let shouldCalculate  = (AllPoints == 0 || VideosWatched == 0);
       videoStats.map(record =>{
+        if (shouldCalculate)
+        {
+        AllPoints = AllPoints + parseInt(record.Value.EarnedPoints);
+        VideosWatched++;
+        }
        if (record.Key.toUpperCase() == this.state.videoContent.VideoID.toUpperCase())
        {
-         let value = record.Value;
+         let value = record.Value;        
+         thisVideoRecord = value;
          let stringDate = value.LastAttempt.replace(/[^0-9 +]/g, ''); 
          lastAttempt = new Date(parseInt(stringDate));
-         lastAttempt.setHours(lastAttempt.getHours() + 10); 
+         lastAttempt.setHours(lastAttempt.getHours() + 1); 
          console.log(lastAttempt);
          if (lastAttempt > now)
         {
@@ -239,6 +254,14 @@ class VideoContent extends Component {
         }
        }
       })     
+     }
+     
+     let checkColor = "red";
+
+     if (thisVideoRecord)
+     {
+     if ((thisVideoRecord.Correct > 0) && (thisVideoRecord.Correct < thisVideoRecord.Total)) checkColor = "yellow";
+     if  ((thisVideoRecord.Correct > 0) && (thisVideoRecord.Correct == thisVideoRecord.Total)) checkColor = "green";
      }
 
     let instruction = null;
@@ -289,7 +312,7 @@ class VideoContent extends Component {
               </div>
 
               <div className="gamesection01-top">
-                <div id="" style={{ textAlign: 'center' }}>
+                <div id="videoPlayer" style={{ textAlign: 'center'}}>
                   <ReactPlayer url={url} style={{ display: 'inline-block' }} />
                   <div>
                     <Rater
@@ -301,15 +324,26 @@ class VideoContent extends Component {
                 </div>
               </div>
 
-              <h3>Watch the video and answer questions</h3>
+              <h3>{this.state.config.watchandAnswer} {(((thisVideoRecord  && thisVideoRecord.NumberOfAttempts > 0)) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && 
+              (
+              <span style={{color:checkColor}} className='fa fa-check-square-o tooltipcheck'>
+              <div className="tooltiptext">
+                <span>Your stats</span>
+                <hr/>
+              <div>Number of attempts: {thisVideoRecord.NumberOfAttempts}</div>
+              <div>Last attempt: {thisVideoRecord.Correct} out of {thisVideoRecord.Total} correct</div>
+              <div>Points collected: {thisVideoRecord.EarnedPoints}</div>
+                </div>
+               </span>)}</h3> 
+              
               <div style={{ paddingTop: "40px" }}>    {questions}</div>
               <div style={{ padding: '10px' }}></div>
 
               {((needToWait == false) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && (
-                <Button style={buttonStyle} onClick={() => this.checkAnswers(this.state)} variant="primary"> Check Answers</Button>)}
+                <Button style={buttonStyle} onClick={() => this.checkAnswers(this.state)} variant="primary">{this.state.config.checkbtn}</Button>)}
 
               {((needToWait != false) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && (
-                <div style={{color:'green', padding:'10px'}}><span>Your need to wait until trying again. Time until next attempt:</span> <Countdown date={lastAttempt} renderer={renderer} />. <br></br>You can try other videos now.</div>)}
+                <div style={{color:'green', padding:'10px'}}><span>{this.state.config.needwait}</span> <Countdown date={lastAttempt} renderer={renderer} />. <br></br>{this.state.config.tryother}</div>)}
 
               {(this.state.loggedin && (this.props.config.userData.isStudent != true)) && (
                 <label className='answersLabel'>You are currently signed in with school account. You must be logged-in with student account to check answers.</label>
@@ -321,8 +355,9 @@ class VideoContent extends Component {
 
               <label id='answerLabel' style={linkStyle} className='answersLabel'></label>
               <Confetti active={ this.state.answered } />
+              <div style={{ padding: '5px' }}>
+              <a href='/videos/view'>Back to the list of videos</a></div>
               <div style={{ padding: '20px' }}></div>
-
             </div>
 
             <aside className="game-sidebar">
@@ -348,6 +383,23 @@ class VideoContent extends Component {
                     </a>
                   </p>
                 </div>
+                
+              )}
+
+                {(this.state.loggedin && (AllPoints > 0) && (this.props.config.userData.isStudent == true)) && (
+                <div className="game-relatedGames game-sidebar-box">
+                  <h3>
+                     Video Stats
+                  </h3>
+                  <h4 className='TextCenter' style={{paddingTop:10}}>
+                      {AllPoints} Video Points
+                  </h4>
+                  <h5 className='TextCenter'>You have watched {VideosWatched} videos</h5>
+
+                  <p className="game-profile">
+                  </p>
+                </div>
+                
               )}
 
               {(!this.state.loggedin) && (
@@ -376,7 +428,7 @@ class VideoContent extends Component {
                   {// shuffle all games, remove our current game, trim to 3 games, then display them
                     arrayShuffle(this.props.config.videos || [])
                       .filter(video => video.VideoID !== this.state.videoContent.VideoID)
-                      .slice(0, 3)
+                      .slice(0, 5)
                       .map((video, i) => {
                         const j = i + 1;
                         return (

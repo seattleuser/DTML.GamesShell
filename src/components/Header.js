@@ -120,11 +120,11 @@ class Header extends Component {
                   {!this.props.userData ? (
                     <ul>
                       <li>
-                                            <a href="https://dtml.org/esl/">{this.props.config.game}</a>
+                        <a href="https://dtml.org/esl/">{this.props.config.game}</a>
                       </li>
                                         <li>
                                             <a href="/videos/view">
-                                                {'Videos'}
+                                                {this.props.config.videosHeader || 'Videos'}
                                             </a>
                                         </li>
                                         <li>
