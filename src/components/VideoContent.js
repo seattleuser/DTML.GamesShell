@@ -350,13 +350,13 @@ class VideoContent extends Component {
               )}
 
               {(!this.state.loggedin) && (
-                <label className='answersLabel'>You must be logged-in to check answers. <a href='/Account/Login'>Login</a> or register to create <a href='/Account/Login'>FREE account</a> now.</label>
+                <label className='answersLabel'>You must be logged-in to check answers. <a href='/Account/Login'>Login</a> or register to create <a href='https://dtml.org/Registration/Student'>FREE account</a> now.</label>
               )}
 
               <label id='answerLabel' style={linkStyle} className='answersLabel'></label>
               <Confetti active={ this.state.answered } />
               <div style={{ padding: '5px' }}>
-              <a href='/videos/view'>Back to the list of videos</a></div>
+              <a href='/esl/videos/view'>Back to the list of videos</a></div>
               <div style={{ padding: '20px' }}></div>
             </div>
 

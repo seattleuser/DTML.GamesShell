@@ -122,8 +122,8 @@ class Header extends Component {
                       <li>
                         <a href="https://dtml.org/esl/">{this.props.config.game}</a>
                       </li>
-                                        <li>
-                                            <a href="/videos/view">
+                                        <li style={{display:'none'}}>
+                                            <a href="/esl/videos/view">
                                                 {this.props.config.videosHeader || 'Videos'}
                                             </a>
                                         </li>
@@ -177,7 +177,7 @@ class Header extends Component {
                       </a>
                     </li>
                     <li>
-                    <a href="/videos/view">
+                    <a href="/esl//videos/view">
                          {'Videos'}
                     </a>
                     </li>
