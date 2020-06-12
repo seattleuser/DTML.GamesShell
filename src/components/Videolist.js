@@ -3,7 +3,7 @@ to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance
 with the License.  You may obtain a copy of the License at
 
-  http://www.apache.org/licenses/LICENSE-2.0
+  https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing,
 software distributed under the License is distributed on an
@@ -124,8 +124,8 @@ class VideoList extends Component {
                 counter += 1;
                 let maxpointslabel  = this.state.config.earnpoints.replace("{0}",listItem.MaxPoints);
                 return (
-                    ( listItem.Title.indexOf(that.state.searchstring) !== -1 ||  (listItem.Keywords != null && listItem.Keywords.indexOf(that.state.searchstring) !== -1) ||
-                              listItem.Description.indexOf(that.state.searchstring) !== -1) &&(
+                    ( that.state.searchstring == null || that.state.searchstring == "" || listItem.Title.toLowerCase().indexOf(that.state.searchstring.toLowerCase()) !== -1 ||  
+                      listItem.Description.toLowerCase().indexOf(that.state.searchstring.toLowerCase()) !== -1) &&(
                     <Card className="videoCardStyle">
                         <Link style={{ color: '#fff' }}
                             onClick={that.videoSelected.bind(that, listItem)}

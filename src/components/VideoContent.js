@@ -3,7 +3,7 @@ to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance
 with the License.  You may obtain a copy of the License at
 
-  http://www.apache.org/licenses/LICENSE-2.0
+  https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing,
 software distributed under the License is distributed on an
@@ -128,7 +128,6 @@ class VideoContent extends Component {
        let points = 0;
        for(let i=0;i<usrAnswers.length;i++)
        {
-         console.log(usrAnswers[i]);
          if (usrAnswers[i] == -1) allAnswers=false;
          if (usrAnswers[i] > 0) { correct++; points+=parseInt(usrAnswers[i],10);}
        }
@@ -136,7 +135,8 @@ class VideoContent extends Component {
       if (!allAnswers)
       {
         let el = document.getElementById("answerLabel");
-        el.innerText = this.state.config.answerall;        
+        el.innerText = this.state.config.answerall;     
+        () => this.recordclick('Check_answers_Validation');  
       }
       else
       {
@@ -144,7 +144,7 @@ class VideoContent extends Component {
         let el = document.getElementById("answerLabel");
         el.innerText = correct +' out of '+ usrAnswers.length+' answers are correct. Total points earned: '+points+".  You can try again in 1 hour";  
         this.recordVideoAnswers(this.state.videoContent.VideoID, points,correct,usrAnswers.length); 
-      
+        () => this.recordclick('Check_answers_All_selected');        
       }
 
       VideosWatched=VideosWatched+1;
@@ -326,7 +326,7 @@ class VideoContent extends Component {
 
               <h3>{this.state.config.watchandAnswer} {(((thisVideoRecord  && thisVideoRecord.NumberOfAttempts > 0)) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && 
               (
-              <span style={{color:checkColor}} className='fa fa-check-square-o tooltipcheck'>
+              <span style={{color:checkColor}} onClick={() => recordclick('popup_click')} onMouseLeave={() => recordclick('popup_hower')} className='fa fa-check-square-o tooltipcheck'>
               <div className="tooltiptext">
                 <span>Your stats</span>
                 <hr/>
@@ -336,7 +336,7 @@ class VideoContent extends Component {
                 </div>
                </span>)}</h3> 
               
-              <div style={{ paddingTop: "40px" }}>    {questions}</div>
+              <div style={{ paddingTop: "40px" }}> {questions}</div>
               <div style={{ padding: '10px' }}></div>
 
               {((needToWait == false) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && (
@@ -350,13 +350,13 @@ class VideoContent extends Component {
               )}
 
               {(!this.state.loggedin) && (
-                <label className='answersLabel'>You must be logged-in to check answers. <a href='/Account/Login'>Login</a> or register to create <a href='https://dtml.org/Registration/Student'>FREE account</a> now.</label>
+                <label className='answersLabel'>You must be logged-in to check answers. <a onClick={() => recordclick('login_from_videos')} href='https://dtml.org/Account/Login'>Login</a> or register to create <a onClick={() => recordclick('register_from_videos')} href='https://dtml.org/Registration/Student'>FREE account</a> now.</label>
               )}
 
               <label id='answerLabel' style={linkStyle} className='answersLabel'></label>
               <Confetti active={ this.state.answered } />
               <div style={{ padding: '5px' }}>
-              <a href='/esl/videos/view'>Back to the list of videos</a></div>
+              <a  onClick={() => recordclick('backToListOfVideos')} href='/esl/videos/view'>Back to the list of videos</a></div>
               <div style={{ padding: '20px' }}></div>
             </div>
 

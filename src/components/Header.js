@@ -3,7 +3,7 @@ to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance
 with the License.  You may obtain a copy of the License at
 
-  http://www.apache.org/licenses/LICENSE-2.0
+  https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing,
 software distributed under the License is distributed on an
@@ -33,6 +33,20 @@ class Header extends Component {
   }
 
   render() {
+
+    const recordclick = (value) => {
+	   
+      try
+     {
+       ReactGA.event({
+       category: `click`,
+       action: "Header", 
+       label:value
+       });
+     }
+     catch(e) {}
+     };
+
     let custom = [];
     let Logo;
     let logoImageUrl = `${imageurl}images/logo-main.png`;
@@ -55,7 +69,7 @@ class Header extends Component {
 
     if (logoImageUrl && logoImageUrl !== ``) {
       Logo = (
-        <a href="https://dtml.org">
+        <a 	onClick={() => recordclick('Logo')} href="https://dtml.org">
           <img src={logoImageUrl} alt="DTML Logo" style={{ height: `37px` }} />
         </a>
       );
@@ -120,10 +134,10 @@ class Header extends Component {
                   {!this.props.userData ? (
                     <ul>
                       <li>
-                        <a href="https://dtml.org/esl/">{this.props.config.game}</a>
+                        <a onClick={() => recordclick('Games')} href="https://dtml.org/esl/">{this.props.config.game}</a>
                       </li>
-                                        <li style={{display:'none'}}>
-                                            <a href="/esl/videos/view">
+                                        <li>
+                                            <a onClick={() => recordclick('Videos')} href="https://dtml.org/esl/videos/view">
                                                 {this.props.config.videosHeader || 'Videos'}
                                             </a>
                                         </li>
@@ -162,7 +176,7 @@ class Header extends Component {
                     <li>
                       {` `}
                       <a
-                        href="https://dtml.org/Student/PersonalProfile"
+                        href="https://dtml.org/Student/PersonalProfile" onClick={() => recordclick('PersonalProfile')}
                         title={`${this.props.config.hello}, ${
                           this.props.config.userData.UserName
                         }`}
@@ -177,8 +191,8 @@ class Header extends Component {
                       </a>
                     </li>
                     <li>
-                    <a href="/esl//videos/view">
-                         {'Videos'}
+                    <a href="https://dtml.org/esl/videos/view" onClick={() => recordclick('Videos')}>
+                         {this.props.config.videosHeader  || 'Videos'}
                     </a>
                     </li>
                           <li>
