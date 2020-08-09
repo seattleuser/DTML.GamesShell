@@ -29,15 +29,18 @@ class Banner extends Component {
     super(props);
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    let theme = themes[0];
+
     if (localStorage) {
       let index = localStorage.getItem('data-theme-index');
-      document.documentElement.setAttribute("data-theme", themes[index]);
+      if (index !=null)
+      {
+      theme = themes[index];
+      }
     }
-    else
-    {
-      document.documentElement.setAttribute("data-theme", themes[0]);
-    }
+
+    document.documentElement.setAttribute("data-theme", theme);
   }
 
   bannerChange(index) {

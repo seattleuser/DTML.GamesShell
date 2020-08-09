@@ -27,6 +27,7 @@ import Footer from "./components/Footer";
 import LeaderBoard from "./components/LeaderBoard";
 import Gamelist from "./components/Gamelist";
 import VideoList from "./components/Videolist";
+import TextsList from "./components/Textslist";
 import CacheFill from "./components/CacheFill";
 import Gamecontent from "./components/Gamecontent";
 import VideoContent from "./components/VideoContent";
@@ -158,6 +159,16 @@ class App extends Component {
                       path="/videos/view"
                       component={() => (
                           <VideoList
+                              config={this.state.config}       
+                              Selected={this.onSelectedVideo.bind(this)}
+                          />
+                      )}
+                  />
+                <Route
+                      exact
+                      path="/texts/view"
+                      component={() => (
+                          <TextsList
                               config={this.state.config}       
                               Selected={this.onSelectedVideo.bind(this)}
                           />

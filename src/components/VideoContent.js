@@ -313,7 +313,7 @@ class VideoContent extends Component {
 
               <div className="gamesection01-top">
                 <div id="videoPlayer" style={{ textAlign: 'center'}}>
-                  <ReactPlayer url={url} style={{ display: 'inline-block' }} />
+                  <ReactPlayer url={url} style={{ display: 'inline-block' }} onStart={()=>utils.recordGameEvent("mainsite","VideoPlayBack", this.state.videoContent.VideoID)} />
                   <div>
                     <Rater
                       total={5}

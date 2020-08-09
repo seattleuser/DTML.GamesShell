@@ -22,3 +22,26 @@ export function invertColor(hex) {
 
 return '#000000';
 }
+
+export  function recordGameEvent(name, eventType, eventData) {
+
+    let  userService = 'https://dtml.org/Activity/Record/';
+
+    var data = {
+        "envelop": null,
+        "page": name,
+        "time": null,
+        "eventType": eventType,
+        "eventData": eventData
+    }
+    fetch(userService, {
+        method: 'post',
+        credentials: 'same-origin',
+        body: JSON.stringify(data),
+        headers: {
+            'content-type': 'application/json'
+        }
+    }).catch (err => {
+        console.log('err', err)
+    });
+}
