@@ -41,6 +41,55 @@ html {
     background-color: var(--cardBody) !important;
 }
 
+.textCardBody
+{
+    background-color: var(--cardBody) !important;
+}
+
+.textCardTitle
+{
+    text-transform: uppercase;
+    color:#2f2f2f;
+    padding-top: 30px;
+    height: 85px;
+}
+
+.textCardStyle {
+    width: 16rem;
+    height: 350px;
+    display: inline-block !important;
+    margin: 10px;
+    border-width: 0;
+    border-style: none !important;
+    border-bottom: 70px solid #eee;
+    border-left: 70px solid transparent;
+    -webkit-box-shadow: -7px 7px 7px rgba(0,0,0,0.3);
+    -moz-box-shadow: -7px 7px 7px rgba(0,0,0,0.3);
+    box-shadow: -7px 7px 7px rgba(0,0,0,0.3);
+    background-color: var(--cardFooter) !important;
+    }
+
+    .card__corner {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 2em;
+        height: 2em;
+        background-color: #e6e7e8;
+        }
+        
+       .card__corner .card__corner-triangle {
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 2em 2em 0;
+        border-color: transparent #c7c7c7 transparent transparent;
+        }
+        
+
+
+
 .answersLabel{
 
     color:red;

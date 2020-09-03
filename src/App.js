@@ -31,6 +31,7 @@ import TextsList from "./components/Textslist";
 import CacheFill from "./components/CacheFill";
 import Gamecontent from "./components/Gamecontent";
 import VideoContent from "./components/VideoContent";
+import TextContent from "./components/TextContent";
 import BugReporterContainer from "./components/BugReporter";
 import "./css/style.css";
 import "./css/font-awesome.min.css";
@@ -199,6 +200,16 @@ class App extends Component {
                       component={() => (
                           <VideoContent
                               videoContent={this.state.videoContent}
+                              config={this.state.config}
+                          />
+                      )}
+                  />
+                                    <Route
+                      exact
+                      path="/text/details/:textId"
+                      component={() => (
+                          <TextContent
+                              TextContent={this.state.textContent}
                               config={this.state.config}
                           />
                       )}

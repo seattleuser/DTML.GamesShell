@@ -39,7 +39,16 @@ const getFirstLine = str => {
             return str;
         }
     }
-    return str.substr(0, breakIndex + 1);
+
+    let final =str.substr(0, breakIndex + 1);
+
+    if (final.length>100)
+    {
+        final = final.substr(0, 100);
+        final = final.substr(0, final.lastIndexOf(' '));
+    }
+
+    return final;
 };
 
 
@@ -126,29 +135,20 @@ class TextList extends Component {
                 counter += 1;
                 let maxpointslabel  = this.state.config.earnpoints.replace("{0}",listItem.MaxPoints);
                 return (
-                    ( that.state.searchstring == null || that.state.searchstring == "" || listItem.Title.toLowerCase().indexOf(that.state.searchstring.toLowerCase()) !== -1 ||  
-                      listItem.Description.toLowerCase().indexOf(that.state.searchstring.toLowerCase()) !== -1) &&(
-                    <Card className="videoCardStyle">
-                        <Link style={{ color: '#fff' }}
-                            onClick={that.textSelected.bind(that, listItem)}
-                            to={`/videos/details/${listItem.VideoID}`}
-                        >
-                            <Card.Img variant="top" src={listItem.Image} />
-                        </Link>
-                        <Card.Body className='videoCardBody'>
-                            <Card.Title style={{ height: '52px', overflow: 'hidden' }}>{getFirstLine(listItem.Title)}</Card.Title>
-                            <Card.Text style={{ height: '100px', overflow: 'hidden' }}>
-                                {getFirstLine(listItem.Description)}
+                    ( that.state.searchstring == null || that.state.searchstring == "" || listItem.Title.toLowerCase().indexOf(that.state.searchstring.toLowerCase()) !== -1) &&(
+                    <Card className="textCardStyle">
+                        <Card.Body className='textCardBody'>
+                            <Card.Title className='textCardTitle' style={{ overflow: 'hidden' }}>{getFirstLine(listItem.Title)}</Card.Title>
+                    <hr/>
+                                                <Card.Text style={{ height: '145px', overflow: 'hidden' }}>
+                                {getFirstLine(listItem.Text)+" ..."}
                         </Card.Text>
                             <Button variant="primary">
                                 <Link style={{ color: '#fff' }}
-                                onClick={that.videoSelected.bind(that, listItem)}
-                                    to={`/videos/details/${listItem.VideoID}`}
-                                >{this.state.config.watchVideo || 'Watch Video'}</Link></Button>
+                                onClick={that.textSelected.bind(that, listItem)}
+                                    to={`/text/details/${listItem.ID}`}
+                                >{this.state.config.readText || 'Read Text'}</Link></Button>
                             </Card.Body>
-                            <Card.Footer>
-                            <b>{maxpointslabel}</b>
-                            </Card.Footer>
                         </Card>)
                     );
             });

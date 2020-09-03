@@ -24,16 +24,17 @@ import * as utils from './utils.js';
 import Confetti from 'react-dom-confetti';
 import ReactPlayer from "react-player"
 import Countdown from "react-countdown";
+import { withRouter } from "react-router-dom";
 
 const rankingURL = `https://dtml.org/api/RatingService/Rank`;
-const loadVideoActivityURL = `https://dtml.org/api/UserService/LoadVideoActivty`;
-const recordVideoActivityURL = `https://dtml.org/api/UserService/VideoActivty`;
+const loadReadingActivityURL = `https://dtml.org/api/UserService/LoadReadingActivty`;
+const recordReadingActivityURL = `https://dtml.org/api/UserService/ReadingActivty`;
 let usrAnswers = [];
 
 let AllPoints = 0;
-let VideosWatched = 0;
+let TextsRead = 0;
 
-class VideoContent extends Component {
+class TextContent extends Component {
   constructor(props) {
     super(props);
     var min = 0;
@@ -43,6 +44,8 @@ class VideoContent extends Component {
       isOpen: false
     }
 
+
+    console.log(props);
     this.state = {
       rating: 0,
       loggedin: false,
@@ -50,7 +53,7 @@ class VideoContent extends Component {
       loading: true,
       image: 'https://dtml.org/images/avatars/a' + rand + ".png",
       config: props.config,
-      videoContent: props.videoContent,
+      textContent: props.textContent,
       frameText: ``,
       startTime: new Date().getTime()
     };
@@ -58,52 +61,52 @@ class VideoContent extends Component {
 
 
   componentDidMount() {
-    document.title = `${this.state.videoContent.Title} | DTML.org Educational Games and Videos`;
-    document.getElementsByTagName('meta')["description"].content = `${this.state.videoContent.Description}`;
+    document.title = `${this.state.textContent.Title} | DTML.org Educational Games, Videos and Reading`;
+    document.getElementsByTagName('meta')["description"].content = `${this.state.textContent.Description}`;
     ReactGA.event({
-      category: `Videos`,
-      action: `Video__${this.state.videoContent.VideoID}`
+      category: `Text`,
+      action: `Text__${this.state.textContent.ID}`
     });
     ReactGA.pageview(window.location.hash);
   }
 
 
   componentWillMount() {
-    if (isEmpty(this.state.videoContent)) {
+    if (isEmpty(this.state.textContent)) {
       const urlpath = window.location.pathname;
       const baseurl = urlpath.split(`?`)[0].split(`#`)[0];
-      const videoID = baseurl.substr(baseurl.lastIndexOf(`/`) + 1);
-      if (isEmpty(this.props.config) || isEmpty(this.props.config.videos)) {
+      const ID = baseurl.substr(baseurl.lastIndexOf(`/`) + 1);
+      if (isEmpty(this.props.config) || isEmpty(this.props.config.texts)) {
         window.location.href = `https://dtml.org/esl`;
         return;
       }
 
-      const videoContent = this.props.config.videos.find(
-        video => video.VideoID === videoID
+      const textContent = this.props.config.texts.find(
+        text => text.ID === ID
       );
 
-      if (typeof videoContent === `undefined` || isEmpty(videoContent)) {
+      if (typeof textContent === `undefined` || isEmpty(textContent)) {
         window.location.href = `https://dtml.org/esl`;
         return;
       }
 
-      this.setState({ videoContent });
+      this.setState({ textContent });
 
     }
 
     AllPoints = 0;
-    VideosWatched = 0;
-    fetch(loadVideoActivityURL, { credentials: `include`, cache: "no-store" })
+    TextsRead = 0;
+    fetch(loadReadingActivityURL, { credentials: `include`, cache: "no-store" })
     .then(response => {
       if (response.ok) {
         return response.json();
       }
       else {
-        this.setState({ userVideoStats: null });
+        this.setState({ userReadingStats: null });
       }
     })
-    .then(data => {  console.log(data); this.setState({ userVideoStats: data }); })
-    .catch(err => {  this.setState({ userVideoStats: null }); });
+    .then(data => {  console.log(data); this.setState({ userReadingStats: data }); })
+    .catch(err => {  this.setState({ userReadingStats: null }); });
 
     const userLang = navigator.language || navigator.userLanguage;
     this.setState({ userLanguage: userLang });
@@ -112,8 +115,8 @@ class VideoContent extends Component {
     this.setState({ answered:false});
   }
 
-  recordVideoAnswers(videoID, points, correct, total){
-    let url  = recordVideoActivityURL+"/?videoID="+videoID+"&points="+points+"&correct="+correct+"&total="+total;
+  recordReadingAnswers(ID, points, correct, total){
+    let url  = recordReadingActivityURL+"/?textID="+ID+"&points="+points+"&correct="+correct+"&total="+total;
     fetch(url, {
       method: `post`,
       credentials: `include`
@@ -141,11 +144,11 @@ class VideoContent extends Component {
         this.setState({ answered:true});
         let el = document.getElementById("answerLabel");
         el.innerText = correct +' out of '+ usrAnswers.length+' answers are correct. Total points earned: '+points+".  You can try again in 1 hour";  
-        this.recordVideoAnswers(this.state.videoContent.VideoID, points,correct,usrAnswers.length); 
+        this.recordReadingAnswers(this.state.textContent.ID, points,correct,usrAnswers.length); 
         () => this.recordclick('Check_answers_All_selected');        
       }
 
-      VideosWatched=VideosWatched+1;
+      TextsRead=TextsRead+1;
       AllPoints+=points;
   }
 
@@ -162,7 +165,7 @@ class VideoContent extends Component {
       this.setState({ rating: rating });
       this.setState({ completed: true });
       const url = `${rankingURL}/?key=${
-        this.state.videoContent.VideoID
+        this.state.textContent.ID
         }&rank=${rating}&isVideo=true`;
 
       fetch(url, {
@@ -219,29 +222,29 @@ class VideoContent extends Component {
       linkStyle = { color: 'green' };
     } 
 
-     let videoStats = this.state.userVideoStats;
+     let readingStats = this.state.userReadingStats;
      let now = Date.now();   
      let needToWait = null;
      let lastAttempt  = Date.now();
-     let thisVideoRecord = null;
+     let thisReadingRecord = null;
 
-     if (videoStats !=undefined)
+     if (readingStats !=undefined)
      {
       needToWait = false;
       console.log('--');
       console.log(AllPoints);
-      console.log(VideosWatched);
-      let shouldCalculate  = (AllPoints == 0 || VideosWatched == 0);
-      videoStats.map(record =>{
+      console.log(TextsRead);
+      let shouldCalculate  = (AllPoints == 0 || TextsRead == 0);
+      readingStats.map(record =>{
         if (shouldCalculate)
         {
         AllPoints = AllPoints + parseInt(record.Value.EarnedPoints);
-        VideosWatched++;
+        TextsRead++;
         }
-       if (record.Key.toUpperCase() == this.state.videoContent.VideoID.toUpperCase())
+       if (record.Key.toUpperCase() == this.state.textContent.ID.toUpperCase())
        {
          let value = record.Value;        
-         thisVideoRecord = value;
+         thisReadingRecord = value;
          let stringDate = value.LastAttempt.replace(/[^0-9 +]/g, ''); 
          lastAttempt = new Date(parseInt(stringDate));
          lastAttempt.setHours(lastAttempt.getHours() + 1); 
@@ -256,20 +259,19 @@ class VideoContent extends Component {
      
      let checkColor = "red";
 
-     if (thisVideoRecord)
+     if (thisReadingRecord)
      {
-     if ((thisVideoRecord.Correct > 0) && (thisVideoRecord.Correct < thisVideoRecord.Total)) checkColor = "yellow";
-     if  ((thisVideoRecord.Correct > 0) && (thisVideoRecord.Correct == thisVideoRecord.Total)) checkColor = "green";
+     if ((thisReadingRecord.Correct > 0) && (thisReadingRecord.Correct < thisReadingRecord.Total)) checkColor = "yellow";
+     if  ((thisReadingRecord.Correct > 0) && (thisReadingRecord.Correct == thisReadingRecord.Total)) checkColor = "green";
      }
 
     let instruction = null;
     const today = new Date();
     const date = `${today.getFullYear()}${today.getMonth()}${today.getDate()}`;
-    const url = "https://www.youtube.com/watch?v=" + this.state.videoContent.VideoID + "&modestbranding=1&loop=1&playlist=" + this.state.videoContent.VideoID;
     let counter = 0;
     usrAnswers = [];
 
-    let questions = this.state.videoContent.Questions.map(question => {
+    let questions = this.state.textContent.Questions.map(question => {
       counter += 1;
       let answerCounter = 0;
       usrAnswers.push(-1);
@@ -303,34 +305,32 @@ class VideoContent extends Component {
         <div className="contentsection gamecontent">
           <div className="contentsection-main">
             <div className="gamesection">
-              <div className="gamesection01">
-                <h1 style={titleStyle} className="gameTitle">{this.state.videoContent.Title}</h1>
-                <p style={titleStyle}>{this.state.videoContent.Description}</p>
+              <div>
+                <div id="textArea" style={{ textAlign: 'center', backgroundColor:'white', padding:'30px', marginBottom:'40px'}}>
+                <h1 style={{padding: "15px" }} className="gameTitle">{this.state.textContent.Title}</h1>               
                 <div className="clr" />
-              </div>
-
-              <div className="gamesection01-top">
-                <div id="videoPlayer" style={{ textAlign: 'center'}}>
-                  <ReactPlayer url={url} style={{ display: 'inline-block' }} onStart={()=>utils.recordGameEvent("mainsite","VideoPlayBack", this.state.videoContent.VideoID)} />
+                 <p>{this.state.textContent.Text}</p>
                   <div>
+                  <div className="clr" />
                     <Rater
                       total={5}
                       rating={this.state.rating && this.state.rating > 0 ? this.state.rating : 3}
                       onRate={this.handleRate.bind(this)}
                     />
                   </div>
+                  <div className="clr" />
                 </div>
               </div>
 
-              <h3>{this.state.config.watchandAnswer} {(((thisVideoRecord  && thisVideoRecord.NumberOfAttempts > 0)) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && 
+              <h3>{(((thisReadingRecord  && thisReadingRecord.NumberOfAttempts > 0)) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && 
               (
               <span style={{color:checkColor}} onClick={() => recordclick('popup_click')} onMouseLeave={() => recordclick('popup_hower')} className='fa fa-check-square-o tooltipcheck'>
               <div className="tooltiptext">
                 <span>Your stats</span>
                 <hr/>
-              <div>Number of attempts: {thisVideoRecord.NumberOfAttempts}</div>
-              <div>Last attempt: {thisVideoRecord.Correct} out of {thisVideoRecord.Total} correct</div>
-              <div>Points collected: {thisVideoRecord.EarnedPoints}</div>
+              <div>Number of attempts: {thisReadingRecord.NumberOfAttempts}</div>
+              <div>Last attempt: {thisReadingRecord.Correct} out of {thisReadingRecord.Total} correct</div>
+              <div>Points collected: {thisReadingRecord.EarnedPoints}</div>
                 </div>
                </span>)}</h3> 
               
@@ -348,13 +348,13 @@ class VideoContent extends Component {
               )}
 
               {(!this.state.loggedin) && (
-                <label className='answersLabel'>You must be logged-in to check answers. <a onClick={() => recordclick('login_from_videos')} href='https://dtml.org/Account/Login'>Login</a> or register to create <a onClick={() => recordclick('register_from_videos')} href='https://dtml.org/Registration/Student'>FREE account</a> now.</label>
+                <label className='answersLabel'>You must be logged-in to check answers. <a onClick={() => recordclick('login_from_texts')} href='https://dtml.org/Account/Login'>Login</a> or register to create <a onClick={() => recordclick('register_from_text')} href='https://dtml.org/Registration/Student'>FREE account</a> now.</label>
               )}
 
               <label id='answerLabel' style={linkStyle} className='answersLabel'></label>
               <Confetti active={ this.state.answered } />
               <div style={{ padding: '5px' }}>
-              <a  onClick={() => recordclick('backToListOfVideos')} href='/esl/videos/view'>Back to the list of videos</a></div>
+              <a  onClick={() => recordclick('backToListOfTexts')} href='/esl/texts/view'>Back to the list of texts</a></div>
               <div style={{ padding: '20px' }}></div>
             </div>
 
@@ -387,12 +387,12 @@ class VideoContent extends Component {
                 {(this.state.loggedin && (AllPoints > 0) && (this.props.config.userData.isStudent == true)) && (
                 <div className="game-relatedGames game-sidebar-box">
                   <h3>
-                     Video Stats
+                     Reading Stats
                   </h3>
                   <h4 className='TextCenter' style={{paddingTop:10}}>
-                      {AllPoints} Video Points
+                      {AllPoints} reading Points
                   </h4>
-                  <h5 className='TextCenter'>You have watched {VideosWatched} videos</h5>
+                  <h5 className='TextCenter'>You have read {TextsRead} texts</h5>
 
                   <p className="game-profile">
                   </p>
@@ -421,17 +421,17 @@ class VideoContent extends Component {
 
               {this.props.config.games && (
                 <div className="game-relatedGames game-sidebar-box">
-                  <h3>{this.props.config.morevideos || 'More videos'}</h3>
+                  <h3>{this.props.config.moreTexts || 'More Texts'}</h3>
 
                   {// shuffle all games, remove our current game, trim to 3 games, then display them
-                    arrayShuffle(this.props.config.videos || [])
-                      .filter(video => video.VideoID !== this.state.videoContent.VideoID)
+                    arrayShuffle(this.props.config.texts || [])
+                      .filter(text => text.ID !== this.state.textContent.ID)
                       .slice(0, 5)
-                      .map((video, i) => {
+                      .map((text, i) => {
                         const j = i + 1;
                         return (
                           <div key={`game-${j}`} className="related-game">
-                            <a href={`/videos/details/${video.VideoID}`}>{video.Title}</a>
+                            <a href={`/texts/details/${text.ID}`}>{text.Title}</a>
                           </div>
                         );
                       })}
@@ -461,4 +461,4 @@ class VideoContent extends Component {
   }
 }
 
-export default VideoContent;
+export default TextContent;
