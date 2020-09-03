@@ -121,6 +121,8 @@ class TextContent extends Component {
       method: `post`,
       credentials: `include`
     });
+
+    utils.recordGameEvent("mainsite","TextRead", this.state.textContent.ID)
   }
 
   checkAnswers(sender) {
@@ -322,7 +324,7 @@ class TextContent extends Component {
                 </div>
               </div>
 
-              <h3>{(((thisReadingRecord  && thisReadingRecord.NumberOfAttempts > 0)) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && 
+              <h3>{this.state.config.readandAnswer} {(((thisReadingRecord  && thisReadingRecord.NumberOfAttempts > 0)) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && 
               (
               <span style={{color:checkColor}} onClick={() => recordclick('popup_click')} onMouseLeave={() => recordclick('popup_hower')} className='fa fa-check-square-o tooltipcheck'>
               <div className="tooltiptext">
@@ -431,7 +433,7 @@ class TextContent extends Component {
                         const j = i + 1;
                         return (
                           <div key={`game-${j}`} className="related-game">
-                            <a href={`/texts/details/${text.ID}`}>{text.Title}</a>
+                            <a href={`https://dtml.org/esl/texts/details/${text.ID}`}>{text.Title}</a>
                           </div>
                         );
                       })}
