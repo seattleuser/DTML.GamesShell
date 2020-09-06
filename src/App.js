@@ -18,7 +18,9 @@ import "core-js/es6/map";
 import "core-js/es6/set";
 
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, withRouter  } from "react-router-dom";
+import { Redirect } from 'react-router';
+
 import ReactGA from "react-ga";
 
 import Header from "./components/Header";
@@ -50,6 +52,7 @@ class App extends Component {
     super();
     this.state = {
         done: true,
+        redirected:null,
         gameContent: []
     };
   }
@@ -74,10 +77,12 @@ class App extends Component {
     };
   }
 
- startWith(srt, search)
-{
-            return srt.substring(0, search.length) === search;
-}
+
+  setRedirect = (url) => {
+    this.setState({
+      redirected: true
+    })
+  }
 
   componentWillMount() {
     this.startErrorLog();
@@ -88,18 +93,15 @@ class App extends Component {
     let userLang = navigator.language || navigator.userLanguage;
     this.setState({ isNoSupported : this.isNoSupported });
     const that = this;
-    const parsed = queryString.parse(window.location.search);
+    let parsed = queryString.parse(window.location.search);
+    this.setState({ redirect : parsed.path });
+
     var date = new Date();
     var ticks = ((date.getTime() * 10000) + 621355968000000000);
     let orgParams =  parsed.school?`&orgid=${parsed.school}&tic=${ticks}`:``;
     if (parsed.mkt)
     {
       userLang = parsed.mkt; 
-    }
-
-    if (parsed.path && this.startWith(parsed.path, "/esl/"))
-    {
-        document.location="https://dtml.org/"+parsed.path;
     }
 
     this.setState({ userLanguage: userLang });    
@@ -149,6 +151,13 @@ class App extends Component {
     }
 
   render() {
+    if (this.state.redirect && this.state.redirected == null) {
+      this.setRedirect();
+      return (
+      <Router basename="/esl">
+      <Redirect to={this.state.redirect} />
+      </Router>)
+    }
     if (this.state.isNoSupported) {
       return <NotSupported />;
     } else if (this.state.config != null) {
