@@ -20,6 +20,7 @@ import { isEmpty } from "lodash";
 import arrayShuffle from "array-shuffle";
 import "babel-polyfill";
 import * as utils from './utils.js'; 
+import Share from './Share';
 import Confetti from 'react-dom-confetti';
 import ModalVideo from 'react-modal-video';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -172,6 +173,8 @@ class Gamecontent extends Component {
 	
     const min = 1;
     const max = 7;
+    let shareTitle = 'Try to beat my score in ' + this.state.gameContent.title +' game';
+    let shareURL = 'https://dtml.org/esl/'+this.state.gameContent.id;
   
    return (
       <div>
@@ -238,6 +241,10 @@ class Gamecontent extends Component {
                   <div className="ratesection-bottom01" />
                   <div className="clr" />
                 </div>
+              </div>
+
+              <div style={{ padding: '20px' }}>
+              <Share title={shareTitle} url ={shareURL} />
               </div>
 	     </div>
 

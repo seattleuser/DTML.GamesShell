@@ -22,6 +22,7 @@ import arrayShuffle from "array-shuffle";
 import "babel-polyfill";
 import * as utils from './utils.js';
 import Confetti from 'react-dom-confetti';
+import Share from './Share';
 import ReactPlayer from "react-player"
 import Countdown from "react-countdown";
 
@@ -91,6 +92,16 @@ class VideoContent extends Component {
 
     }
 
+    this.populatepoints();
+    const userLang = navigator.language || navigator.userLanguage;
+    this.setState({ userLanguage: userLang });
+    this.setState({ customization: this.props.config.customization });
+    this.setState({ loggedin: this.props.config.userData !== null });
+    this.setState({ answered:false});
+  }
+
+  populatepoints()
+  {    
     AllPoints = 0;
     VideosWatched = 0;
     fetch(loadVideoActivityURL, { credentials: `include`, cache: "no-store" })
@@ -104,12 +115,6 @@ class VideoContent extends Component {
     })
     .then(data => {  console.log(data); this.setState({ userVideoStats: data }); })
     .catch(err => {  this.setState({ userVideoStats: null }); });
-
-    const userLang = navigator.language || navigator.userLanguage;
-    this.setState({ userLanguage: userLang });
-    this.setState({ customization: this.props.config.customization });
-    this.setState({ loggedin: this.props.config.userData !== null });
-    this.setState({ answered:false});
   }
 
   recordVideoAnswers(videoID, points, correct, total){
@@ -145,8 +150,7 @@ class VideoContent extends Component {
         () => this.recordclick('Check_answers_All_selected');        
       }
 
-      VideosWatched=VideosWatched+1;
-      AllPoints+=points;
+      this.populatepoints();
   }
 
   setAnswer(event)
@@ -256,6 +260,9 @@ class VideoContent extends Component {
      
      let checkColor = "red";
 
+     let shareTitle = 'Watch the video and answer questions: "'+ this.state.videoContent.Title+'"';
+     let shareURL = 'https://dtml.org/esl/videos/details/'+this.state.videoContent.VideoID;
+
      if (thisVideoRecord)
      {
      if ((thisVideoRecord.Correct > 0) && (thisVideoRecord.Correct < thisVideoRecord.Total)) checkColor = "yellow";
@@ -320,6 +327,7 @@ class VideoContent extends Component {
                     />
                   </div>
                 </div>
+        
               </div>
 
               <h3>{this.state.config.watchandAnswer} {(((thisVideoRecord  && thisVideoRecord.NumberOfAttempts > 0)) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && 
@@ -356,7 +364,11 @@ class VideoContent extends Component {
               <div style={{ padding: '5px' }}>
               <a  onClick={() => recordclick('backToListOfVideos')} href='/esl/videos/view'>Back to the list of videos</a></div>
               <div style={{ padding: '20px' }}></div>
+              <div style={{ padding: '20px' }}>
+              <Share title={shareTitle} url ={shareURL} />
+              </div>
             </div>
+
 
             <aside className="game-sidebar">
 

@@ -94,6 +94,15 @@ class TextContent extends Component {
 
     }
 
+    this.populatePoints();
+    const userLang = navigator.language || navigator.userLanguage;
+    this.setState({ userLanguage: userLang });
+    this.setState({ customization: this.props.config.customization });
+    this.setState({ loggedin: this.props.config.userData !== null });
+    this.setState({ answered:false});
+  }
+
+  populatePoints(){
     AllPoints = 0;
     TextsRead = 0;
     fetch(loadReadingActivityURL, { credentials: `include`, cache: "no-store" })
@@ -107,12 +116,6 @@ class TextContent extends Component {
     })
     .then(data => {  console.log(data); this.setState({ userReadingStats: data }); })
     .catch(err => {  this.setState({ userReadingStats: null }); });
-
-    const userLang = navigator.language || navigator.userLanguage;
-    this.setState({ userLanguage: userLang });
-    this.setState({ customization: this.props.config.customization });
-    this.setState({ loggedin: this.props.config.userData !== null });
-    this.setState({ answered:false});
   }
 
   recordReadingAnswers(ID, points, correct, total){
@@ -120,7 +123,7 @@ class TextContent extends Component {
     fetch(url, {
       method: `post`,
       credentials: `include`
-    });
+    }).then(a=> this.populatePoints() );
 
     utils.recordGameEvent("mainsite","TextRead", this.state.textContent.ID)
   }
@@ -149,9 +152,8 @@ class TextContent extends Component {
         this.recordReadingAnswers(this.state.textContent.ID, points,correct,usrAnswers.length); 
         () => this.recordclick('Check_answers_All_selected');        
       }
+   
 
-      TextsRead=TextsRead+1;
-      AllPoints+=points;
   }
 
   setAnswer(event)
@@ -392,7 +394,7 @@ class TextContent extends Component {
                      Reading Stats
                   </h3>
                   <h4 className='TextCenter' style={{paddingTop:10}}>
-                      {AllPoints} reading Points
+                      {AllPoints} reading points
                   </h4>
                   <h5 className='TextCenter'>You have read {TextsRead} texts</h5>
 
@@ -433,7 +435,7 @@ class TextContent extends Component {
                         const j = i + 1;
                         return (
                           <div key={`game-${j}`} className="related-game">
-                            <a href={`https://dtml.org/esl/texts/details/${text.ID}`}>{text.Title}</a>
+                            <a href={`https://dtml.org/esl/text/details/${text.ID}`}>{text.Title}</a>
                           </div>
                         );
                       })}

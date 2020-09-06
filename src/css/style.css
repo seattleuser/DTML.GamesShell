@@ -460,9 +460,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     }
 
     .logosection-main {
-        max-width: 1200px;
         min-height: 75px;
         padding: 0;
+        padding-left: 20px;
         margin: 0 auto;
     }
 

@@ -74,6 +74,11 @@ class App extends Component {
     };
   }
 
+ startWith(srt, search)
+{
+            return srt.substring(0, search.length) === search;
+}
+
   componentWillMount() {
     this.startErrorLog();
     ReactGA.pageview(window.location.pathname + window.location.hash); 
@@ -90,6 +95,11 @@ class App extends Component {
     if (parsed.mkt)
     {
       userLang = parsed.mkt; 
+    }
+
+    if (parsed.path && this.startWith(parsed.path, "/esl/"))
+    {
+        document.location="https://dtml.org/"+parsed.path;
     }
 
     this.setState({ userLanguage: userLang });    
@@ -125,6 +135,16 @@ class App extends Component {
         ReactGA.event({
             category: `Navigation`,
             action: `VideoSelected`
+        });
+    }
+
+    onSelectedText(newdone, newContent) {
+        this.setState({ done: newdone });
+        this.setState({ textContent: newContent });
+        window.scrollTo(0, 0);
+        ReactGA.event({
+            category: `Navigation`,
+            action: `TextSelected`
         });
     }
 
@@ -171,7 +191,7 @@ class App extends Component {
                       component={() => (
                           <TextsList
                               config={this.state.config}       
-                              Selected={this.onSelectedVideo.bind(this)}
+                              Selected={this.onSelectedText.bind(this)}
                           />
                       )}
                   />
@@ -204,7 +224,7 @@ class App extends Component {
                           />
                       )}
                   />
-                                    <Route
+                 <Route
                       exact
                       path="/text/details/:textId"
                       component={() => (

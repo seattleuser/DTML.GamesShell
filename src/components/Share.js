@@ -54,7 +54,7 @@ class Share extends Component {
 constructor(props) {
     super(props);
 	this.state = {
-        shareUrl: window.location.href,
+        shareUrl: props.url,
         title: props.title,
     };
   }

@@ -135,10 +135,15 @@ class Header extends Component {
                       <li>
                         <a onClick={() => recordclick('Games')} href="https://dtml.org/esl/">{this.props.config.game}</a>
                       </li>
-                                        <li>
+                       <li>
                                            
                         <a href="/esl/leaderboard/scores">{this.props.config.Leaderboard}</a>
                       </li>
+                      <li>
+                    <a href="https://dtml.org/esl/videos/view" onClick={() => recordclick('Videos')}>
+                         {this.props.config.videosHeader  || 'Videos'}
+                    </a>
+                    </li>
                     </ul>
                   ) : (
                     <ul>
@@ -189,6 +194,11 @@ class Header extends Component {
                     <li>
                     <a href="https://dtml.org/esl/videos/view" onClick={() => recordclick('Videos')}>
                          {this.props.config.videosHeader  || 'Videos'}
+                    </a>
+                    </li>
+                    <li>
+                    <a href="https://dtml.org/esl/texts/view" onClick={() => recordclick('Texts')}>
+                         {this.props.config.readingHeader  || 'Reading'}
                     </a>
                     </li>
                           <li>
