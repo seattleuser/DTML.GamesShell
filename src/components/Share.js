@@ -165,22 +165,6 @@ constructor(props) {
         </div>
 
         <div className="Demo__some-network">
-          <RedditShareButton
-            url={shareUrl}
-            title={title}
-            windowWidth={660}
-            windowHeight={460}
-            className="Demo__some-network__share-button">
-            <RedditIcon
-              size={32}
-              round />
-          </RedditShareButton>
-
-          <RedditShareCount url={shareUrl}
-            className="Demo__some-network__share-count" />
-        </div>
-
-        <div className="Demo__some-network">
           <TumblrShareButton
             url={shareUrl}
             title={title}

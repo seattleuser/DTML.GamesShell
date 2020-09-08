@@ -25,6 +25,7 @@ import Confetti from 'react-dom-confetti';
 import ReactPlayer from "react-player"
 import Countdown from "react-countdown";
 import { withRouter } from "react-router-dom";
+import ImmersiveReader from "./ImmersiveReader";
 
 const rankingURL = `https://dtml.org/api/RatingService/Rank`;
 const loadReadingActivityURL = `https://dtml.org/api/UserService/LoadReadingActivty`;
@@ -235,9 +236,6 @@ class TextContent extends Component {
      if (readingStats !=undefined)
      {
       needToWait = false;
-      console.log('--');
-      console.log(AllPoints);
-      console.log(TextsRead);
       let shouldCalculate  = (AllPoints == 0 || TextsRead == 0);
       readingStats.map(record =>{
         if (shouldCalculate)
@@ -311,7 +309,10 @@ class TextContent extends Component {
             <div className="gamesection">
               <div>
                 <div id="textArea" style={{ textAlign: 'center', backgroundColor:'white', padding:'30px', marginBottom:'40px'}}>
-                <h1 style={{padding: "15px" }} className="gameTitle">{this.state.textContent.Title}</h1>               
+                <h1 style={{padding: "15px", clear:"none" }} className="gameTitle">{this.state.textContent.Title}</h1> 
+                <div style={{paddingBottom: "25px" }}>
+                <ImmersiveReader title={this.state.textContent.Title} title={this.state.textContent.Text} locale ={this.state.userLanguage} />              
+                </div>
                 <div className="clr" />
                  <p>{this.state.textContent.Text}</p>
                   <div>
@@ -324,6 +325,7 @@ class TextContent extends Component {
                   </div>
                   <div className="clr" />
                 </div>
+              
               </div>
 
               <h3>{this.state.config.readandAnswer} {(((thisReadingRecord  && thisReadingRecord.NumberOfAttempts > 0)) && this.state.loggedin && (this.props.config.userData.isStudent == true)) && 
