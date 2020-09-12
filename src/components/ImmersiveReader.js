@@ -14,7 +14,6 @@ constructor(props) {
   }
 
   componentDidMount () {
-    renderButtons();
 }
 
   getTokenAndSubdomainAsync() {
@@ -24,31 +23,36 @@ constructor(props) {
       action: `${this.props.title}`
     });
 
-      fetch("https://dtml.org/api/SpeechService/GetTokenAndSubdomain", { credentials: `include`, cache: "no-store" })
-      .then(response => {
-	 if (response.ok) {
+    fetch("https://dtml.org/api/SpeechService/GetTokenAndSubdomain", { credentials: `include`, cache: "no-store" })
+    .then(response => {
+	   if (response.ok) {
           var body =response.json();
-          const options = {
-            "uiZIndex": 2000
+          return body;
+     }
+     }). then (body => {
+        const options = {
+            "uiZIndex": 2000 
         };
-          const subdomain = body.subdomain;
           const data = {
               title: this.props.title,
               chunks: [{
                   content: this.props.text,
-                  mimeType: "text/html"
+                  lang:"en-us",
+                  mimeType: "text/plain"
               }]
           };
-          launchAsync(response, subdomain, data, options)
+
+          console.log(data);
+
+          launchAsync(body.token, body.subdomain, data, options)
                 .catch(function (error) {
                     console.log("Error in launching the Immersive Reader. Check the console.");
                     console.log(error);
                 });
         }      
-  });
+);
 }
   render() {
-
     return (
       <button className="immersive-reader-button" onClick={()=>this.getTokenAndSubdomainAsync()} data-button-style="iconAndText" data-locale={this.props.locale}></button>
      );

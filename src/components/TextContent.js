@@ -25,11 +25,13 @@ import Confetti from 'react-dom-confetti';
 import ReactPlayer from "react-player"
 import Countdown from "react-countdown";
 import { withRouter } from "react-router-dom";
-import ImmersiveReader from "./ImmersiveReader";
+import ImmersiveReader from "immersive-reader";
+
 
 const rankingURL = `https://dtml.org/api/RatingService/Rank`;
 const loadReadingActivityURL = `https://dtml.org/api/UserService/LoadReadingActivty`;
 const recordReadingActivityURL = `https://dtml.org/api/UserService/ReadingActivty`;
+const AzureTokenURL = "https://dtml.org/api/SpeechService/GetTokenAndSubdomain";
 let usrAnswers = [];
 
 let AllPoints = 0;
@@ -45,7 +47,6 @@ class TextContent extends Component {
       isOpen: false
     }
 
-
     console.log(props);
     this.state = {
       rating: 0,
@@ -59,7 +60,6 @@ class TextContent extends Component {
       startTime: new Date().getTime()
     };
   }
-
 
   componentDidMount() {
     document.title = `${this.state.textContent.Title} | DTML.org Educational Games, Videos and Reading`;
@@ -153,9 +153,7 @@ class TextContent extends Component {
         this.recordReadingAnswers(this.state.textContent.ID, points,correct,usrAnswers.length); 
         () => this.recordclick('Check_answers_All_selected');        
       }
-   
-
-  }
+    }
 
   setAnswer(event)
   {
@@ -311,7 +309,7 @@ class TextContent extends Component {
                 <div id="textArea" style={{ textAlign: 'center', backgroundColor:'white', padding:'30px', marginBottom:'40px'}}>
                 <h1 style={{padding: "15px", clear:"none" }} className="gameTitle">{this.state.textContent.Title}</h1> 
                 <div style={{paddingBottom: "25px" }}>
-                <ImmersiveReader title={this.state.textContent.Title} title={this.state.textContent.Text} locale ={this.state.userLanguage} />              
+                <ImmersiveReader title={this.state.textContent.Title} text={this.state.textContent.Text} locale ={this.state.userLanguage} tokenURL={AzureTokenURL} options={{"uiZIndex" : 2000 }} />              
                 </div>
                 <div className="clr" />
                  <p>{this.state.textContent.Text}</p>
@@ -365,8 +363,6 @@ class TextContent extends Component {
             </div>
 
             <aside className="game-sidebar">
-
-
               {(this.state.loggedin && (this.props.config.userData.isStudent == true)) && (
                 <div className="game-relatedGames game-sidebar-box">
                   <h3>
@@ -428,7 +424,6 @@ class TextContent extends Component {
               {this.props.config.games && (
                 <div className="game-relatedGames game-sidebar-box">
                   <h3>{this.props.config.moreTexts || 'More Texts'}</h3>
-
                   {// shuffle all games, remove our current game, trim to 3 games, then display them
                     arrayShuffle(this.props.config.texts || [])
                       .filter(text => text.ID !== this.state.textContent.ID)
